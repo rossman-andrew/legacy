@@ -20,7 +20,9 @@ import TripManager from './components/tripManager/tripManager.jsx';
 import TripDashboard from './components/tripDashboard/tripDashboard.jsx';
 import MapboxViewer from './components/mapboxViewer.jsx';
 import ExpenseTracker from './components/expenseTracker/expenseTracker.jsx';
-import Landmarks from './components/landmarks/landmarks.jsx'
+import Landmarks from './components/landmarks/landmarks.jsx';
+import navData from './Components/tripDashboard/dummyData.js';
+import TripNavBar from './Components/tripDashboard/tripNavBar.jsx';
 
 const SERVER_URL = HOSTNAME;
 
@@ -76,6 +78,12 @@ class Dashboard extends React.Component {
 		}
 	}
 
+	showNavBar() {
+		if (store.getState().view !== 'TripManager') {
+			return <TripNavBar features={navData.features} dispatch={store.dispatch} />
+		}
+	}
+
 	render() {
 		return(
 			<div>
@@ -98,6 +106,9 @@ class Dashboard extends React.Component {
 						<Col md={2}>
 							<Button id="logoutbutton" onClick={this.handleLogout}>Logout</Button>
 						</Col>
+						<Col md={8} mdOffset={2}>
+							{this.showNavBar()}
+						</Col>	
 					</Row>
 
 					<button id="hide" onClick={() => store.dispatch(reducer.changeView('TripManager'))}>Trip Manager</button>

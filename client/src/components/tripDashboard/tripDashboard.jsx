@@ -9,11 +9,11 @@ import { Glyphicon } from 'react-bootstrap';
 
 import Mapbox from '../mapboxViewer.jsx';
 import Landmarks from '../landmarks/landmarks.jsx';
-import TripNavBar from './tripNavBar.jsx'
+import TripNavBar from './tripNavBar.jsx';
 import UserInfo from './userInfo.jsx';
 import ProfileEditor from '../profileEditor/ProfileEditor.jsx'; // remove after testing
 import reducer from '../../Reducers';
-import dummyData from './dummyData.js';
+import navData from './dummyData.js';
 import TripUserList from './tripUserList.jsx';
 import TripDetails from './tripDetails.jsx';
 
@@ -84,7 +84,6 @@ class TripDashboard extends React.Component {
     return(
       <Row>
       <Col md={8} mdOffset={2} className="dashtrip">
-        <TripNavBar features={dummyData.features} dispatch={this.props.dispatch}/>
         <TripDetails trip={this.props.trip}/>
         {this.state.map ? <Mapbox location={this.props.trip.location}/> : <Landmarks />}
 
