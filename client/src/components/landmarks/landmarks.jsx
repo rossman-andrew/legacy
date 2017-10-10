@@ -47,7 +47,6 @@ class Landmarks extends React.Component {
 		return(
       <Row>
   			<Col md={8} mdOffset={2}>
-          <TripNavBar features={dummyData.features} dispatch={this.props.dispatch}/>
           <h3> Submit entries for voting! </h3>
   			  <LandmarkSubmit trip={this.props.trip} fetch={this.fetch} user={this.props.user} />
   			  <LandmarksList user={this.props.user} fetch={this.fetch} landmarks={this.state.landmarks} />

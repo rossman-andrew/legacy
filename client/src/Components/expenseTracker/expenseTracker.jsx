@@ -7,8 +7,8 @@ import ExpenseEntry from './expenseEntry.jsx';
 import ExpenseInput from './expenseInput.jsx';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-import TripNavBar from '../tripDashboard/tripNavBar.jsx';
-import dummyData from '../tripDashboard/dummyData.js';
+//import TripNavBar from '../tripDashboard/tripNavBar.jsx';
+//import dummyData from '../tripDashboard/dummyData.js';
 
 const SERVER_URL = HOSTNAME;
 
@@ -77,7 +77,6 @@ class ExpenseTracker extends React.Component {
 		return(
 			<Row>
         <Col md={8} mdOffset={2}>
-          <TripNavBar features={dummyData.features} dispatch={this.props.dispatch}/>
           <h3>Expenses Tracker</h3>
           <div>
             <ExpenseInput usersOnTrip={this.state.usersOnTrip} fetchExpenses={this.fetchExpenses.bind(this)} />
