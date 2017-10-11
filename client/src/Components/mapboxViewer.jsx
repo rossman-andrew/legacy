@@ -65,7 +65,7 @@ class MapboxViewer extends React.Component {
   	return (
       <div>
         <hr/>  
-        <div style={{position: 'relative', top: '0', bottom:'0', width:'100%', height:'100%'}} id="map"></div>
+        <div className="map" id="map"></div>
       </div>
     )  
   }
