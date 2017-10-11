@@ -44,6 +44,7 @@
     "redux": "^3.7.2",
     "request": "^2.83.0",
     "rimraf": "^2.6.2",
+    "semantic-ui-react": "^0.74.2",
     "sequelize": "^3.24.5",
     "webpack": "^3.6.0"
   },
@@ -62,6 +63,5 @@
     "jsdomify": "^3.1.0",
     "react-addons-test-utils": "^15.6.2",
     "react-with-addons": "0.0.1"
-
   }
 }
