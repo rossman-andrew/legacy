@@ -37,6 +37,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
     "react-popup": "^0.8.0",
     "react-redux": "^5.0.6",
@@ -61,6 +62,7 @@
     "url-loader": "^0.6.2",
     "jsdomify": "^3.1.0",
     "react-addons-test-utils": "^15.6.2",
-    "react-with-addons": "0.0.1"
+    "react-with-addons": "0.0.1",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor"
   }
 }

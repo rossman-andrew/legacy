@@ -1,10 +1,8 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
+
 
 const Login = (props) => (
-	<Col md={4} mdOffset={4} className="credentials-box">
+	<div>
 		<h3>Login here:</h3>
 		<form  action="/login" method="post">
 
@@ -22,7 +20,7 @@ const Login = (props) => (
 				<Button type="submit" value="Submit">Submit</Button>
 			</div>
 		</form>
-	</Col>
+	</div>
 )
 
 export default Login;

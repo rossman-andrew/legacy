@@ -52,7 +52,11 @@ data.features = [
   {
     name: 'Trip Manager',
     link: 'TripManager'
-  }
+  },
+  {
+    name: 'Profile',
+    link: 'Profile'
+  },
 ];
 
 export default data;
