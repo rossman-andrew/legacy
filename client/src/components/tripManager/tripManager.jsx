@@ -7,7 +7,7 @@ import reducer from '../../Reducers';
 import { connect } from 'react-redux';
 import $ from 'jquery';
 
-import { Card, Grid, Button } from 'semantic-ui-react';
+import { Card, Grid, Button, Input } from 'semantic-ui-react';
 
 const SERVER_URL = HOSTNAME;
 
@@ -47,18 +47,18 @@ class Dashboard extends React.Component {
 		this.setState({joinTrip:e.target.value})
 	}
 
-	joinTrip() {
+	joinTrip(code) {
 		let obj = {
-      accessCode: this.state.joinTrip,
+      accessCode: code || this.state.joinTrip,
       userId: this.props.user.id
 		};
-		let context = this;
+    console.log('obj', obj);
     $.ajax({
       url: SERVER_URL + '/jointrip',
       method: 'POST',
       data: obj,
-      success: function(body) {
-        context.props.fetchLists();
+      success: (body) => {
+        this.props.fetchLists();
       },
       error: function(err) {
       	console.error(err)
@@ -69,18 +69,26 @@ class Dashboard extends React.Component {
 	render() {
 		return(
 			<div>
+        
+
+        <div className="header-div">
+          <img className="header-image" src="http://blog.routeperfect.com/wp-content/uploads/2016/06/shutterstock_419504191.jpg" alt="" />
+
+          <h2 className="header-word">Dare to explore.  <br /> Find new friends.</h2>
+        </div>
+        
         <Button onClick={this.togglePopup}>Create New Trip</Button>
 
         <h3>Join Trip</h3>
         <div>
-          <input value={this.state.joinTrip} onChange={e => this.handleChange(e)} type="text" name="code" placeholder="add code here"/>
-          <Button onClick={this.joinTrip}>Submit</Button>
+          <Input value={this.state.joinTrip} onChange={e => this.handleChange(e)} type="text" name="code" placeholder="add code here"/>
+          <Button onClick={() => this.joinTrip()}>Submit</Button>
         </div>
 
         <h3>Trip Suggestions</h3>
         <Grid centered>
           {(this.props.otherTrips.map((ele) => {
-              return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>
+              return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>
           }))}
         </Grid>
 
