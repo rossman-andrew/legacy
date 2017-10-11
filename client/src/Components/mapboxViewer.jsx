@@ -1,7 +1,6 @@
 import React from 'react';
 import mapboxgl from 'mapbox-gl';
 import MapboxGeocoder from 'mapbox-gl-geocoder';
-import { Col } from 'react-bootstrap';
 
 
 /*
@@ -66,7 +65,7 @@ class MapboxViewer extends React.Component {
   	return (
       <div>
         <hr/>  
-        <div style={{position: 'absolute', top: '0', bottom:'0', width:'100%'}} id="map"></div>
+        <div style={{position: 'relative', top: '0', bottom:'0', width:'100%', height:'100%'}} id="map"></div>
       </div>
     )  
   }
