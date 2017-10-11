@@ -102,6 +102,13 @@ app.post('/jointrip', (req, res) => {
   })
 })
 
+app.get('/fetchother', (req, res) => {
+   query.findAllOtherTrips(req.query.userId, (result) => {
+    let finalResult = result.map((ele) => ele.dataValues);
+    return res.status(200).send(finalResult);
+   });
+ });
+
 app.get('/fetchtrips', (req, res) => {
   query.findTripsForUser(req.query.userId, (result) => {
     // console.log('Result of query', result);
