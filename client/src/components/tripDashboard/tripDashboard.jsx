@@ -6,6 +6,9 @@ import { ButtonGroup } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Glyphicon } from 'react-bootstrap';
+import { Tab } from 'react-bootstrap';
+import { Nav } from 'react-bootstrap';
+import { NavItem } from 'react-bootstrap';
 
 import Mapbox from '../mapboxViewer.jsx';
 import Landmarks from '../landmarks/landmarks.jsx';
@@ -16,6 +19,7 @@ import reducer from '../../Reducers';
 import navData from './dummyData.js';
 import TripUserList from './tripUserList.jsx';
 import TripDetails from './tripDetails.jsx';
+import LodgingGallery from './LodgingGallery.jsx';
 
 let mapStateToProps = ({ trip }) => {
   return { trip };
@@ -84,16 +88,54 @@ class TripDashboard extends React.Component {
     return(
       <Row>
       <Col md={8} mdOffset={2} className="dashtrip">
-        <TripDetails trip={this.props.trip}/>
-        {this.state.map ? <Mapbox location={this.props.trip.location}/> : <Landmarks />}
-
-        {/*<Button className="button" onClick={this.toggleMap}>Toggle center panel (not currently used)</Button>*/}
-        <TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/>
-        <ProfileEditor user={this.props.user} trip={this.props.trip.id}/>
+        <Tab.Container id="tripProfile" defaultActiveKey="summary">
+          <Row className="clearfix">
+            <Col sm={12}>
+              <Nav bsStyle="tabs">
+                <NavItem eventKey="summary">
+                  Trip Summary
+                </NavItem>
+                <NavItem eventKey="map">
+                  Trip Map
+                </NavItem>
+                <NavItem eventKey="lodging">
+                  Lodging Options
+                </NavItem>
+                <NavItem eventKey="gallery">
+                  Trip Gallery
+                </NavItem>
+              </Nav>
+            </Col>
+            <Col sm={12}>
+              <Tab.Content animation>
+                <Tab.Pane eventKey="summary">
+                  <TripDetails trip={this.props.trip}/>
+                </Tab.Pane>
+                <Tab.Pane eventKey="map">
+                  {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
+                </Tab.Pane>
+                <Tab.Pane eventKey="lodging">
+                  <LodgingGallery />
+                </Tab.Pane>
+                <Tab.Pane eventKey="gallery">
+                  <TripGallery />
+                </Tab.Pane>
+              </Tab.Content>
+            </Col>
+          </Row>
+        </Tab.Container>
       </Col>
       </Row>
     )
   }
 }
+
+//        <TripDetails trip={this.props.trip}/>
+//        {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
+
+//        {/*<Button className="button" onClick={this.toggleMap}>Toggle center panel (not currently used)</Button>*/}
+//        <LodgingGallery />
+//        <TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/>
+//        <ProfileEditor user={this.props.user} trip={this.props.trip.id}/>
 
 export default connect(mapStateToProps)(TripDashboard);
