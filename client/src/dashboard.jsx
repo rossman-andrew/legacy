@@ -35,6 +35,7 @@ class Dashboard extends React.Component {
 			otherTrips: []
 		};
 		this.fetchLists = this.fetchLists.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
 	}
 	componentWillMount () {
 		//Get login user
@@ -96,7 +97,7 @@ class Dashboard extends React.Component {
 
 	showNavBar() {
 		if (store.getState().view !== 'TripManager') {
-			return <TripNavBar features={navData.features} dispatch={store.dispatch} />
+			return <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />
 		}
 	}
 
@@ -104,7 +105,6 @@ class Dashboard extends React.Component {
 		return(
 			<div>
 				<h3>Hello {store.getState().user.name}, welcome back</h3>
-				<Button onClick={this.handleLogout}>Logout</Button>
 				{this.showNavBar()}
 				{this.getViewComponent()}
 			</div>
