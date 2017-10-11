@@ -69,6 +69,23 @@ const findTripsForUser = function(userId, callback) {
   });
 }
 
+const findAllOtherTrips = function(userId, callback) {
+  db.Trips.findAll({
+    // include: [{
+    //   model: db.Users,
+    //   where: { id: {$ne: userId} }
+    // }]
+  })
+  .then((result) => {
+    return callback(result);
+  })
+  .catch((err) => {
+    console.error('There was an error looking up trips for user', err);
+    callback(err);
+  });
+}
+
+
 // TODO: setUserTripDetails
 
 // get trip-specific user details (itinerary, phone)
@@ -241,6 +258,7 @@ module.exports = {
 	findLandmarks: findLandmarks,
   findUserByEmail: findUserByEmail,
   findTripsForUser: findTripsForUser,
+  findAllOtherTrips: findAllOtherTrips,
   createExpense: createExpense,
   getExpensesForTrip: getExpensesForTrip,
   joinTrip: joinTrip,

@@ -2,11 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-import '../dist/style.css';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Row, Col, Button } from 'semantic-ui-react';
 
 import { Menu } from 'semantic-ui-react';
 
@@ -24,8 +20,8 @@ import TripDashboard from './components/tripDashboard/tripDashboard.jsx';
 import MapboxViewer from './components/mapboxViewer.jsx';
 import ExpenseTracker from './components/expenseTracker/expenseTracker.jsx';
 import Landmarks from './components/landmarks/landmarks.jsx';
-import navData from './Components/tripDashboard/dummyData.js';
-import TripNavBar from './Components/tripDashboard/tripNavBar.jsx';
+import navData from './components/tripDashboard/dummyData.js';
+import TripNavBar from './components/tripDashboard/tripNavBar.jsx';
 
 const SERVER_URL = HOSTNAME;
 
@@ -35,7 +31,8 @@ class Dashboard extends React.Component {
 		//Listen to changes in the redux store
 		store.subscribe(() => {this.setState({reload:false})});
 		this.state = {
-			trips: []
+			trips: [],
+			otherTrips: []
 		};
 		this.fetchLists = this.fetchLists.bind(this);
 	}
@@ -51,12 +48,28 @@ class Dashboard extends React.Component {
 
 	fetchLists() {
 		let options = { userId: store.getState().user.id };
-		let self = this;
 		$.ajax({
 			url: SERVER_URL + '/fetchtrips',
 			data: options,
-			success: function(res) {
-				self.setState({ trips: res });
+			success: (res) => {
+				this.setState({ trips: res }, () => {
+					this.fetchOtherLists();
+				});
+			}
+		});
+	}
+
+	fetchOtherLists() {
+		let options = { userId: store.getState().user.id };
+		$.ajax({
+			url: SERVER_URL + '/fetchother',
+			data: options,
+			success: (res) => {
+				console.log('these are the other ones: ', res);
+				this.setState({ otherTrips: res });
+			},
+			error: (err) => {
+				console.error('Error getting other list', err);
 			}
 		});
 	}
@@ -71,7 +84,7 @@ class Dashboard extends React.Component {
 
 	getViewComponent () {
 		if (store.getState().view === 'TripManager') {
-			return <TripManager trips={this.state.trips} fetchLists={this.fetchLists}/>;
+			return <TripManager trips={this.state.trips} otherTrips={this.state.otherTrips} fetchLists={this.fetchLists}/>;
 		} else if (store.getState().view === 'ExpenseTracker') {
 			return <ExpenseTracker />;
 		} else if (store.getState().view === 'Landmarks') {
@@ -90,33 +103,10 @@ class Dashboard extends React.Component {
 	render() {
 		return(
 			<div>
-				<div className="navbar">
-          <ul>
-            <li id="title">The Travel App</li>
-            <li className="link">Home</li>
-            <li className="link">News</li>
-            <li className="link">Contact</li>
-          </ul>
-        </div>
-
-        <div className="dashbody">
-
-        	<Row className="manager-main">
-        		<Col md={7} mdOffset={2}>
-							<h3>Hello {store.getState().user.name}, welcome back</h3>
-						</Col>
-
-						<Col md={2}>
-							<Button id="logoutbutton" onClick={this.handleLogout}>Logout</Button>
-						</Col>
-						<Col md={8} mdOffset={2}>
-							{this.showNavBar()}
-						</Col>	
-					</Row>
-
-					<button id="hide" onClick={() => store.dispatch(reducer.changeView('TripManager'))}>Trip Manager</button>
-					{this.getViewComponent()}
-				</div>
+				<h3>Hello {store.getState().user.name}, welcome back</h3>
+				<Button onClick={this.handleLogout}>Logout</Button>
+				{this.showNavBar()}
+				{this.getViewComponent()}
 			</div>
 		)
 	}
@@ -127,3 +117,16 @@ ReactDOM.render(
 		<Dashboard />
 	</Provider>
 	, document.getElementById('app'));
+
+/*
+				<div className="navbar">
+          <ul>
+            <li id="title">The Travel App</li>
+            <li className="link">Home</li>
+            <li className="link">News</li>
+            <li className="link">Contact</li>
+          </ul>
+        </div>
+        				<button id="hide" onClick={() => store.dispatch(reducer.changeView('TripManager'))}>Trip Manager</button>
+
+        */
