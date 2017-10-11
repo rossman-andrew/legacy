@@ -17,3 +17,12 @@
    font-size: 4em;
    text-align: center;
 }
+
+.featImgContainer {
+  overflow: hidden;
+}
+
+.map {
+  height: 500px;
+  overflow: hidden;
+}
