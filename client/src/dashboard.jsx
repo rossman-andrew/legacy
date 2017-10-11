@@ -8,10 +8,13 @@ import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import { Button } from 'react-bootstrap';
 
+import { Menu } from 'semantic-ui-react';
+
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 import reducer from './Reducers';
 import { connect } from 'react-redux';
+
 
 const store = createStore(reducer.travelReducer);
 const { getState } = store;

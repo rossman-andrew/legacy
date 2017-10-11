@@ -8,7 +8,7 @@ const TripUserList = (props) => {
   return (
     <div>
       <hr/>
-      <h4>Who is coming:</h4>
+      <h4>People coming:</h4>
         {props.users.map((user, index) => {
           return (
             <div className="user-entry" key={index} className="tripdata" onClick={() => {props.showUserInfo(user.id)}}>
