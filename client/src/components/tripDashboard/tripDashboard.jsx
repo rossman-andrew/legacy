@@ -26,6 +26,7 @@ class TripDashboard extends React.Component {
 
     this.state = {
       map: true,
+      tripPics: [],
       users: [],
       selectedUserInfo: ''
     };
@@ -75,15 +76,29 @@ class TripDashboard extends React.Component {
   }
 
   componentDidMount() {
+    console.log('Trip dashboard mounting');
     this.getUsers();
+    // Get pictures for trip gallery
+    $.ajax({
+      url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyBEkRzfpS6T7dZcLaYA9lQdzMJNDSrgOgg&cx=012965794133406592343:m7o6dpksdcc&q=${'image of ' + this.props.trip.location}&searchType=image`, 
+      success: (data) => { 
+        console.log(data);
+        for (let i = 0; i < 4; i++) {
+          this.state.tripPics.push(data.items[i].link);
+        } 
+      },
+      error: (err) => { 
+        console.log('error'); 
+      }  
+    });
   }
 
   render() {
     const panes = [
       { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip}/><TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/><ProfileEditor user={this.props.user} trip={this.props.trip.id}/></Tab.Pane> },
       { menuItem: 'Map', render: () => <Tab.Pane><Mapbox className=".map" location={this.props.trip.location} /></Tab.Pane> },
-      { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery lodgePics={ this.props.lodgePics }/></Tab.Pane> },
-      { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} /></Tab.Pane> },
+      { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery lodgePics={ this.props.lodgePics } /></Tab.Pane> },
+      { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} tripPics={this.state.tripPics} /></Tab.Pane> },
       { menuItem: 'Comments', render: () => <Tab.Pane><TripComments trip={this.props.trip} /></Tab.Pane> }
     ]; 
     return (
@@ -94,48 +109,8 @@ class TripDashboard extends React.Component {
   }
 }
 
-//   <Tab.Container id="tripProfile" defaultActiveKey="summary">
-//     <Row className="clearfix">
-//       <Col sm={12}>
-//         <Nav bsStyle="tabs">
-//           <NavItem eventKey="summary">
-//             Trip Summary
-//           </NavItem>
-//           <NavItem eventKey="map">
-//             Trip Map
-//           </NavItem>
-//           <NavItem eventKey="lodging">
-//             Lodging Options
-//           </NavItem>
-//           <NavItem eventKey="gallery">
-//             Trip Gallery
-//           </NavItem>
-//         </Nav>
-//       </Col>
-//       <Col sm={12}>
-//         <Tab.Content animation>
-//           <Tab.Pane eventKey="summary">
-//             <TripDetails trip={this.props.trip}/>
-//           </Tab.Pane>
-//           <Tab.Pane eventKey="map">
-//             {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
-//           </Tab.Pane>
-//           <Tab.Pane eventKey="lodging">
-//             <LodgingGallery />
-//           </Tab.Pane>
-//           <Tab.Pane eventKey="gallery">
-//             <TripGallery />
-//           </Tab.Pane>
-//         </Tab.Content>
-//       </Col>
-//     </Row>
-//   </Tab.Container>
-// </Col>
-// </Row>
-
 //        <TripDetails trip={this.props.trip}/>
 //        {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
-
 //        {/*<Button className="button" onClick={this.toggleMap}>Toggle center panel (not currently used)</Button>*/}
 //        <LodgingGallery />
 //        <TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/>
