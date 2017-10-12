@@ -29,7 +29,7 @@ class TripGallery extends React.Component {
           <Image.Group size='medium'>
             {
               this.state.tripPics.map((imgLink, index) => {
-                return <Image src={imgLink} key={index} onClick={(e) => this.updateFeatImg(e)} />
+                return <Image src={imgLink} key={index} onClick={(e) => this.updateFeatImg(e)} />;
               })
             }
           </Image.Group>
