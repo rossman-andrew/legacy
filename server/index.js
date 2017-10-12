@@ -257,10 +257,10 @@ app.patch('/userinfo/:userId/:tripId/:itinerary/:phone', (req, res) => {
 
 
 app.get('/location/lodging/:location', (req, res) => {
-  var location = req.params.location;
-  // console.log(location);
+  var location = req.params.location.slice(1);
+  console.log('this is the location', location);
   let options = {
-    url: `https://api.yelp.com/v3/businesses/search?term=Hotels&location=${query}`,
+    url: `https://api.yelp.com/v3/businesses/search?term=Hotels&location=${location}`,
     auth: {
       'bearer': 'VIbYemNYt5Ovsg5HgnB9eWuQznMb9Om1CbYboaZLE3jsq8xRYcTHrlO30DRFXXtZtiVAmL6WPN3MV98WXAft5l4sXydQfrtIJeYidoKI9IFTXmNFJbasKIX881vdWXYx'
     },

@@ -22,7 +22,7 @@ class LodgeItem extends React.Component {
    	          </span>
 	        </Card.Meta>
 	        <Card.Description>
-	          { `Rating: ${this.props.rating} stars` }
+	          { `Rating: ${this.props.data.rating} stars` }
 	        </Card.Description>
 	      </Card.Content>
 	    </Card>
