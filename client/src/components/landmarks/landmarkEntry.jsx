@@ -19,8 +19,8 @@ const LandmarkEntry = (props) => {
       success: function(body) {
         props.fetch();
       }
-    })
-	};
+    });
+  }
 
   const buttonState = () => {
     let showButton = true;
@@ -32,7 +32,7 @@ const LandmarkEntry = (props) => {
     return showButton;
   };
 
-	return (
+  return (
     <tr>
       <td><Button style={buttonState() ? {} : { display: 'none' }} onClick={handleClick}>vote</Button></td>
       <td>{props.landmark.description}</td>
@@ -41,7 +41,7 @@ const LandmarkEntry = (props) => {
       <td>{props.landmark.User.name}</td>
       <td>{props.landmark.votes.length}</td>
     </tr>
-	);
+  );
 };
 
 export default LandmarkEntry;

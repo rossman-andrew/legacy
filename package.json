@@ -4,6 +4,7 @@
   "description": "Group travel app",
   "main": "index.js",
   "scripts": {
+    "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
     "start": "node --require dotenv/config server/index.js",
     "test-server": "NODE_ENV=development mocha --bail --reporter nyan spec/server-spec.js;",
     "test-database": "NODE_ENV=development mocha --bail --reporter nyan spec/database-spec.js;",
@@ -32,7 +33,7 @@
     "jquery": "^3.2.1",
     "mapbox-gl": "^0.40.1",
     "mapbox-gl-geocoder": "^2.0.1",
-    "mysql": "^2.14.1",
+    "mysql": "^2.15.0",
     "npm": "^5.4.2",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
@@ -46,6 +47,7 @@
     "rimraf": "^2.6.2",
     "semantic-ui-react": "^0.74.2",
     "sequelize": "^3.24.5",
+    "socket.io": "^2.0.3",
     "webpack": "^3.6.0"
   },
   "devDependencies": {
@@ -58,6 +60,7 @@
     "css-loader": "^0.28.7",
     "eslint": "^4.8.0",
     "eslint-plugin-react": "^7.4.0",
+    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "file-loader": "^1.1.5",
     "jsdomify": "^3.1.0",
     "mocha": "^3.5.3",

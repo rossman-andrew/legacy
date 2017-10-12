@@ -34,7 +34,7 @@ class TripPopup extends React.Component {
       userId: this.props.user.id,
       accessCode: e.target.name.value,
       isopen: true
-    }
+    };
 
     e.preventDefault();
     let context = this;
@@ -50,7 +50,7 @@ class TripPopup extends React.Component {
       error: (err) => {
         console.log('error with GET', err);
       }
-    })
+    });
   }
 
   render() {
@@ -81,7 +81,7 @@ class TripPopup extends React.Component {
 
             <div className="form-entry">
               <label>End Date:</label>
-                <input className="popupfield" type="date" name="end" placeholder="end date..."/>
+              <input className="popupfield" type="date" name="end" placeholder="end date..."/>
             </div>
 
             <Button className="popupbutton" type="submit" value="create trip">Submit</Button>
@@ -94,6 +94,6 @@ class TripPopup extends React.Component {
 
 let mapStateToProps = ({ user }) => {
   return { user };
-}
+};
 
 export default connect(mapStateToProps)(TripPopup);

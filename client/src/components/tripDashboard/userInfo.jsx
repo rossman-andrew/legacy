@@ -5,7 +5,7 @@ import Popup from 'react-popup';
 // render random profile pic
 // render input fields for phone number, itinerary,
 const UserInfo = (props) => {
-  if(!props.user) {
+  if (!props.user) {
     return null;
   }
 
@@ -15,7 +15,7 @@ const UserInfo = (props) => {
       <div>Itinerary: {props.user.flightItinerary}</div>
     </div>
 
-  )
-}
+  );
+};
 
 export default UserInfo;

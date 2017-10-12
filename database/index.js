@@ -31,6 +31,13 @@ const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.D
 
 //---------SCHEMA DEFINITIONS--------------------
 
+const Messages = db.define('Messages', {
+  name: Sequelize.STRING,
+  message: Sequelize.STRING,
+  TripId: Sequelize.INTEGER,
+  date: Sequelize.STRING
+});
+
 const Users = db.define('Users', {
   name: {type: Sequelize.STRING, unique: true},
   email: {type: Sequelize.STRING, unique: true},
@@ -85,6 +92,7 @@ const Sessions = db.define('Sessions', {
 });
 
 //---------SEQUELIZE REQUIRES SYNC ON ALL TABLES------------
+Messages.sync();
 Users.sync();
 UserTrip.sync();
 Trips.sync();
@@ -129,5 +137,6 @@ module.exports = {
   Votes: Votes,
   Landmarks: Landmarks,
   Expenses: Expenses,
-  Sessions: Sessions
-}
+  Sessions: Sessions,
+  Messages: Messages
+};

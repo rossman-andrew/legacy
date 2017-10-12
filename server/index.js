@@ -9,6 +9,11 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 
+//sockets
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
+
 // Express Middleware
 
 app.use(bodyParser.json());
@@ -28,15 +33,15 @@ app.use(passport.initialize());
 app.use(passport.session());
 passport.use('local-signin', new Strategy({
   usernameField: 'email'
-  },
-  function(email, password, done) {
-    db.Users.findOne({ where: {email: email} })
-      .then( (user) => {
-        if (!user) { return done(null, false); }
-        if (user.dataValues.password !== password) { return done(null, false); }
-        return done(null, user.dataValues);
-      });
-  }
+},
+function(email, password, done) {
+  db.Users.findOne({ where: {email: email} })
+    .then( (user) => {
+      if (!user) { return done(null, false); }
+      if (user.dataValues.password !== password) { return done(null, false); }
+      return done(null, user.dataValues);
+    });
+}
 ));
 
 //on every single get request, check for session and direct to appropriate page
@@ -55,10 +60,41 @@ app.use((req, res, next) => {
 //do not serve static files until AFTER cookies have been checked
 app.use(express.static(__dirname + '/../client/dist'));
 
+
+//io sockets
+
+io.on('connection', (socket) => {
+  console.log('a user connected');
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+  });
+  socket.on('chat message', (msg) => {
+    query.addMessage(msg, () => {
+      console.log('successfully inserted');
+    });
+  });
+});
+
+io.on('connection', (socket) => {
+  socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
+  });
+});
+
 //Routes
+
+app.get('/comments/:tripid', (req, res) => {
+  const { tripid } = req.params;
+  query.findMessages(tripid, (messages) => {
+    res.status(200).send(messages);
+  });
+});
+
+
+
 app.post('/login', passport.authenticate('local-signin'), function(req, res) {
-  req.session.user = req.body.email
-  query.addSession(req.session.id, req.body.email)
+  req.session.user = req.body.email;
+  query.addSession(req.session.id, req.body.email);
   res.redirect('/dashboard');
 });
 
@@ -70,7 +106,7 @@ app.post('/logout', (req, res) => {
     } else {
       console.log('Session destroyed');
       //clean the cookie
-      res.cookie("connect.sid", "", { expires: new Date() });
+      res.cookie('connect.sid', '', { expires: new Date() });
       res.redirect('/');
     }
   });
@@ -81,7 +117,7 @@ app.get('/dashboard', (req, res) => {
     res.contentType('text/html');
     res.status(200).sendFile(path.resolve(__dirname + '/../client/dist/dashboard.html'));
   } else {
-    res.status(403).redirect('/')
+    res.status(403).redirect('/');
   }
 });
 
@@ -99,15 +135,15 @@ app.post('/jointrip', (req, res) => {
     } else {
       return res.status(200).end();
     }
-  })
-})
+  });
+});
 
 app.get('/fetchother', (req, res) => {
-   query.findAllOtherTrips(req.query.userId, (result) => {
+  query.findAllOtherTrips(req.query.userId, (result) => {
     let finalResult = result.map((ele) => ele.dataValues);
     return res.status(200).send(finalResult);
-   });
- });
+  });
+});
 
 app.get('/fetchtrips', (req, res) => {
   query.findTripsForUser(req.query.userId, (result) => {
@@ -127,7 +163,7 @@ app.post('/signup', (req, res) => {
       res.status(400).send('Bad signup request. Username may be taken.');
     } else {
       req.session.user = req.body.email;
-      query.addSession(req.session.id, req.body.email)
+      query.addSession(req.session.id, req.body.email);
       res.redirect('/dashboard');
     }
   });
@@ -135,14 +171,14 @@ app.post('/signup', (req, res) => {
 
 app.post('/vote', (req, res) => {
   db.Votes.create(req.body)
-  .then(() => {
-    return res.status(200).end();
-  })
-  .catch((err) => {
-    console.log('error in vote insertion', err)
-  })
+    .then(() => {
+      return res.status(200).end();
+    })
+    .catch((err) => {
+      console.log('error in vote insertion', err);
+    });
 
-})
+});
 
 app.post('/landmarks', (req, res) => {
 
@@ -152,15 +188,15 @@ app.post('/landmarks', (req, res) => {
       console.log('there was error on landmarks submission ', err);
     }
     return res.status(200).send('submission successful');
-  })
-})
+  });
+});
 
 app.get('/landmarks', (req, res) => {
   let tripId = req.url.split('=')[1];
   query.findLandmarks(tripId, (landmarks) => {
     return res.status(200).send(landmarks);
-  })
-})
+  });
+});
 
 app.post('/expense', (req, res) => {
   query.createExpense(req.body).then((response) => {
@@ -223,9 +259,9 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   db.Users.findById(id)
-  .then( (user) => {
-    done(null, user.dataValues);
-  });
+    .then( (user) => {
+      done(null, user.dataValues);
+    });
 });
 
 app.post('/popup', (req, res) => {
@@ -236,16 +272,16 @@ app.post('/popup', (req, res) => {
     } else {
       return res.status(201).send(id);
     }
-  })
+  });
 });
 
-function redirectUnmatched(req, res) {
+const redirectUnmatched = (req, res) => {
   res.redirect(process.env.HOSTNAME + '/');
-}
+};
 
 app.use(redirectUnmatched);
 
-app.listen(process.env.PORT, () => {
+http.listen(process.env.PORT, () => {
   console.log('listening to port ', process.env.PORT);
 });
 

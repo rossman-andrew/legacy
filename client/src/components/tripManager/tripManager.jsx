@@ -13,21 +13,21 @@ const SERVER_URL = HOSTNAME;
 
 let mapStateToProps = ({ user }) => {
   return { user };
-}
+};
 
 class Dashboard extends React.Component {
-	constructor(props) {
-		super(props);
+  constructor(props) {
+    super(props);
     this.state = {
       showPopup: false,
-			trips: [],
-			joinTrip: ''
+      trips: [],
+      joinTrip: ''
     };
 
     this.togglePopup = this.togglePopup.bind(this);
     this.joinTrip = this.joinTrip.bind(this);
     this.selectTrip = this.selectTrip.bind(this);
-	}
+  }
 
   componentDidMount() {
   }
@@ -38,20 +38,20 @@ class Dashboard extends React.Component {
     });
   }
 
-	selectTrip(trip){
-		this.props.dispatch(reducer.changeTrip(trip));
-		this.props.dispatch(reducer.changeView('TripDashboard'));
-	}
+  selectTrip(trip) {
+    this.props.dispatch(reducer.changeTrip(trip));
+    this.props.dispatch(reducer.changeView('TripDashboard'));
+  }
 
-	handleChange(e){
-		this.setState({joinTrip:e.target.value})
-	}
+  handleChange(e) {
+    this.setState({joinTrip: e.target.value});
+  }
 
-	joinTrip(code) {
-		let obj = {
+  joinTrip(code) {
+    let obj = {
       accessCode: code || this.state.joinTrip,
       userId: this.props.user.id
-		};
+    };
     console.log('obj', obj);
     $.ajax({
       url: SERVER_URL + '/jointrip',
@@ -61,14 +61,14 @@ class Dashboard extends React.Component {
         this.props.fetchLists();
       },
       error: function(err) {
-      	console.error(err)
+        console.error(err);
       }
-    })
-	}
+    });
+  }
 
-	render() {
-		return(
-			<div>
+  render() {
+    return (
+      <div>
         
 
         <div className="header-div">
@@ -88,15 +88,15 @@ class Dashboard extends React.Component {
         <h3>Trip Suggestions</h3>
         <Grid centered>
           {(this.props.otherTrips.map((ele) => {
-              return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>
+            return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
           }))}
         </Grid>
 
-	      <h3>Trip History</h3>
+        <h3>Trip History</h3>
         <Grid centered>
           {(this.props.trips.map((ele) => {
-	    				return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>
-			    }))}
+            return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
+          }))}
         </Grid>
 
         {this.state.showPopup ?
@@ -108,8 +108,8 @@ class Dashboard extends React.Component {
           : null
         }
       </div>
-		)
-	}
+    );
+  }
 }
 
 export default connect(mapStateToProps)(Dashboard);
