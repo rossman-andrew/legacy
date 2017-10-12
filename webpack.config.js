@@ -8,7 +8,6 @@ const envVars = require('dotenv').config({path: envPath});
 console.log('the webpack is in this env', environment)
 
 module.exports = {
-  watch: true,
   entry: {
     main: `${SRC_DIR}/index.jsx`,
     dashboard: `${SRC_DIR}/dashboard.jsx`
@@ -43,5 +42,8 @@ module.exports = {
     new webpack.DefinePlugin({
       HOSTNAME: JSON.stringify(process.env.HOSTNAME)
     })
-  ]
+  ],
+  watchOptions: {
+    poll: true
+  }
 };
