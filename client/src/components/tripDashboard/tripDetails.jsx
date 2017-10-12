@@ -3,7 +3,8 @@ import React from 'react';
 const TripDetails = (props) => {
   return (
     <div>
-      <h2>{props.trip.name}</h2>
+      <hr/>
+      <h4>{props.trip.name}</h4>
       <hr/>
       <ul>
         <li className="tripdata">Where:&nbsp;&nbsp;{props.trip.location}</li>

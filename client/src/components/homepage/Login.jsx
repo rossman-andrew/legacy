@@ -1,28 +1,21 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
+import { Button, Form, Icon, Message } from 'semantic-ui-react'
+
 
 const Login = (props) => (
-	<Col md={4} mdOffset={4} className="credentials-box">
-		<h3>Login here:</h3>
-		<form  action="/login" method="post">
 
-			<div className="form-entry">
-				<label>E-Mail: </label>
-				<input className="field" type="text" name="email"/>
-			</div>
+	 <div>
+    <Message
+      attached
+      header='Login'
+    />
+    <Form className='attached fluid segment' action="/login" method="post">
+      <Form.Input label='E-Mail' name="email" placeholder='email' type='text' />
+      <Form.Input label='Password' name="password" type='password' />
+      <Button color='blue' value="Submit">Submit</Button>
+    </Form>
 
-			<div className="form-entry">
-				<label>Password: </label>
-				<input className="field" type="password" name="password"/>
-			</div>
-
-			<div className="form-entry">
-				<Button type="submit" value="Submit">Submit</Button>
-			</div>
-		</form>
-	</Col>
+  </div>
 )
 
 export default Login;

@@ -20,6 +20,7 @@ import ExpenseTracker from './components/expenseTracker/expenseTracker.jsx';
 import Landmarks from './components/landmarks/landmarks.jsx';
 import navData from './components/tripDashboard/dummyData.js';
 import TripNavBar from './components/tripDashboard/tripNavBar.jsx';
+import Profile from './components/profile/profile.jsx'
 
 
 

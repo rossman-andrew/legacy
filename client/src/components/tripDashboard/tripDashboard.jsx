@@ -13,6 +13,7 @@ import navData from './dummyData.js';
 import TripUserList from './tripUserList.jsx';
 import TripDetails from './tripDetails.jsx';
 import LodgingGallery from './LodgingGallery.jsx';
+import TripGallery from './TripGallery.jsx';
 
 let mapStateToProps = ({ trip }) => {
   return { trip };
@@ -78,14 +79,14 @@ class TripDashboard extends React.Component {
 
   render() {
     const panes = [
-      { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip}/></Tab.Pane> },
-      { menuItem: 'Map', render: () => <Tab.Pane>{this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />}</Tab.Pane> },
+      { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip}/><TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/><ProfileEditor user={this.props.user} trip={this.props.trip.id}/></Tab.Pane> },
+      { menuItem: 'Map', render: () => <Tab.Pane><Mapbox className=".map" location={this.props.trip.location} /></Tab.Pane> },
       { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery /></Tab.Pane> },
-      { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery /></Tab.Pane> }
+      { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} /></Tab.Pane> }
     ]; 
     return(
       <div>
-        <Tab panes={panes} />
+        <Tab panes={panes} style={{height: '100%'}} />
       </div>
     )
   }
