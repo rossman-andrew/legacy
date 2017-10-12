@@ -8,18 +8,18 @@ const TripEntry = (props) => {
   let startYear = startNewDate.getFullYear();
   let startMonth = startNewDate.getMonth() + 1;
   let startDay = startNewDate.getDate();
-  let startDateFormat =  startMonth + '/' + startDay + '/' + startYear
+  let startDateFormat = startMonth + '/' + startDay + '/' + startYear;
 
   let endDate = Date.parse(props.trip.endDate);
   let endNewDate = new Date(endDate);
   let endYear = endNewDate.getFullYear();
   let endMonth = endNewDate.getMonth() + 1;
   let endDay = endNewDate.getDate();
-  let endDateFormat =  endMonth + '/' + endDay + '/' + endYear
+  let endDateFormat = endMonth + '/' + endDay + '/' + endYear;
   console.log(props.trip);
 
-	return (
-	  <Grid.Column mobile={12} tablet={6} computer={4}>
+  return (
+    <Grid.Column mobile={12} tablet={6} computer={4}>
       <Card>
         <Image src='https://www.interrail.eu/sites/interrail.eu/files/styles/asset_image_responsive_common_list_block_380/public/assets/images/2013/11/santorini_greece.jpg' />
         <Card.Content>
@@ -46,10 +46,10 @@ const TripEntry = (props) => {
 
           <Icon onClick={() => props.joinTrip(props.trip.accessCode)}style={{float: 'right'}} name='plus' />
         </Card.Content>
-     </Card>
-	 </Grid.Column>
-	)
-}
+      </Card>
+    </Grid.Column>
+  );
+};
 
 export default TripEntry;
 // {props.trip.Users.length} {props.trip.Users.length === 1 ? 'Person' : 'People'} Going

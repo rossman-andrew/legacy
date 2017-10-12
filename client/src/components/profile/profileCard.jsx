@@ -1,5 +1,5 @@
-import React from 'react'
-import { Card, Icon, Image } from 'semantic-ui-react'
+import React from 'react';
+import { Card, Icon, Image } from 'semantic-ui-react';
 
 const ProfileCard = (props) => (
   <Card>
@@ -16,6 +16,6 @@ const ProfileCard = (props) => (
       </a>
     </Card.Content>
   </Card>
-)
+);
 
 export default ProfileCard;
