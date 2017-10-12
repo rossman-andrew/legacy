@@ -16,9 +16,10 @@ const TripEntry = (props) => {
   let endMonth = endNewDate.getMonth() + 1;
   let endDay = endNewDate.getDate();
   let endDateFormat =  endMonth + '/' + endDay + '/' + endYear
+  console.log(props.trip);
 
 	return (
-	  <Grid.Column mobile={12} tablet={6} computer={4}> 
+	  <Grid.Column mobile={12} tablet={6} computer={4}>
       <Card>
         <Image src='https://www.interrail.eu/sites/interrail.eu/files/styles/asset_image_responsive_common_list_block_380/public/assets/images/2013/11/santorini_greece.jpg' />
         <Card.Content>
@@ -40,7 +41,7 @@ const TripEntry = (props) => {
           <a>
             <Icon name='user' />
             {props.trip.Users[0].name}
-           
+
           </a>
 
           <Icon onClick={() => props.joinTrip(props.trip.accessCode)}style={{float: 'right'}} name='plus' />

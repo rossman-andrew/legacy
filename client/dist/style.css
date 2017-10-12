@@ -1,4 +1,4 @@
-.header-image { 
+.header-image {
    position: relative;
    width: 100%;
 }
@@ -8,14 +8,15 @@
   overflow: hidden;
 }
 
-.header-word { 
-   position: absolute; 
-   top: 200px; 
-   left: 0; 
-   width: 100%; 
+.header-word {
+   position: absolute;
+   top: 200px;
+   left: 0;
+   width: 100%;
    color: white;
    font-size: 4em;
    text-align: center;
+
 }
 
 .featImgContainer {

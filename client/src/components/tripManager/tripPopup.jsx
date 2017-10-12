@@ -4,6 +4,7 @@ import $ from 'jquery';
 import { connect } from 'react-redux';
 import reducer from '../../Reducers';
 import TripDashboard from '../tripDashboard/tripDashboard.jsx';
+
 import { Button } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';

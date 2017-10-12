@@ -22,6 +22,10 @@ import navData from './components/tripDashboard/dummyData.js';
 import TripNavBar from './components/tripDashboard/tripNavBar.jsx';
 import Profile from './components/profile/profile.jsx'
 
+
+
+import Chatbox from './components/Chatbox/index.jsx';
+
 const SERVER_URL = HOSTNAME;
 
 class Dashboard extends React.Component {
@@ -109,6 +113,7 @@ class Dashboard extends React.Component {
 				{this.showNavBar()}
 				<br />
 				{this.getViewComponent()}
+				<Chatbox/>
 			</div>
 		)
 	}
