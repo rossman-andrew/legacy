@@ -8,15 +8,21 @@ import TripDashboard from '../tripDashboard/tripDashboard.jsx';
 import { Button } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
+import LodgeList from './LodgeList.jsx';
 
 const SERVER_URL = HOSTNAME;
 
 class TripPopup extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {
+      lodging: []
+    }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createTripDashboard = this.createTripDashboard.bind(this);
+    this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
+    this.showLodges = this.showLodges.bind(this);
   }
 
   createTripDashboard(trip) {
@@ -36,6 +42,7 @@ class TripPopup extends React.Component {
       isopen: true
     };
 
+
     e.preventDefault();
     let context = this;
     $.ajax({
@@ -52,13 +59,40 @@ class TripPopup extends React.Component {
       }
     });
   }
+ 
+  handleLocationSubmit(e) {
+    e.preventDefault();
+    const context = this;
+    const query = $('.location').val();
+    console.log('query', query);
+    $.ajax({
+      url: `${HOSTNAME}/location/lodging/:${query}`,
+      method: 'GET',
+      success: (body) => {
+        console.log('Location GET Request was a success! ');
+        var data = JSON.parse(body).businesses.splice(0,4);
+        context.setState({lodging: data});
+      },
+      error: (err) => {
+        console.log('error with GET', err);
+      }
+    })
+  }
+
+  showLodges() {
+    if (this.state.lodging.length) {
+      return <LodgeList data={ this.state.lodging }/>
+    } else {
+      return null;
+    }
+  }
 
   render() {
     return (
       <Row className="popup">
         <Col md={4} mdOffset={4} className="popup_inner">
           <h3>Create a new trip:</h3>
-          <form className="popupform" onSubmit={this.handleSubmit}>
+          <form className="popupform" >
             <div className="form-entry">
               <label>Trip Name:</label>
               <input className="popupfield" type="text" name="name" placeholder="add name..."/>
@@ -66,12 +100,9 @@ class TripPopup extends React.Component {
 
             <div className="form-entry">
               <label>Trip Location:</label>
-              <input className="popupfield" type="text" name="location" placeholder="add Location..."/>
-            </div>
-
-            <div className="form-entry">
-              <label>Trip Lodging:</label>
-              <input className="popupfield" type="text" name="lodging" placeholder="add Lodging..."/>
+              <input className="popupfield location" type="text" name="location" placeholder="add Location..."/>
+              <button onClick={ this.handleLocationSubmit }>submit</button>
+              {this.showLodges()}
             </div>
 
             <div className="form-entry">
@@ -84,7 +115,13 @@ class TripPopup extends React.Component {
               <input className="popupfield" type="date" name="end" placeholder="end date..."/>
             </div>
 
-            <Button className="popupbutton" type="submit" value="create trip">Submit</Button>
+            <div className="form-entry">
+              <label>Trip Lodging:</label>
+              <input className="popupfield" type="text" name="lodging" placeholder="add Lodging..."/>
+
+            </div>
+
+            <Button className="popupbutton" type="submit" value="create trip" onClick={ this.handleSubmit }>Submit</Button>
           </form>
         </Col>
       </Row>
