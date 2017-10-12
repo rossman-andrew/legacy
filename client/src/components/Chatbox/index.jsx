@@ -24,13 +24,13 @@ class Chatbox extends Component {
 
   onFormSubmit(event){
     event.preventDefault();
-
+    console.log('called', event);
     //handle searching web data
-    this.props.fetchFactories(this.state.term);
+    this.setState((prevState, props) => {
+      return {messages: prevState.messages.concat([[prevState.term, 'props.user']])};
+    })
     this.setState({term:''});
-    browserHistory.push({
-      pathname: `/factories/`,
-    });
+
   }
 
   handleSend() {
@@ -64,11 +64,13 @@ class Chatbox extends Component {
               })
             }
           </div>
-          <div className="ui action input focus">
-            <input type="text" placeholder="Chat.."></input>
-            <button class="ui button">Send</button>
-          </div>
-          <button className="ui secondary button" onClick={() => {this.handleToggle(false)} }> Chat Box! </button>
+          <form onSubmit={this.onFormSubmit}>
+            <div className="ui action input focus" >
+              <input type="text" placeholder="Chat.." onChange = {this.onInputChange}></input>
+              <button class="ui button" type="submit">Send</button>
+            </div>
+            <button className="ui secondary button" onClick={() => {this.handleToggle(false)} }> Chat Box! </button>
+          </form>
         </div>
       )
     } else {
