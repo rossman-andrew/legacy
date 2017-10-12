@@ -9,6 +9,7 @@ import { Button } from 'react-bootstrap';
 import { Row } from 'react-bootstrap';
 import { Col } from 'react-bootstrap';
 import LodgeList from './LodgeList.jsx';
+import LodgePicList from './LodgePicList.jsx';
 
 const SERVER_URL = HOSTNAME;
 
@@ -16,13 +17,18 @@ class TripPopup extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      lodging: []
+      lodging: [],
+      currentLodge: [],
+      hotel: null
     }
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.createTripDashboard = this.createTripDashboard.bind(this);
     this.handleLocationSubmit = this.handleLocationSubmit.bind(this);
     this.showLodges = this.showLodges.bind(this);
+    this.showPics = this.showPics.bind(this);
+    this.pics = this.pics.bind(this);
+    this.handleLodgeChoice = this.handleLodgeChoice.bind(this);
   }
 
   createTripDashboard(trip) {
@@ -59,6 +65,14 @@ class TripPopup extends React.Component {
       }
     });
   }
+
+  handleLodgeChoice(lodge) {
+    console.log('logchoice')
+    let lodgeName = lodge.name;
+    console.log('name', lodgeName)
+    $('.lodge').val(lodgeName);
+    console.log('val', $('.popupbutton').val())
+  }
  
   handleLocationSubmit(e) {
     e.preventDefault();
@@ -79,9 +93,30 @@ class TripPopup extends React.Component {
     })
   }
 
+  showPics(clicked, hotel) {
+    if (clicked) {
+      //the props below should be one hotel and we will need its id
+      console.log('hotels', hotel)
+       this.setState({hotel: hotel});
+    } else {
+      this.setState({hotel: null});
+    }
+  }
+
+  pics() {
+    // console.log('hotel', this.state.hotel);
+    if (this.state.hotel !== null) {
+      // console.log('piclist should be showing')
+      return <LodgePicList data={ this.state.hotel }/>
+    } else {
+      console.log('its going into null')
+      return null;
+    }
+  }
+
   showLodges() {
     if (this.state.lodging.length) {
-      return <LodgeList data={ this.state.lodging }/>
+      return <LodgeList data={ this.state.lodging } showPics={ this.showPics } handleLodgeChoice={ this.handleLodgeChoice }/>
     } else {
       return null;
     }
@@ -91,39 +126,41 @@ class TripPopup extends React.Component {
     return (
       <div className="popup">
           <h3>Create a new trip:</h3>
-          <form className="popupform" >
+            <br/>
+          <form className="popupform" onSubmit={ this.handleSubmit }>
             <div className="form-entry">
               <label>Trip Name:</label>
               <input className="popupfield" type="text" name="name" placeholder="add name..."/>
             </div>
-
+              <br/>
             <div className="form-entry">
               <label>Trip Location:</label>
               <input className="popupfield location" type="text" name="location" placeholder="add Location..."/>
-              <button onClick={ this.handleLocationSubmit }>submit</button>
             </div>
-
+              <br/>
             <div className="form-entry">
               <label>Start Date:</label>
               <input className="popupfield" type="date" name="start" placeholder="start date..."/>
             </div>
-
+              <br/>
             <div className="form-entry">
               <label>End Date:</label>
               <input className="popupfield" type="date" name="end" placeholder="end date..."/>
             </div>
-
+              <br/>
             <div className="form-entry">
               <label>Trip Lodging:</label>
-              <input className="popupfield" type="text" name="lodging" placeholder="add Lodging..."/>
-
+              <input className="popupfield lodge" type="text" name="lodging" placeholder="add Lodging..."/>
+              <button onClick={ this.handleLocationSubmit }>see lodging</button>
             </div>
+            <br/>
 
-            <Button className="popupbutton" type="submit" value="create trip" onClick={ this.handleSubmit }>Submit</Button>
+            <Button className="popupbutton" type="submit" value="create trip">Submit</Button>
           </form>
           <br/>
           {this.showLodges()}
-          
+          {this.pics()}
+
       </div>
     );
   }

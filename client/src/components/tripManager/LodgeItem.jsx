@@ -12,20 +12,23 @@ class LodgeItem extends React.Component {
       clicked: false
     }
     this.handleTitleClick = this.handleTitleClick.bind(this);
-    this.showPics = this.showPics.bind(this);
+    // this.showPics = this.showPics.bind(this);
   }
 
   handleTitleClick() {
-  	this.setState({clicked: !this.state.clicked})
+  	// console.log('handleTitleClick')
+  	this.setState({clicked: !this.state.clicked}, () =>{
+	  	this.props.showPics(this.state.clicked, this.props.data)
+  	})
   }
 
-  showPics() {
-  	if (this.state.clicked) {
-  		return <LodgePicList data={ this.props.data }/>
-  	} else {
-  		return null;
-  	}
-  }
+  // showPics() {
+  // 	if (this.state.clicked) {
+  // 		return <LodgePicList data={ this.props.data }/>
+  // 	} else {
+  // 		return null;
+  // 	}
+  // }
 
   render() {
     return (
@@ -46,9 +49,9 @@ class LodgeItem extends React.Component {
 	          { `Rating: ${this.props.data.rating} stars` }
 	        </Card.Description>
 	      </Card.Content>
+	      <button onClick={ () => {this.props.handleLodgeChoice(this.props.data)} }>Make trip Lodge</button>
 	    </Card>
       </Grid.Column>
-      {this.showPics()}
     </div>
   	)
   }
