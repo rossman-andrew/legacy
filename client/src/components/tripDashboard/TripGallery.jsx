@@ -8,7 +8,7 @@ class TripGallery extends React.Component {
     this.state = {
       tripPics: this.props.tripPics,
       featuredImage: this.props.tripPics[0]
-    }
+    };
   }
 
   updateFeatImg(e) {
@@ -22,13 +22,18 @@ class TripGallery extends React.Component {
       <div>
         <h4>{this.props.trip.name}</h4>
         <hr/>
-        <Image.Group size='medium'>
-          {
-            this.state.tripPics.map((imgLink, index) => {
-              return <Image src={imgLink} key={index} onClick={(e) => this.updateFeatImg(e)} />
-            })
-          }
-        </Image.Group>
+        <Grid.Column computer={4} tablet={6} mobile={12}>
+          <div className='featImgContainer'>
+            <Image src={this.state.featuredImage} size={'massive'} centered={true} />
+          </div>
+          <Image.Group size='medium'>
+            {
+              this.state.tripPics.map((imgLink, index) => {
+                return <Image src={imgLink} key={index} onClick={(e) => this.updateFeatImg(e)} />
+              })
+            }
+          </Image.Group>
+        </Grid.Column>
       </div>
     );
   }
