@@ -42,5 +42,8 @@ module.exports = {
     new webpack.DefinePlugin({
       HOSTNAME: JSON.stringify(process.env.HOSTNAME)
     })
-  ]
+  ],
+  watchOptions: {
+    poll: true
+  }
 };

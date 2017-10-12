@@ -1,5 +1,7 @@
 const APP_VIEWS = require('../appViewsList').APP_VIEWS;
+import { combineReducers } from 'redux';
 
+import ChatboxToggleReducer from './ChatboxToggle.js';
 /*
 SYMBOLS - How a user might alter state
 */
@@ -7,7 +9,7 @@ SYMBOLS - How a user might alter state
 const CHANGE_USER = 'CHANGE_USER';
 const CHANGE_TRIP = 'CHANGE_TRIP';
 const CHANGE_VIEW = 'CHANGE_VIEW';
-
+const TOGGLE_CHATBOX = 'TOGGLE_CHATBOX';
 /*
 ACTIONS
 */
@@ -26,6 +28,10 @@ const changeView = (view = '') => ({
   view
 });
 
+const toggleChatbox = (toggled = true) => ({
+  type: TOGGLE_CHATBOX,
+  toggled
+})
 /*
 REDUCERS
 */
@@ -33,7 +39,8 @@ REDUCERS
 const initialState = {
   user: '',
   trip: '',
-  view: 'TripManager'
+  view: 'TripManager',
+  toggled: false
 };
 
 const travelReducer = (state = initialState, action) => {
@@ -46,6 +53,9 @@ const travelReducer = (state = initialState, action) => {
     return Object.assign({}, state, {trip: action.trip});
   case CHANGE_VIEW:
     return Object.assign({}, state, {view: action.view});
+  case TOGGLE_CHATBOX:
+    console.log('got to case', action.toggled)
+    return Object.assign({}, state, {toggled: action.toggled});
   default:
     return state;
   }
@@ -55,7 +65,8 @@ module.exports = {
   travelReducer,
   changeUser,
   changeTrip,
-  changeView
+  changeView,
+  toggleChatbox
 };
 
 /*

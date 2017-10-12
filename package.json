@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/laraismael1/Bare-Minimum#readme",
   "dependencies": {
+    "axios": "^0.16.2",
     "body-parser": "^1.18.2",
     "connect-session-sequelize": "^4.1.0",
     "dotenv": "^4.0.0",
@@ -37,6 +38,7 @@
     "passport": "^0.4.0",
     "passport-local": "^1.0.0",
     "react": "^16.0.0",
+    "react-bootstrap": "^0.31.3",
     "react-dom": "^16.0.0",
     "react-popup": "^0.8.0",
     "react-redux": "^5.0.6",
