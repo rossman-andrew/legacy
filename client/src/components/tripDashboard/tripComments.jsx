@@ -60,6 +60,7 @@ class TripComments extends React.Component {
       date: new Date().toLocaleString(), 
       TripId: this.props.trip.id
     });
+    this.setState({ message: '' });
   }
   
   renderComment(message) {

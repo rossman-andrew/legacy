@@ -1,22 +1,43 @@
 import React from 'react';
-import { Glyphicon } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { Button, Card, Image } from 'semantic-ui-react';
 
 import UserInfo from './userInfo.jsx';
+
+const renderCard = (user, selectedUser) => {
+  return (
+    <Card>
+      <Card.Content>
+        <Image floated='right' size='mini' src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
+        <Card.Header>
+          {user.name}
+        </Card.Header>
+        <Card.Meta>
+          {user.email}
+        </Card.Meta>
+        <Card.Description>
+          {user.name} is a HackReactor student.
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        {selectedUser.UserId === user.id ? <UserInfo user={selectedUser} /> : null}
+      </Card.Content>
+    </Card>
+  );
+};
 
 const TripUserList = (props) => {
   return (
     <div>
-      <hr/>
-      <h4>People coming:</h4>
-      {props.users.map((user, index) => {
-        return (
-          <div className="user-entry" key={index} className="tripdata" onClick={() => { props.showUserInfo(user.id); }}>
-            <Button bsSize="large"><Glyphicon glyph="user" /> {user.name}</Button>
-            {props.selectedUser.UserId === user.id ? <UserInfo user={props.selectedUser} /> : null}
-          </div>
-        );
-      })}
+      <h4>People coming:</h4><br />
+      <Card.Group>
+        {props.users.map((user, index) => {
+          return (
+            <div className="user-entry" key={index} onClick={() => { props.showUserInfo(user.id); }}>
+              {renderCard(user, props.selectedUser)}
+            </div>
+          );
+        })}
+      </Card.Group>
     </div>
   );
 };
