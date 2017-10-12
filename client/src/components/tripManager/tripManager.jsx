@@ -84,6 +84,7 @@ class Dashboard extends React.Component {
             closePopup={this.togglePopup}
             fetchLists={this.props.fetchLists}
             selectTrip={this.selectTrip}
+            lodgePics={ this.props.lodgePics }
           />
           : null
         }

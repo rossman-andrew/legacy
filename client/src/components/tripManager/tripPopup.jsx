@@ -67,11 +67,8 @@ class TripPopup extends React.Component {
   }
 
   handleLodgeChoice(lodge) {
-    console.log('logchoice')
-    let lodgeName = lodge.name;
-    console.log('name', lodgeName)
+    let lodgeName = lodge.id;
     $('.lodge').val(lodgeName);
-    console.log('val', $('.popupbutton').val())
   }
  
   handleLocationSubmit(e) {
@@ -116,7 +113,7 @@ class TripPopup extends React.Component {
 
   showLodges() {
     if (this.state.lodging.length) {
-      return <LodgeList data={ this.state.lodging } showPics={ this.showPics } handleLodgeChoice={ this.handleLodgeChoice }/>
+      return <LodgeList data={ this.state.lodging } showPics={ this.showPics } handleLodgeChoice={ this.handleLodgeChoice } lodgePics={ this.props.lodgePics }/>
     } else {
       return null;
     }

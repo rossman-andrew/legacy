@@ -35,10 +35,12 @@ class Dashboard extends React.Component {
 		store.subscribe(() => {this.setState({reload:false})});
 		this.state = {
 			trips: [],
-			otherTrips: []
+			otherTrips: [],
+			lodgePics: []
 		};
 		this.fetchLists = this.fetchLists.bind(this);
 		this.handleLogout = this.handleLogout.bind(this);
+		this.lodgePics = this.lodgePics.bind(this);
 	}
 	componentWillMount () {
 		//Get login user
@@ -61,6 +63,11 @@ class Dashboard extends React.Component {
 				});
 			}
 		});
+	}
+
+	lodgePics(pics) {
+		console.log('LODGEPICS!!!', pics.id);
+		this.setState({lodgePics: pics.id});
 	}
 
 	fetchOtherLists() {
@@ -88,7 +95,7 @@ class Dashboard extends React.Component {
 
 	getViewComponent () {
 		if (store.getState().view === 'TripManager') {
-			return <TripManager trips={this.state.trips} otherTrips={this.state.otherTrips} fetchLists={this.fetchLists}/>;
+			return <TripManager trips={this.state.trips} otherTrips={this.state.otherTrips} fetchLists={this.fetchLists} lodgePics={ this.lodgePics }/>;
 		} else if (store.getState().view === 'ExpenseTracker') {
 			return <ExpenseTracker />;
 		} else if (store.getState().view === 'Landmarks') {
@@ -96,7 +103,7 @@ class Dashboard extends React.Component {
 		} else if (store.getState().view === 'Profile') {
 			return <Profile />;
 		} else {
-			return <TripDashboard user={store.getState().user}/>;
+			return <TripDashboard user={store.getState().user} lodgePics={ this.state.lodgePics }/>;
 		}
 	}
 

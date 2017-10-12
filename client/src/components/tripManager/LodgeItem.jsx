@@ -22,6 +22,14 @@ class LodgeItem extends React.Component {
   	})
   }
 
+  handleLodgeButton() {
+    // console.log('PHOTOS', this.props.data)
+    console.log('hitting handle lodge button')
+    this.props.handleLodgeChoice(this.props.data);
+    this.props.lodgePics(this.props.data);
+    console.log('lodgepics run')
+  }
+
   // showPics() {
   // 	if (this.state.clicked) {
   // 		return <LodgePicList data={ this.props.data }/>
@@ -49,7 +57,7 @@ class LodgeItem extends React.Component {
 	          { `Rating: ${this.props.data.rating} stars` }
 	        </Card.Description>
 	      </Card.Content>
-	      <button onClick={ () => {this.props.handleLodgeChoice(this.props.data)} }>Make trip Lodge</button>
+	      <button onClick={ () => {this.handleLodgeButton()} }>Make trip Lodge!</button>
 	    </Card>
       </Grid.Column>
     </div>

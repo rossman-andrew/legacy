@@ -13,7 +13,7 @@ class LodgeList extends React.Component {
   	  <Grid computer={4} >
   	  	{
   	  	  this.props.data.map((lodge, i) => {
-  	  	  	return <LodgeItem data={ lodge } showPics={ this.props.showPics } key={i} handleLodgeChoice={ this.props.handleLodgeChoice }/>;
+  	  	  	return <LodgeItem data={ lodge } showPics={ this.props.showPics } key={i} handleLodgeChoice={ this.props.handleLodgeChoice } lodgePics={ this.props.lodgePics }/>;
   	  	  })
   	  	}
   	  </Grid>
