@@ -77,7 +77,17 @@ class Dashboard extends React.Component {
           <h2 className="header-word">Dare to explore.  <br /> Find new friends.</h2>
         </div>
         
-        <Button onClick={this.togglePopup}>Create New Trip</Button>
+        <Button onClick={this.togglePopup} className='newTripButton'>Create New Trip</Button>
+        <br/>
+        {this.state.showPopup ?
+          <TripPopup
+            closePopup={this.togglePopup}
+            fetchLists={this.props.fetchLists}
+            selectTrip={this.selectTrip}
+            lodgePics={ this.props.lodgePics }
+          />
+          : null
+        }
 
         <h3>Join Trip</h3>
         <div>
@@ -99,14 +109,7 @@ class Dashboard extends React.Component {
           }))}
         </Grid>
 
-        {this.state.showPopup ?
-          <TripPopup
-            closePopup={this.togglePopup}
-            fetchLists={this.props.fetchLists}
-            selectTrip={this.selectTrip}
-          />
-          : null
-        }
+        
       </div>
     );
   }

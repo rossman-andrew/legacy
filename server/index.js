@@ -8,6 +8,7 @@ const session = require('express-session');
 const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
+const request = require('request');
 
 //sockets
 const http = require('http').Server(app);
@@ -251,6 +252,56 @@ app.patch('/userinfo/:userId/:tripId/:itinerary/:phone', (req, res) => {
     return res.send(results);
   });
 });
+
+//____________________________
+
+
+app.get('/location/lodging/:location', (req, res) => {
+  var location = req.params.location.slice(1);
+  console.log('this is the location', location);
+  let options = {
+    url: `https://api.yelp.com/v3/businesses/search?term=Hotels&location=${location}`,
+    auth: {
+      'bearer': 'VIbYemNYt5Ovsg5HgnB9eWuQznMb9Om1CbYboaZLE3jsq8xRYcTHrlO30DRFXXtZtiVAmL6WPN3MV98WXAft5l4sXydQfrtIJeYidoKI9IFTXmNFJbasKIX881vdWXYx'
+    },
+  }
+  request.get(options, (error, response, body) => {
+    if (error) {
+      console.log('there was an error getting location lodging', error);
+      res.end();
+    } else {
+      var data = body;
+      console.log(data)
+      res.end(data);
+    }
+  });
+});
+
+app.get('/lodge/pics/:id', (req, res) => {
+  var id = req.params.id.slice(1);
+  console.log('this is the id', id);
+  let options = {
+    url: `https://api.yelp.com/v3/businesses/${id}`,
+    auth: {
+      'bearer': 'VIbYemNYt5Ovsg5HgnB9eWuQznMb9Om1CbYboaZLE3jsq8xRYcTHrlO30DRFXXtZtiVAmL6WPN3MV98WXAft5l4sXydQfrtIJeYidoKI9IFTXmNFJbasKIX881vdWXYx'
+    },
+  }
+  request.get(options, (error, response, body) => {
+    if (error) {
+      console.log('there was an error getting lodge details', error);
+      res.end();
+    } else {
+      var data = body;
+      console.log(data)
+      res.end(data);
+    }
+  });
+});
+
+
+
+//____________________________
+
 
 //Helper Functions
 passport.serializeUser(function(user, done) {
