@@ -26,6 +26,7 @@ class TripGallery extends React.Component {
           <div className='featImgContainer'>
             <Image src={this.state.featuredImage} size={'massive'} centered={true} />
           </div>
+          <hr/>
           <Image.Group size='medium'>
             {
               this.state.tripPics.map((imgLink, index) => {
