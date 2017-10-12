@@ -1,37 +1,58 @@
 const db = require('./index.js');
 
+
+// ==== Messages ====
+const addMessage = (message, callback) => {
+  db.Messages.create(message)
+    .then(() => {
+      return callback();
+    })
+    .catch((err) => {
+      console.error('there was an error in inserting messages', err);
+    });
+};
+
+const findMessages = (tripid, callback) => {
+  db.Messages.findAll({where: {TripId: tripid}})
+    .then((messages) => {
+      return callback(messages);
+    }).catch((err) => {
+      console.error('There was an error in finding messages', err);
+    });
+};
+
 // ==== USERS ====
 
 const addUser = function(user, callback) {
   db.Users.create(user)
-  .then(() => {
-    return callback();
-  })
-  .catch((err) => {
-    console.error('there was an error on user database insert ', err.message);
-    callback(err);
-  }).catch((err) => {
-    console.error('Bad username request! Name may be taken.');
-  });
+    .then(() => {
+      return callback();
+    })
+    .catch((err) => {
+      console.error('there was an error on user database insert ', err.message);
+      callback(err);
+    }).catch((err) => {
+      console.error('Bad username request! Name may be taken.');
+    });
 };
 
 const findUser = function(user, callback) {
   db.Users.findAll({where: {name: user.name}})
-  .then((foundUser) => {
-    callback(foundUser);
-  }).catch((err) => {
-    console.error('There was an error in user lookup', err);
-  });
-}
+    .then((foundUser) => {
+      callback(foundUser);
+    }).catch((err) => {
+      console.error('There was an error in user lookup', err);
+    });
+};
 
 const findUserByEmail = function(user, callback) {
   db.Users.findAll({where: {email: user.name}})
-  .then((foundUser) => {
-    return callback(foundUser);
-  }).catch((err) => {
-    console.error('There was an error in user lookup', err);
-  });
-}
+    .then((foundUser) => {
+      return callback(foundUser);
+    }).catch((err) => {
+      console.error('There was an error in user lookup', err);
+    });
+};
 
 // ==== USERS & TRIPS ====
 
@@ -44,14 +65,14 @@ const findUsersOnTrip = function(tripId, callback) {
       where: { id: tripId }
     }]
   })
-  .then((result) => {
-    return callback(result);
-  })
-  .catch((err) => {
-    console.error('There was an error looking up users on trip', err);
-    return callback(err);
-  });
-}
+    .then((result) => {
+      return callback(result);
+    })
+    .catch((err) => {
+      console.error('There was an error looking up users on trip', err);
+      return callback(err);
+    });
+};
 
 const findTripsForUser = function(userId, callback) {
   db.Trips.findAll({
@@ -60,14 +81,14 @@ const findTripsForUser = function(userId, callback) {
       where: { id: userId }
     }]
   })
-  .then((result) => {
-    return callback(result);
-  })
-  .catch((err) => {
-    console.error('There was an error looking up trips for user', err);
-    callback(err);
-  });
-}
+    .then((result) => {
+      return callback(result);
+    })
+    .catch((err) => {
+      console.error('There was an error looking up trips for user', err);
+      callback(err);
+    });
+};
 
 const findAllOtherTrips = function(userId, callback) {
   db.Trips.findAll({
@@ -76,14 +97,14 @@ const findAllOtherTrips = function(userId, callback) {
       where: { id: {$ne: userId} }
     }]
   })
-  .then((result) => {
-    return callback(result);
-  })
-  .catch((err) => {
-    console.error('There was an error looking up trips for user', err);
-    callback(err);
-  });
-}
+    .then((result) => {
+      return callback(result);
+    })
+    .catch((err) => {
+      console.error('There was an error looking up trips for user', err);
+      callback(err);
+    });
+};
 
 
 // TODO: setUserTripDetails
@@ -96,66 +117,66 @@ const getUserTripDetails = function(userId, tripId, callback) {
     where: {
       TripId: tripId,
       UserId: userId
-     }
+    }
   })
-  .then((result) => {
-    return callback(result);
-  })
-  .catch((err) => {
-    console.error('There was an error looking up user details', err);
-    return callback(err);
-  });
-}
+    .then((result) => {
+      return callback(result);
+    })
+    .catch((err) => {
+      console.error('There was an error looking up user details', err);
+      return callback(err);
+    });
+};
 
 const updateUserTripDetails = function(userId, tripId, itinerary, phone, callback) {
   console.log(userId, tripId);
 
   db.UserTrip.update({
-      flightItinerary: itinerary,
-      phone: phone
-    },
-    {
+    flightItinerary: itinerary,
+    phone: phone
+  },
+  {
     where: {
       TripId: tripId,
       UserId: userId
-     }
+    }
   })
-  .then((result, data) => {
-    console.log('SET USER DETAILS');
-    return callback(result);
-  })
-  .catch((err) => {
-    console.error('There was an error setting user details', err);
-    return callback(err);
-  });
-}
+    .then((result, data) => {
+      console.log('SET USER DETAILS');
+      return callback(result);
+    })
+    .catch((err) => {
+      console.error('There was an error setting user details', err);
+      return callback(err);
+    });
+};
 
 // ==== SESSIONS =====
 
 //this helper function can be used to add foreign keys between users and sessions... not sure if neccessary
 const addSession = function(sessionId, email) {
-  console.log('this is db helper ', sessionId, email)
-}
+  console.log('this is db helper ', sessionId, email);
+};
 
 // ==== TRIPS ====
 
 const createTrip = function(trip, callback) {
-	db.Trips.create(trip)
-  .then((result) => {
-    console.log(result.dataValues)
-    callback(result.dataValues);
-    return db.UserTrip.create({
-      flightItinerary: '',
-      phone: '',
-      UserId: trip.userId,
-      TripId: result.dataValues.id
+  db.Trips.create(trip)
+    .then((result) => {
+      console.log(result.dataValues);
+      callback(result.dataValues);
+      return db.UserTrip.create({
+        flightItinerary: '',
+        phone: '',
+        UserId: trip.userId,
+        TripId: result.dataValues.id
+      });
     })
-  })
-  .catch((err) => {
-		console.error('Trip name already exist please try a new name. ', err);
-    callback(err)
-	});
-}
+    .catch((err) => {
+      console.error('Trip name already exist please try a new name. ', err);
+      callback(err);
+    });
+};
 
 const joinTrip = function(body, callback) {
   db.Trips.findOne({where: {accessCode: body.accessCode}})
@@ -167,35 +188,35 @@ const joinTrip = function(body, callback) {
           UserId: body.userId,
           TripId: trip.id
         })
-        .then(() => {
-          return callback();
-        })
+          .then(() => {
+            return callback();
+          });
       } else {
-        callback('trip did not exist')
+        callback('trip did not exist');
       }
-    })
-}
+    });
+};
 
 // ==== LANDMARKS ====
 
 const addLandmark = function(landmark, callback) {
-	db.Users.findOne({where: {email: landmark.user}})
-	.then ((user) => {
-	  return db.Landmarks.create({
-			url: landmark.url,
-	    description: landmark.description,
-	    address: landmark.address,
-	    tripId: landmark.tripId,
-	    userId: user.id
-	  })
-	})
-	.then(() => {
-		return callback();
-	})
-  .catch((err) => {
-  	console.log('there was an error on landmark create', err);
-  })
-}
+  db.Users.findOne({where: {email: landmark.user}})
+    .then ((user) => {
+      return db.Landmarks.create({
+        url: landmark.url,
+        description: landmark.description,
+        address: landmark.address,
+        tripId: landmark.tripId,
+        userId: user.id
+      });
+    })
+    .then(() => {
+      return callback();
+    })
+    .catch((err) => {
+      console.log('there was an error on landmark create', err);
+    });
+};
 
 const findLandmarks = function(tripId, callback) {
   db.Landmarks.findAll({
@@ -204,23 +225,23 @@ const findLandmarks = function(tripId, callback) {
     attributes: ['url', 'description', 'address', 'id'],
     include: [{model: db.Users, attributes: ['name', 'id']}]
   })
-  .then((landmarks) => {
-    let promise = landmarks.map((landmark) => {
-      return db.Votes.findAll({where: {landmarkId: landmark.id}})
-      .then((votes) => {
-        landmark.dataValues.votes = votes;
-        return landmark;
-      })
+    .then((landmarks) => {
+      let promise = landmarks.map((landmark) => {
+        return db.Votes.findAll({where: {landmarkId: landmark.id}})
+          .then((votes) => {
+            landmark.dataValues.votes = votes;
+            return landmark;
+          });
+      });
+      Promise.all(promise)
+        .then((results) => {
+          return callback(results);
+        });
     })
-    Promise.all(promise)
-    .then((results) => {
-      return callback(results)
-    })
-  })
-  .catch((err) => {
-  	console.log('there was an error finding Landmarks ', err);
-  })
-}
+    .catch((err) => {
+      console.log('there was an error finding Landmarks ', err);
+    });
+};
 
 // ==== EXPENSES ==== 
 
@@ -238,24 +259,26 @@ const getExpensesForTrip = function(targetId) {
   console.log('Database searching for expenses with tripId', targetId);
   return new Promise ((resolve, reject) => {
     return db.Expenses.findAll({ where: { tripId: targetId } })
-    .then((result) => {
-      resolve(result);
-    })
-    .catch((err) => {
-      console.error('There was an error looking up expenses for trip', err);
-      reject(err);
-    });
+      .then((result) => {
+        resolve(result);
+      })
+      .catch((err) => {
+        console.error('There was an error looking up expenses for trip', err);
+        reject(err);
+      });
   });
 };
 
 module.exports = {
+  addMessage: addMessage,
+  findMessages: findMessages,
   addUser: addUser,
-	findUser: findUser,
-	addSession: addSession,
+  findUser: findUser,
+  addSession: addSession,
   findUsersOnTrip: findUsersOnTrip,
-	createTrip: createTrip,
-	addLandmark: addLandmark,
-	findLandmarks: findLandmarks,
+  createTrip: createTrip,
+  addLandmark: addLandmark,
+  findLandmarks: findLandmarks,
   findUserByEmail: findUserByEmail,
   findTripsForUser: findTripsForUser,
   findAllOtherTrips: findAllOtherTrips,

@@ -10,10 +10,10 @@ const TripNavBar = (props) => {
       {props.features.map((feature, index) => {
         return <Button key={index} className="btn" onClick={() => {
           props.dispatch(reducer.changeView(feature.link));
-        }}>{feature.name}</Button>
+        }}>{feature.name}</Button>;
       })}
     </ButtonGroup>
-  )
+  );
 };
 
 export default TripNavBar;

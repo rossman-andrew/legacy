@@ -13,7 +13,7 @@ class ProfileEditor extends React.Component {
     this.state = {
       itinerary: '',
       phone: ''
-    }
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.submitInfoUpdate = this.submitInfoUpdate.bind(this);
@@ -32,14 +32,14 @@ class ProfileEditor extends React.Component {
     let options = {
       url: `${HOSTNAME}/userinfo/${this.props.user.id}/${this.props.trip}/${this.state.itinerary}/${this.state.phone}`,
       method: 'PATCH'
-    }
+    };
 
     $.ajax(options)
-    .then(() => {
-    })
-    .fail((err) => {
-      console.error('update error', err);
-    });
+      .then(() => {
+      })
+      .fail((err) => {
+        console.error('update error', err);
+      });
 
     this.state.itinerary = '';
     this.state.phone = '';
@@ -60,7 +60,7 @@ class ProfileEditor extends React.Component {
           <Button onClick={this.submitInfoUpdate}>Submit</Button>
         </form>
       </div>
-    )
+    );
   }
 }
 

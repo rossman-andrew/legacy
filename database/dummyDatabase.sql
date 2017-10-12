@@ -1,5 +1,13 @@
 USE travelapp;
 
+CREATE TABLE `comments`
+(
+    `status_id` INT NOT NULL AUTO_INCREMENT,
+    `s_text` TEXT,
+    `t_status` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+     PRIMARY KEY ( `status_id` )
+);
+
 INSERT INTO Users (name, email, password, salt, createdAt, updatedAt) VALUES ('Claire', 'deadnotsleeping@gmail.com', 'DeathP', '1234', CURDATE(), CURDATE());
 INSERT INTO Users (name, email, password, salt, createdAt, updatedAt) VALUES ('Leo', 'admin@angularjs.com', 'PestilenceP', '5678', CURDATE(), CURDATE());
 INSERT INTO Users (name, email, password, salt, createdAt, updatedAt) VALUES ('Christine', 'fitemeirl@hotmail.com', 'WarP', '91011', CURDATE(), CURDATE());

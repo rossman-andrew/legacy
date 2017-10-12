@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Tab } from 'semantic-ui-react'
+import { Tab } from 'semantic-ui-react';
 import $ from 'jquery';
 
 import Mapbox from '../mapboxViewer.jsx';
@@ -14,10 +14,11 @@ import TripUserList from './tripUserList.jsx';
 import TripDetails from './tripDetails.jsx';
 import LodgingGallery from './LodgingGallery.jsx';
 import TripGallery from './TripGallery.jsx';
+import TripComments from './tripComments.jsx';
 
 let mapStateToProps = ({ trip }) => {
   return { trip };
-}
+};
 
 class TripDashboard extends React.Component {
   constructor(props) {
@@ -27,7 +28,7 @@ class TripDashboard extends React.Component {
       map: true,
       users: [],
       selectedUserInfo: ''
-    }
+    };
 
     this.toggleMap = this.toggleMap.bind(this);
     this.showUserInfo = this.showUserInfo.bind(this);
@@ -45,7 +46,7 @@ class TripDashboard extends React.Component {
       error: (data) => {
         console.error('FAILED GET - Userlist', data);
       }
-    }
+    };
     $.ajax(options);
   }
 
@@ -68,7 +69,7 @@ class TripDashboard extends React.Component {
       error: (data) => {
         console.log('FAILED GET - User Info', data);
       }
-    }
+    };
 
     $.ajax(options);
   }
@@ -82,54 +83,55 @@ class TripDashboard extends React.Component {
       { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip}/><TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/><ProfileEditor user={this.props.user} trip={this.props.trip.id}/></Tab.Pane> },
       { menuItem: 'Map', render: () => <Tab.Pane><Mapbox className=".map" location={this.props.trip.location} /></Tab.Pane> },
       { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery /></Tab.Pane> },
-      { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} /></Tab.Pane> }
+      { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} /></Tab.Pane> },
+      { menuItem: 'Comments', render: () => <Tab.Pane><TripComments trip={this.props.trip} /></Tab.Pane> }
     ]; 
-    return(
+    return (
       <div>
         <Tab panes={panes} style={{height: '100%'}} />
       </div>
-    )
+    );
   }
 }
 
-      //   <Tab.Container id="tripProfile" defaultActiveKey="summary">
-      //     <Row className="clearfix">
-      //       <Col sm={12}>
-      //         <Nav bsStyle="tabs">
-      //           <NavItem eventKey="summary">
-      //             Trip Summary
-      //           </NavItem>
-      //           <NavItem eventKey="map">
-      //             Trip Map
-      //           </NavItem>
-      //           <NavItem eventKey="lodging">
-      //             Lodging Options
-      //           </NavItem>
-      //           <NavItem eventKey="gallery">
-      //             Trip Gallery
-      //           </NavItem>
-      //         </Nav>
-      //       </Col>
-      //       <Col sm={12}>
-      //         <Tab.Content animation>
-      //           <Tab.Pane eventKey="summary">
-      //             <TripDetails trip={this.props.trip}/>
-      //           </Tab.Pane>
-      //           <Tab.Pane eventKey="map">
-      //             {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
-      //           </Tab.Pane>
-      //           <Tab.Pane eventKey="lodging">
-      //             <LodgingGallery />
-      //           </Tab.Pane>
-      //           <Tab.Pane eventKey="gallery">
-      //             <TripGallery />
-      //           </Tab.Pane>
-      //         </Tab.Content>
-      //       </Col>
-      //     </Row>
-      //   </Tab.Container>
-      // </Col>
-      // </Row>
+//   <Tab.Container id="tripProfile" defaultActiveKey="summary">
+//     <Row className="clearfix">
+//       <Col sm={12}>
+//         <Nav bsStyle="tabs">
+//           <NavItem eventKey="summary">
+//             Trip Summary
+//           </NavItem>
+//           <NavItem eventKey="map">
+//             Trip Map
+//           </NavItem>
+//           <NavItem eventKey="lodging">
+//             Lodging Options
+//           </NavItem>
+//           <NavItem eventKey="gallery">
+//             Trip Gallery
+//           </NavItem>
+//         </Nav>
+//       </Col>
+//       <Col sm={12}>
+//         <Tab.Content animation>
+//           <Tab.Pane eventKey="summary">
+//             <TripDetails trip={this.props.trip}/>
+//           </Tab.Pane>
+//           <Tab.Pane eventKey="map">
+//             {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
+//           </Tab.Pane>
+//           <Tab.Pane eventKey="lodging">
+//             <LodgingGallery />
+//           </Tab.Pane>
+//           <Tab.Pane eventKey="gallery">
+//             <TripGallery />
+//           </Tab.Pane>
+//         </Tab.Content>
+//       </Col>
+//     </Row>
+//   </Tab.Container>
+// </Col>
+// </Row>
 
 //        <TripDetails trip={this.props.trip}/>
 //        {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 

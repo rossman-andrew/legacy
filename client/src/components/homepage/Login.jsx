@@ -1,10 +1,10 @@
 import React from 'react';
-import { Button, Form, Icon, Message } from 'semantic-ui-react'
+import { Button, Form, Icon, Message } from 'semantic-ui-react';
 
 
 const Login = (props) => (
 
-	 <div>
+  <div>
     <Message
       attached
       header='Login'
@@ -16,6 +16,6 @@ const Login = (props) => (
     </Form>
 
   </div>
-)
+);
 
 export default Login;
