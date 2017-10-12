@@ -277,6 +277,28 @@ app.get('/location/lodging/:location', (req, res) => {
   });
 });
 
+app.get('/lodge/pics/:id', (req, res) => {
+  var id = req.params.id.slice(1);
+  console.log('this is the id', id);
+  let options = {
+    url: `https://api.yelp.com/v3/businesses/${id}`,
+    auth: {
+      'bearer': 'VIbYemNYt5Ovsg5HgnB9eWuQznMb9Om1CbYboaZLE3jsq8xRYcTHrlO30DRFXXtZtiVAmL6WPN3MV98WXAft5l4sXydQfrtIJeYidoKI9IFTXmNFJbasKIX881vdWXYx'
+    },
+  }
+  request.get(options, (error, response, body) => {
+    if (error) {
+      console.log('there was an error getting lodge details', error);
+      res.end();
+    } else {
+      var data = body;
+      console.log(data)
+      res.end(data);
+    }
+  });
+});
+
+
 
 //____________________________
 

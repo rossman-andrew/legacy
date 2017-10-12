@@ -89,8 +89,7 @@ class TripPopup extends React.Component {
 
   render() {
     return (
-      <Row className="popup">
-        <Col md={4} mdOffset={4} className="popup_inner">
+      <div className="popup">
           <h3>Create a new trip:</h3>
           <form className="popupform" >
             <div className="form-entry">
@@ -102,7 +101,6 @@ class TripPopup extends React.Component {
               <label>Trip Location:</label>
               <input className="popupfield location" type="text" name="location" placeholder="add Location..."/>
               <button onClick={ this.handleLocationSubmit }>submit</button>
-              {this.showLodges()}
             </div>
 
             <div className="form-entry">
@@ -123,8 +121,9 @@ class TripPopup extends React.Component {
 
             <Button className="popupbutton" type="submit" value="create trip" onClick={ this.handleSubmit }>Submit</Button>
           </form>
-        </Col>
-      </Row>
+          <br/>
+          {this.showLodges()}
+      </div>
     );
   }
 }
