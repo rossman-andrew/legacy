@@ -83,6 +83,7 @@ class TripDashboard extends React.Component {
       { menuItem: 'Map', render: () => <Tab.Pane><Mapbox className=".map" location={this.props.trip.location} /></Tab.Pane> },
       { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery /></Tab.Pane> },
       { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} /></Tab.Pane> }
+      { menuItem: 'Comments', render: () => <Tab.Pane><Comments trip={this.props.trip} /></Tab.Pane> }
     ]; 
     return(
       <div>

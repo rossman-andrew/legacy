@@ -10,7 +10,6 @@
     "test-client": "NODE_ENV=development mocha --bail --reporter nyan spec/client-spec.js;",
     "react-dev": "NODE_ENV=development webpack --progress --watch",
     "server-dev": "NODE_ENV=development nodemon  --require dotenv/config --inspect server/index.js",
-    "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash"
   },
   "repository": {
     "type": "git",
