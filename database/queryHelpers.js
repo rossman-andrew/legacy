@@ -71,10 +71,10 @@ const findTripsForUser = function(userId, callback) {
 
 const findAllOtherTrips = function(userId, callback) {
   db.Trips.findAll({
-    // include: [{
-    //   model: db.Users,
-    //   where: { id: {$ne: userId} }
-    // }]
+    include: [{
+      model: db.Users,
+      where: { id: {$ne: userId} }
+    }]
   })
   .then((result) => {
     return callback(result);

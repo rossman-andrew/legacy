@@ -6,6 +6,7 @@ import { ButtonGroup } from 'react-bootstrap';
 const TripNavBar = (props) => {
   return (
     <ButtonGroup className="tripnav">
+      <Button className="btn" onClick={props.logout}>Logout</Button>
       {props.features.map((feature, index) => {
         return <Button key={index} className="btn" onClick={() => {
           props.dispatch(reducer.changeView(feature.link));

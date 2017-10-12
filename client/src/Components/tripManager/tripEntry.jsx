@@ -16,7 +16,7 @@ const TripEntry = (props) => {
   let endMonth = endNewDate.getMonth() + 1;
   let endDay = endNewDate.getDate();
   let endDateFormat =  endMonth + '/' + endDay + '/' + endYear
-  
+  console.log(props.trip);
 	return (
 	  <Grid.Column mobile={12} tablet={6} computer={4}> 
       <Card>
@@ -39,8 +39,11 @@ const TripEntry = (props) => {
         <Card.Content extra>
           <a>
             <Icon name='user' />
-            8 People Going
+            {props.trip.Users[0].name}
+           
           </a>
+
+          <Icon onClick={() => props.joinTrip(props.trip.accessCode)}style={{float: 'right'}} name='plus' />
         </Card.Content>
      </Card>
 	 </Grid.Column>
@@ -48,3 +51,4 @@ const TripEntry = (props) => {
 }
 
 export default TripEntry;
+// {props.trip.Users.length} {props.trip.Users.length === 1 ? 'Person' : 'People'} Going

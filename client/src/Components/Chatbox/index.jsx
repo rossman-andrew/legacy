@@ -24,7 +24,10 @@ class Chatbox extends Component {
     console.log('this.props', this.props);
     if(this.props.toggled){
       return (
-        <button className="ui secondary button" onClick={() => {this.handleToggle(false)} }> Chat Box! </button>
+        <div className="ui card">
+
+          <button className="ui secondary button" onClick={() => {this.handleToggle(false)} }> Chat Box! </button>
+        </div>
       )
     } else {
       return(

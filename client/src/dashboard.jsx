@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { Row, Col, Button } from 'semantic-ui-react';
-
-import { Menu } from 'semantic-ui-react';
+import { Row, Col, Button, Menu } from 'semantic-ui-react';
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -22,6 +20,9 @@ import ExpenseTracker from './components/expenseTracker/expenseTracker.jsx';
 import Landmarks from './components/landmarks/landmarks.jsx';
 import navData from './components/tripDashboard/dummyData.js';
 import TripNavBar from './components/tripDashboard/tripNavBar.jsx';
+
+
+
 import Chatbox from './components/Chatbox/index.jsx';
 
 const SERVER_URL = HOSTNAME;
@@ -36,6 +37,7 @@ class Dashboard extends React.Component {
 			otherTrips: []
 		};
 		this.fetchLists = this.fetchLists.bind(this);
+		this.handleLogout = this.handleLogout.bind(this);
 	}
 	componentWillMount () {
 		//Get login user
@@ -90,6 +92,8 @@ class Dashboard extends React.Component {
 			return <ExpenseTracker />;
 		} else if (store.getState().view === 'Landmarks') {
 			return <Landmarks />;
+		} else if (store.getState().view === 'Profile') {
+			return <Profile />;
 		} else {
 			return <TripDashboard user={store.getState().user}/>;
 		}
@@ -97,7 +101,7 @@ class Dashboard extends React.Component {
 
 	showNavBar() {
 		if (store.getState().view !== 'TripManager') {
-			return <TripNavBar features={navData.features} dispatch={store.dispatch} />
+			return <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />
 		}
 	}
 
@@ -105,8 +109,8 @@ class Dashboard extends React.Component {
 		return(
 			<div>
 				<h3>Hello {store.getState().user.name}, welcome back</h3>
-				<Button onClick={this.handleLogout}>Logout</Button>
 				{this.showNavBar()}
+				<br />
 				{this.getViewComponent()}
 				<Chatbox/>
 			</div>

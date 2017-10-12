@@ -1,7 +1,7 @@
 const APP_VIEWS = require('../appViewsList').APP_VIEWS;
 import { combineReducers } from 'redux';
 
-import ChatboxToggleReducer from './ChatboxToggle.js';
+
 /*
 SYMBOLS - How a user might alter state
 */
