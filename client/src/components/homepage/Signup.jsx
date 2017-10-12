@@ -1,33 +1,22 @@
 import React from 'react';
-import { Button } from 'react-bootstrap';
-import { Row } from 'react-bootstrap';
-import { Col } from 'react-bootstrap';
+import { Button, Form, Icon, Message } from 'semantic-ui-react'
 
 const Signup = (props) => (
-	<Col md={4} mdOffset={4} className="credentials-box">
-		<h3>Sign up here:</h3>
-		<form action="/signup" method="post">
+  <div>
+    <Message
+      attached
+      header='Welcome to our site!'
+      content='Fill out the form below to sign-up for a new account'
+    />
+    <Form className='attached fluid segment' action="/signup" method="post">
+      <Form.Input label='Name' name="name" placeholder='First Name' type='text' />
+      <Form.Input label='E-Mail' name="email" placeholder='email' type='text' />
+      <Form.Input label='Password' name="password" type='password' />
+      <Form.Checkbox inline label='I agree to the terms and conditions' />
+      <Button color='blue' value="Submit">Submit</Button>
+    </Form>
 
-			<div className="form-entry">
-				<label>Name: </label>
-				<input className="field" type="text" name="name"/>
-			</div>
-
-			<div className="form-entry">
-				<label>E-Mail: </label>
-				<input  className="field" type="text" name="email"/>
-			</div>
-
-			<div className="form-entry">
-				<label>Password: </label>
-				<input  className="field" type="password" name="password"/>
-			</div>
-
-			<div className="form-entry">
-				<Button type="submit" value="Submit">Submit</Button>
-			</div>
-		</form>
-	</Col>
+  </div>
 )
 
 export default Signup;

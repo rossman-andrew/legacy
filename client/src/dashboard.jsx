@@ -2,9 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { Row, Col, Button } from 'semantic-ui-react';
-
-import { Menu } from 'semantic-ui-react';
+import { Row, Col, Button, Menu } from 'semantic-ui-react';
 
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
@@ -109,6 +107,7 @@ class Dashboard extends React.Component {
 			<div>
 				<h3>Hello {store.getState().user.name}, welcome back</h3>
 				{this.showNavBar()}
+				<br />
 				{this.getViewComponent()}
 			</div>
 		)

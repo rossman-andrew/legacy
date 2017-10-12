@@ -8,7 +8,7 @@
     "test-server": "NODE_ENV=development mocha --bail --reporter nyan spec/server-spec.js;",
     "test-database": "NODE_ENV=development mocha --bail --reporter nyan spec/database-spec.js;",
     "test-client": "NODE_ENV=development mocha --bail --reporter nyan spec/client-spec.js;",
-    "react-dev": "NODE_ENV=development webpack -d --watch",
+    "react-dev": "NODE_ENV=development webpack --progress --watch",
     "server-dev": "NODE_ENV=development nodemon  --require dotenv/config --inspect server/index.js",
     "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash"
   },
