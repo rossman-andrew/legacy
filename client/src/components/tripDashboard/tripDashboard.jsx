@@ -94,48 +94,8 @@ class TripDashboard extends React.Component {
   }
 }
 
-//   <Tab.Container id="tripProfile" defaultActiveKey="summary">
-//     <Row className="clearfix">
-//       <Col sm={12}>
-//         <Nav bsStyle="tabs">
-//           <NavItem eventKey="summary">
-//             Trip Summary
-//           </NavItem>
-//           <NavItem eventKey="map">
-//             Trip Map
-//           </NavItem>
-//           <NavItem eventKey="lodging">
-//             Lodging Options
-//           </NavItem>
-//           <NavItem eventKey="gallery">
-//             Trip Gallery
-//           </NavItem>
-//         </Nav>
-//       </Col>
-//       <Col sm={12}>
-//         <Tab.Content animation>
-//           <Tab.Pane eventKey="summary">
-//             <TripDetails trip={this.props.trip}/>
-//           </Tab.Pane>
-//           <Tab.Pane eventKey="map">
-//             {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
-//           </Tab.Pane>
-//           <Tab.Pane eventKey="lodging">
-//             <LodgingGallery />
-//           </Tab.Pane>
-//           <Tab.Pane eventKey="gallery">
-//             <TripGallery />
-//           </Tab.Pane>
-//         </Tab.Content>
-//       </Col>
-//     </Row>
-//   </Tab.Container>
-// </Col>
-// </Row>
-
 //        <TripDetails trip={this.props.trip}/>
 //        {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
-
 //        {/*<Button className="button" onClick={this.toggleMap}>Toggle center panel (not currently used)</Button>*/}
 //        <LodgingGallery />
 //        <TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/>
