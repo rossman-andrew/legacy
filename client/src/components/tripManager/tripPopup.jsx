@@ -123,6 +123,7 @@ class TripPopup extends React.Component {
           </form>
           <br/>
           {this.showLodges()}
+          
       </div>
     );
   }
