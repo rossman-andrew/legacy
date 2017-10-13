@@ -124,17 +124,16 @@ class Dashboard extends React.Component {
     );
   }
 
-  showSpace() {
-    if (store.getState().view !== 'TripManager') {
-      return <div><br /> <br /></div>;
-    }
-  }
+  // showSpace() {
+  //   if (store.getState().view !== 'TripManager') {
+  //     return <div><br /> <br /></div>;
+  //   }
+  // }
 
   render() {
     return (
       <div>
         {this.showNavBar()}
-        {this.showSpace()}
         {this.getViewComponent()}
         <Chatbox/>
       </div>

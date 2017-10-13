@@ -7,8 +7,14 @@ class TripGallery extends React.Component {
     super(props);
     this.state = {
       tripPics: this.props.tripPics,
-      featuredImage: this.props.tripPics[0]
+      featuredImage: ''
     };
+  }
+
+  componentDidMount() {
+    this.setState({
+      featuredImage: this.props.tripPics[0]
+    });
   }
 
   updateFeatImg(e) {
