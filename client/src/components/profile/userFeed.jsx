@@ -12,7 +12,6 @@ class UserFeed extends React.Component {
 
   componentDidMount() {
     socket.on('notification', (msg) => {
-      console.log(msg);
       this.setState({
         notifications: this.state.notifications.concat(msg)
       });
@@ -46,7 +45,7 @@ class UserFeed extends React.Component {
       <Feed>
         <Header as='h3' dividing>News Feed</Header>
         {this.state.notifications.map(notification => {
-          this.renderFeed(notification);
+          return this.renderFeed(notification);
         })}
       </Feed>
     );
