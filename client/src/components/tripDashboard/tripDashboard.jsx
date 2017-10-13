@@ -27,6 +27,7 @@ class TripDashboard extends React.Component {
     this.state = {
       map: true,
       tripPics: [],
+      lodgingPics: [],
       users: [],
       selectedUserInfo: ''
     };
@@ -76,28 +77,42 @@ class TripDashboard extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Trip dashboard mounting');
     this.getUsers();
     // Get pictures for trip gallery
     $.ajax({
-      url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyBEkRzfpS6T7dZcLaYA9lQdzMJNDSrgOgg&cx=012965794133406592343:m7o6dpksdcc&q=${'image of ' + this.props.trip.location}&searchType=image`, 
+      url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyBEkRzfpS6T7dZcLaYA9lQdzMJNDSrgOgg&cx=012965794133406592343:as9mecf3btc&q=${'image of ' + this.props.trip.location}&searchType=image`, 
       success: (data) => { 
-        console.log(data);
+        console.log('Trip pics data', data);
         for (let i = 0; i < 4; i++) {
           this.state.tripPics.push(data.items[i].link);
         } 
       },
       error: (err) => { 
-        console.log('error'); 
+        console.log(err); 
       }  
     });
+    
+    //Get pictures for lodging gallery
+    $.ajax({
+      url: `/lodge/pics/:${this.props.trip.lodging}`,
+      method: 'GET',
+      success: (body) => {
+        var data = JSON.parse(body);
+        this.setState({
+          lodgingPics: data.photos
+        });
+      },
+      error: (err) => {
+        console.log(err);
+      }
+    })
   }
 
   render() {
     const panes = [
       { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip}/><TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/><ProfileEditor user={this.props.user} trip={this.props.trip.id}/></Tab.Pane> },
       { menuItem: 'Map', render: () => <Tab.Pane><Mapbox className=".map" location={this.props.trip.location} /></Tab.Pane> },
-      { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery lodgePics={ this.props.lodgePics } /></Tab.Pane> },
+      { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery lodgingPics={this.state.lodgingPics} /></Tab.Pane> },
       { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} tripPics={this.state.tripPics} /></Tab.Pane> },
       { menuItem: 'Comments', render: () => <Tab.Pane><TripComments trip={this.props.trip} /></Tab.Pane> }
     ]; 
