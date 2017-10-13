@@ -16,7 +16,6 @@ const TripEntry = (props) => {
   let endMonth = endNewDate.getMonth() + 1;
   let endDay = endNewDate.getDate();
   let endDateFormat = endMonth + '/' + endDay + '/' + endYear;
-  console.log(props.trip);
 
   return (
     <Grid.Column mobile={12} tablet={6} computer={4}>

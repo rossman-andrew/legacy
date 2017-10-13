@@ -65,22 +65,29 @@ app.use(express.static(__dirname + '/../client/dist'));
 //io sockets
 
 io.on('connection', (socket) => {
-  console.log('a user connected');
+  console.log('a user connected', socket.id);
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
   socket.on('chat message', (msg) => {
+    io.emit('chat message', msg);
     query.addMessage(msg, () => {
       console.log('successfully inserted');
     });
   });
-});
-
-io.on('connection', (socket) => {
-  socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+  socket.on('notification', (msg) => {
+    console.log('inside notification!');
+    io.emit('notification', msg);
   });
 });
+
+// io.on('connection', (socket) => {
+//   socket.on('chat message', (msg) => {
+//     io.emit('chat message', msg);
+//   });
+// });
+
+
 
 //Routes
 
@@ -264,14 +271,14 @@ app.get('/location/lodging/:location', (req, res) => {
     auth: {
       'bearer': 'VIbYemNYt5Ovsg5HgnB9eWuQznMb9Om1CbYboaZLE3jsq8xRYcTHrlO30DRFXXtZtiVAmL6WPN3MV98WXAft5l4sXydQfrtIJeYidoKI9IFTXmNFJbasKIX881vdWXYx'
     },
-  }
+  };
   request.get(options, (error, response, body) => {
     if (error) {
       console.log('there was an error getting location lodging', error);
       res.end();
     } else {
       var data = body;
-      console.log(data)
+      console.log(data);
       res.end(data);
     }
   });
@@ -285,14 +292,14 @@ app.get('/lodge/pics/:id', (req, res) => {
     auth: {
       'bearer': 'VIbYemNYt5Ovsg5HgnB9eWuQznMb9Om1CbYboaZLE3jsq8xRYcTHrlO30DRFXXtZtiVAmL6WPN3MV98WXAft5l4sXydQfrtIJeYidoKI9IFTXmNFJbasKIX881vdWXYx'
     },
-  }
+  };
   request.get(options, (error, response, body) => {
     if (error) {
       console.log('there was an error getting lodge details', error);
       res.end();
     } else {
       var data = body;
-      console.log(data)
+      console.log(data);
       res.end(data);
     }
   });
