@@ -2,10 +2,8 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Comment, Header, Form, Button, Input } from 'semantic-ui-react';
 import { connect } from 'react-redux';
-import io from 'socket.io-client';
+import socket from '../../socket/socket.js';
 import $ from 'jquery';
-
-const socket = io();
 
 const mapStateToProps = ({ user, trip }) => {
   return { user, trip };
@@ -59,6 +57,11 @@ class TripComments extends React.Component {
       message: this.state.message, 
       date: new Date().toLocaleString(), 
       TripId: this.props.trip.id
+    });
+    socket.emit('notification', {
+      name: this.props.user.name,
+      message: `posted ${this.state.message} in ${this.props.trip.name}`,
+      date: new Date().toLocaleString()
     });
     this.setState({ message: '' });
   }
