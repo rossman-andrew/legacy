@@ -124,11 +124,9 @@ class Dashboard extends React.Component {
     );
   }
 
-  showWelcome() {
-    if (store.getState().view === 'TripManager') {
-      return <div><br /><h3>Hello {store.getState().user.name}, welcome back</h3></div>;
-    }	else {
-      return <div><br /> <br /> <br /></div>;
+  showSpace() {
+    if (store.getState().view !== 'TripManager') {
+      return <div><br /> <br /></div>;
     }
   }
 
@@ -136,6 +134,7 @@ class Dashboard extends React.Component {
     return (
       <div>
         {this.showNavBar()}
+        {this.showSpace()}
         {this.getViewComponent()}
         <Chatbox/>
       </div>
@@ -150,5 +149,11 @@ ReactDOM.render(
   , document.getElementById('app'));
 
 /*
-        {this.showWelcome()}
+          showWelcome() {
+    if (store.getState().view === 'TripManager') {
+      return <div><br /><h3>Hello {store.getState().user.name}, welcome back</h3></div>;
+    } else {
+      return <div><br /> <br /> <br /></div>;
+    }
+  }
         */
