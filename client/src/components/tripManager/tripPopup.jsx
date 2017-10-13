@@ -8,6 +8,7 @@ import TripDashboard from '../tripDashboard/tripDashboard.jsx';
 import { Card, Grid, Button, Input } from 'semantic-ui-react';
 import LodgeList from './LodgeList.jsx';
 import LodgePicList from './LodgePicList.jsx';
+import socket from '../../socket/socket.js';
 
 const SERVER_URL = HOSTNAME;
 
@@ -54,13 +55,13 @@ class TripPopup extends React.Component {
       method: 'POST',
       data: option,
       success: (body) => {
-        this.props.fetchLists();
-        this.createTripDashboard(body);
         socket.emit('notification', {
           name: this.props.user.name,
           message: `has created the trip ${option.name}.`,
           date: new Date().toLocaleString()
         });
+        this.props.fetchLists();
+        this.createTripDashboard(body);
         console.log('POST was a success ');
       },
       error: (err) => {

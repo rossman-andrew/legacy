@@ -44,7 +44,7 @@ class UserFeed extends React.Component {
     return (
       <Feed>
         <Header as='h3' dividing>News Feed</Header>
-        {this.state.notifications.map(notification => {
+        {this.state.notifications.slice().reverse().map(notification => {
           return this.renderFeed(notification);
         })}
       </Feed>
