@@ -3,6 +3,7 @@ import Popup from 'react-popup';
 import TripPopup from './tripPopup.jsx';
 import TripEntry from './tripEntry.jsx';
 import reducer from '../../Reducers';
+import socket from '../../socket/socket.js';
 
 import { connect } from 'react-redux';
 import $ from 'jquery';

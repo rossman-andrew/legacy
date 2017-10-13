@@ -21,9 +21,7 @@ import Landmarks from './components/landmarks/landmarks.jsx';
 import navData from './components/tripDashboard/dummyData.js';
 import TripNavBar from './components/tripDashboard/tripNavBar.jsx';
 import Profile from './components/profile/profile.jsx';
-
-
-
+import socket from './socket/socket.js';
 import Chatbox from './components/Chatbox/index.jsx';
 
 const SERVER_URL = HOSTNAME;
@@ -42,14 +40,26 @@ class Dashboard extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.lodgePics = this.lodgePics.bind(this);
   }
+
   componentWillMount () {
     //Get login user
     $.get(SERVER_URL + '/loginuser').then((data) => {
       store.dispatch(reducer.changeUser(data[0]));
       this.fetchLists();
+      socket.emit('notification', {
+        name: data[0].name,
+        message: 'has logged on.',
+        date: new Date().toLocaleString()
+      });
     }).catch((err) => {
       console.error('Error getting login user', err);
     });
+  }
+
+  componentDidMount () {
+    //Get login user
+    console.log(store.getState().user.name);
+
   }
 
   fetchLists() {
