@@ -9,16 +9,16 @@ class LodgeList extends React.Component {
   }
 
   render() {
-  	return (
-  	  <Grid computer={4} >
-  	  	{
-  	  	  this.props.data.map((lodge, i) => {
-  	  	  	return <LodgeItem data={ lodge } showPics={ this.props.showPics } key={i} handleLodgeChoice={ this.props.handleLodgeChoice } lodgePics={ this.props.lodgePics }/>;
-  	  	  })
-  	  	}
-  	  </Grid>
-  	)
+    return (
+      <Grid computer={4} >
+        {
+          this.props.data.map((lodge, i) => {
+            return <LodgeItem data={ lodge } showPics={ this.props.showPics } key={i} handleLodgeChoice={ this.props.handleLodgeChoice } lodgePics={ this.props.lodgePics }/>;
+          })
+        }
+      </Grid>
+    );
   }
-};
+}
 
 export default LodgeList;

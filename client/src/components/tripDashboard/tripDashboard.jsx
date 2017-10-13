@@ -105,7 +105,7 @@ class TripDashboard extends React.Component {
       error: (err) => {
         console.log(err);
       }
-    })
+    });
   }
 
   render() {
