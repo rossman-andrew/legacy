@@ -1,6 +1,6 @@
 import _ from 'lodash';
 import React from 'react';
-import { Card, Icon, Grid, Image } from 'semantic-ui-react';
+import { Card, Icon, Grid, Image, Button } from 'semantic-ui-react';
 import LodgePicList from './LodgePicList.jsx';
 import $ from 'jquery';
 
@@ -44,7 +44,7 @@ class LodgeItem extends React.Component {
                 { `Rating: ${this.props.data.rating} stars` }
               </Card.Description>
             </Card.Content>
-            <button onClick={ () => { this.handleLodgeButton(); } }>Make trip Lodge!</button>
+            <Button attached='bottom' onClick={ () => { this.handleLodgeButton(); } }>Make trip Lodge!</Button>
           </Card>
         </Grid.Column>
       </div>

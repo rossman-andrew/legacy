@@ -76,7 +76,6 @@ class Dashboard extends React.Component {
       <div>
         <div className="header-div">
           <img className="header-image" src="http://blog.routeperfect.com/wp-content/uploads/2016/06/shutterstock_419504191.jpg" alt="" />
-
           <h2 className="header-word">Dare to explore.  <br /> Find new friends.</h2>
         </div>
         <div className="main-content">
