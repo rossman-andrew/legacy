@@ -30,6 +30,10 @@ if (process.env.DB_PORT) {
 const db = new Sequelize(process.env.DB_NAME, process.env.DB_USER, process.env.DB_PASS, dbOptions);
 
 //---------SCHEMA DEFINITIONS--------------------
+const GuideReplies = db.define('GuideReplies', {
+  question: {type: Sequelize.STRING, unique: true},
+  reply: Sequelize.STRING
+});
 
 const Messages = db.define('Messages', {
   name: Sequelize.STRING,
@@ -100,6 +104,7 @@ Votes.sync();
 Landmarks.sync();
 Expenses.sync();
 Sessions.sync();
+GuideReplies.sync();
 
 //--------------------FOREIGN KEY SETTINGS -----------------
 
@@ -110,7 +115,7 @@ Users.hasMany(Votes, {foreignkey: 'userId'});
 Votes.belongsTo(Users, {foreignkey: 'userId'});
 
 Landmarks.hasMany(Votes, {foreignkey: 'landmarkId'});
-Votes.belongsTo(Landmarks, {foreignkey: 'landmarkId'}); 
+Votes.belongsTo(Landmarks, {foreignkey: 'landmarkId'});
 
 Users.hasMany(Landmarks, {foreignkey: 'userId'});
 Landmarks.belongsTo(Users, {foreignkey: 'userId'});
@@ -138,5 +143,10 @@ module.exports = {
   Landmarks: Landmarks,
   Expenses: Expenses,
   Sessions: Sessions,
+<<<<<<< HEAD
   Messages: Messages
 };
+=======
+  GuideReplies: GuideReplies
+}
+>>>>>>> sends replies now

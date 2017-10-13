@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {bindActionCreators} from 'redux';
 import reducer from '../../Reducers';
-
+import axios from 'axios';
 
 class Chatbox extends Component {
 
@@ -10,11 +10,13 @@ class Chatbox extends Component {
     super(props)
     this.handleToggle = this.handleToggle.bind(this);
     this.state = {
-      messages: [['Where do you want to go?', 'Jack'], ['Venice', 'Barko']],
-      term: ''
+      messages: [['Hi!', 'Jack']],
+      term: '',
+      replyNumber: 1
     }
     this.onInputChange = this.onInputChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
+    this.getReply = this.getReply.bind(this)
   }
 
   onInputChange(event){
@@ -30,16 +32,38 @@ class Chatbox extends Component {
       return {messages: prevState.messages.concat([[prevState.term, 'props.user']])};
     })
     this.setState({term:''});
+    this.getReply();
 
   }
 
-  handleSend() {
-
+  getReply() {
+    axios({
+      method: 'post',
+      url: '/getGuideReplies',
+      data: {
+        replyNumber: this.state.replyNumber
+      }
+    })
+    .then((reply) => {
+      console.log(reply);
+      this.setState((prevState, props) => {
+        return {replyNumber: prevState.replyNumber + 1};
+      })
+      setTimeout(
+        () => {this.setState((prevState, props) => {
+          return {messages: prevState.messages.concat([[reply.data[0].question, 'Jack']])}
+        })}, 2000
+      )
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
   }
 
   handleToggle(toggled) {
     console.log('handle toggle', toggled);
     this.props.dispatch(reducer.toggleChatbox(toggled));
+    this.getReply();
   }
 
 
@@ -67,10 +91,10 @@ class Chatbox extends Component {
           <form onSubmit={this.onFormSubmit}>
             <div className="ui action input focus" >
               <input type="text" placeholder="Chat.." onChange = {this.onInputChange}></input>
-              <button class="ui button" type="submit">Send</button>
+              <button className="ui button" type="submit">Send</button>
             </div>
-            <button className="ui secondary button" onClick={() => {this.handleToggle(false)} }> Chat Box! </button>
           </form>
+          <button className="ui secondary button" onClick={() => {this.handleToggle(false)} }> Chat Box! </button>
         </div>
       )
     } else {
