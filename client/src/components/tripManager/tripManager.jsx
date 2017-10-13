@@ -52,13 +52,17 @@ class Dashboard extends React.Component {
       accessCode: code || this.state.joinTrip,
       userId: this.props.user.id
     };
-    console.log('obj', obj);
     $.ajax({
       url: SERVER_URL + '/jointrip',
       method: 'POST',
       data: obj,
       success: (body) => {
         this.props.fetchLists();
+        socket.emit('notification', {
+          name: this.props.user.name,
+          message: `has joined the trip ${code || this.state.joinTrip}.`,
+          date: new Date().toLocaleString()
+        });
       },
       error: function(err) {
         console.error(err);
@@ -69,8 +73,6 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div>
-        
-
         <div className="header-div">
           <img className="header-image" src="http://blog.routeperfect.com/wp-content/uploads/2016/06/shutterstock_419504191.jpg" alt="" />
 
@@ -107,9 +109,7 @@ class Dashboard extends React.Component {
           {(this.props.trips.map((ele) => {
             return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
           }))}
-        </Grid>
-
-        
+        </Grid> 
       </div>
     );
   }
