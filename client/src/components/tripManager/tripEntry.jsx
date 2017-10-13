@@ -18,7 +18,7 @@ const TripEntry = (props) => {
   let endDateFormat = endMonth + '/' + endDay + '/' + endYear;
 
   return (
-    <Grid.Column mobile={12} tablet={6} computer={3}>
+    <Grid.Column mobile={12} tablet={6} computer={4}>
       <Card>
         <Image src='https://www.interrail.eu/sites/interrail.eu/files/styles/asset_image_responsive_common_list_block_380/public/assets/images/2013/11/santorini_greece.jpg' />
         <Card.Content>
