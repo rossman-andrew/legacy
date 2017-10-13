@@ -101,7 +101,7 @@ class Dashboard extends React.Component {
     } else if (store.getState().view === 'Profile') {
       return <Profile />;
     } else {
-      return <TripDashboard user={store.getState().user} lodgePics={ this.state.lodgePics }/>;
+      return <TripDashboard user={store.getState().user} lodgePics={ this.state.lodgePics } />;
     }
   }
 

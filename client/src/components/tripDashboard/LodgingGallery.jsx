@@ -5,14 +5,9 @@ class LodgingGallery extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      featuredImage: ''
+      lodgingPics: this.props.lodgingPics,
+      featuredImage: this.props.lodgingPics[0]
     };
-  }
-
-  componentDidMount() {
-    this.setState({
-      featuredImage: 'http://cdni.condenast.co.uk/646x430/o_r/Orpheus_cnt_24sep10_pr_b.jpg'
-    });
   }
 
   updateFeatImg(e) {
@@ -26,17 +21,19 @@ class LodgingGallery extends React.Component {
       <div> 
         <h4>Lodging Options</h4>
         <hr/>
-        <Grid.Column computer={4} tablet={6} mobile={12}>
+        <Grid.Column computer={3} tablet={6} mobile={12}>
           <div className='featImgContainer'>
-            <Image src={this.state.featuredImage} size={'massive'} centered={true} />
+            <Image src={this.state.featuredImage} size={'massive'} centered={true} shape={'rounded'} bordered={true} />
           </div>
           <hr/>
           <Image.Group size='medium'>
-            <Image src='http://cdni.condenast.co.uk/646x430/o_r/Orpheus_cnt_24sep10_pr_b.jpg' onClick={(e) => this.updateFeatImg(e)} />
-            <Image src='https://s-ec.bstatic.com/images/hotel/max1024x768/899/89969890.jpg' onClick={(e) => this.updateFeatImg(e)} />
-            <Image src='https://santorinidave.com/files/2014/03/best-santorini-villas-grace-private-pool-villa-santorini-imerovigli.jpg' onClick={(e) => this.updateFeatImg(e)} />
-            <Image src='https://santorinidave.com/files/2014/03/best-santorini-villas-anemi-house-oia.jpg' onClick={(e) => this.updateFeatImg(e)} />
+            {
+              this.state.lodgingPics.map((imgLink, index) => {
+                return <Image src={imgLink} key={index} onClick={(e) => this.updateFeatImg(e)} size={'medium'} shape={'rounded'} bordered={true} />;
+              })
+            }
           </Image.Group>
+          
         </Grid.Column>
       </div>
     );
