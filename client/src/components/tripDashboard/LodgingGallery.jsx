@@ -6,10 +6,15 @@ class LodgingGallery extends React.Component {
     super(props);
     this.state = {
       lodgingPics: this.props.lodgingPics,
-      featuredImage: this.props.lodgingPics[0]
+      featuredImage: ''
     };
   }
 
+  componentDidMount() {
+    this.setState({
+      featuredImage: this.props.lodgingPics[0] 
+    });
+  }
   updateFeatImg(e) {
     this.setState({
       featuredImage: e.target.src
