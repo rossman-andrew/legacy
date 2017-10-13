@@ -9,6 +9,14 @@ const SequelizeStore = require('connect-session-sequelize')(session.Store);
 const passport = require('passport');
 const Strategy = require('passport-local').Strategy;
 const request = require('request');
+const redis = require('redis');
+
+const client = redis.createClient();
+
+//redis store
+client.on('error', (err) => {
+  console.log('Error ' + err);
+});
 
 //sockets
 const http = require('http').Server(app);
@@ -35,7 +43,7 @@ app.use(passport.session());
 passport.use('local-signin', new Strategy({
   usernameField: 'email'
 },
-function(email, password, done) {
+(email, password, done) => {
   db.Users.findOne({ where: {email: email} })
     .then( (user) => {
       if (!user) { return done(null, false); }
@@ -77,9 +85,17 @@ io.on('connection', (socket) => {
   });
   socket.on('notification', (msg) => {
     console.log('inside notification!', msg);
+    client.set('notification', msg);
     io.emit('notification', msg);
   });
 });
+
+app.get('/notifications', (req, res) => {
+  client.get('notification', (err, replies) => {
+    res.status(200).send(replies);
+  });
+});
+
 
 
 //Routes
