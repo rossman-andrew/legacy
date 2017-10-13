@@ -10,7 +10,7 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    	userSignup: '',
+      userSignup: '',
       userLogin: ''
     };
   }
@@ -18,8 +18,8 @@ class App extends React.Component {
   render() {
     return (
       <div className="loginbox">
-          <Signup />
-          <Login />
+        <Signup />
+        <Login />
       </div>
     );
   }
@@ -28,12 +28,3 @@ class App extends React.Component {
 ReactDOM.render(<App />, document.getElementById('app'));
 
 export default App;
-
-/*
-        <ul className="navbar">
-          <li id="title">The Travel App</li>
-          <li className="link">Home</li>
-          <li className="link">News</li>
-          <li className="link">Contact</li>
-        </ul>
-    */

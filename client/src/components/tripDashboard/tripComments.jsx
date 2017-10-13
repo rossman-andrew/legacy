@@ -51,7 +51,6 @@ class TripComments extends React.Component {
   
   onSubmitClick() {
     event.preventDefault();
-    console.log('this is message', this.state.message);
     socket.emit('chat message', {
       name: this.props.user.name, 
       message: this.state.message, 
@@ -60,14 +59,13 @@ class TripComments extends React.Component {
     });
     socket.emit('notification', {
       name: this.props.user.name,
-      message: `posted ${this.state.message} in ${this.props.trip.name}`,
+      message: `posted "${this.state.message}" in ${this.props.trip.name}.`,
       date: new Date().toLocaleString()
     });
     this.setState({ message: '' });
   }
   
   renderComment(message) {
-    console.log(message);
     if (message.TripId !== this.props.trip.id) {
       return (
         <div></div>

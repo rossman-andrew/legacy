@@ -4,8 +4,8 @@ const data = {};
 data.trip = {
   name: 'Amsterdames Spring Break',
   location: 'Amsterdam',
-  startDate: (new Date("2018-03-20")).toString(),
-  endDate: (new Date("2018-03-30")).toString(),
+  startDate: (new Date('2018-03-20')).toString(),
+  endDate: (new Date('2018-03-30')).toString(),
   lodging: 'Hotel Cardboard Box'
 };
 

@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Form, Icon, Message } from 'semantic-ui-react'
+import { Button, Form, Icon, Message } from 'semantic-ui-react';
+
 
 const Signup = (props) => (
   <div>
@@ -17,6 +18,6 @@ const Signup = (props) => (
     </Form>
 
   </div>
-)
+);
 
 export default Signup;
