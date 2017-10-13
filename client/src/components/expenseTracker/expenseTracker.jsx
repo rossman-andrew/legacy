@@ -5,8 +5,6 @@ import ExpenseEntry from './expenseEntry.jsx';
 import ExpenseInput from './expenseInput.jsx';
 import { connect } from 'react-redux';
 import $ from 'jquery';
-//import TripNavBar from '../tripDashboard/tripNavBar.jsx';
-//import dummyData from '../tripDashboard/dummyData.js';
 
 const SERVER_URL = HOSTNAME;
 

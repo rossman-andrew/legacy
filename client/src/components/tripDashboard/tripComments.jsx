@@ -73,7 +73,7 @@ class TripComments extends React.Component {
     }
     return (
       <Comment key={message.id}>
-        <Comment.Avatar src='https://semantic-ui.com/images/avatar/small/elliot.jpg' />
+        <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
         <Comment.Content>
           <Comment.Author as='a'>{message.name}</Comment.Author>
           <Comment.Metadata>
