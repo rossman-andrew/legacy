@@ -12,20 +12,34 @@ class TripNavBar extends React.Component {
     };
 
     this.handleItemClick = this.handleItemClick.bind(this);
+    this.renderMenu = this.renderMenu.bind(this);
   }
 
   handleItemClick(e, { name }) {
     this.setState({activeItem: name});
   }
 
-  render() {
-    return (
-      <Menu className='ui top fixed'>
-        {this.props.features.map((feature, index) => {
+  renderMenu() {
+    console.log('other', this.props.other);
+    if (this.props.other) {
+      return (
+        this.props.features.map((feature, index) => {
           return <Menu.Item key={index} className="btn" onClick={() => {
             this.props.dispatch(reducer.changeView(feature.link));
           }}>{feature.name}</Menu.Item>;
-        })}
+        })
+      );
+    } else {
+      return <Menu.Item key={'otherMenu'} className="btn" onClick={() => {
+        this.props.dispatch(reducer.changeView(this.props.features[0].link));
+      }}>{this.props.features[0].name}</Menu.Item>;
+    }
+  }
+
+  render() {
+    return (
+      <Menu className='ui top fixed'>
+        {this.renderMenu()}
         <Menu.Item position='right' className="btn" onClick={this.props.logout}>Logout
         </Menu.Item>
       </Menu>

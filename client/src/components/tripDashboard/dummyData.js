@@ -30,6 +30,10 @@ data.users = [
 
 data.features = [
   {
+    name: 'Home',
+    link: 'TripManager'
+  },
+  {
     name: 'Itinerary',
     link: 'TripDashboard'
   },
@@ -48,11 +52,6 @@ data.features = [
   {
     name: 'Photos',
     link: 'some_link_to_photos'
-  },
-
-  {
-    name: 'Trip Manager',
-    link: 'TripManager'
   },
   {
     name: 'Profile',

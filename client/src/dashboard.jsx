@@ -116,20 +116,20 @@ class Dashboard extends React.Component {
   }
 
   showNavBar() {
-    if (store.getState().view !== 'TripManager') {
-      return (
-        <div>
-          <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />;
-          <br /> <br /> <br />
-        </div>
-      );
-    }
+    return (
+      <div>
+        <TripNavBar logout={this.handleLogout} other={store.getState().view !== 'TripManager'} features={navData.features} dispatch={store.dispatch} />;
+        
+      </div>
+    );
   }
 
   showWelcome() {
     if (store.getState().view === 'TripManager') {
-      return <h3>Hello {store.getState().user.name}, welcome back</h3>;
-    }	
+      return <div><br /><h3>Hello {store.getState().user.name}, welcome back</h3></div>;
+    }	else {
+      return <div><br /> <br /> <br /></div>;
+    }
   }
 
   render() {
