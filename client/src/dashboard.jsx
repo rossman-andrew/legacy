@@ -125,7 +125,7 @@ class Dashboard extends React.Component {
   }
 
   showSpace() {
-    if (store.getState().view !== 'TripManager') {
+    if (store.getState().view === 'Profile') {
       return <div><br /> <br /></div>;
     }
   }
