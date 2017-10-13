@@ -1,7 +1,7 @@
 {
-  "name": "travel-with-friends",
+  "name": "Dare to Explore",
   "version": "1.0.0",
-  "description": "Group travel app",
+  "description": "Social Travel App",
   "main": "index.js",
   "scripts": {
     "postinstall": "curl -s https://raw.githubusercontent.com/reactorcore/pomander/master/bin/install | bash",
@@ -14,14 +14,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/laraismael1/Bare-Minimum.git"
+    "url": "git+https://github.com/TradeLeague/legacy.git"
   },
-  "author": "Bare Minimums",
+  "author": "Andrew Rossman, Enrique Hernandez, Jack Qiu, Tyler Truong",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/laraismael1/Bare-Minimum/issues"
+    "url": "https://github.com/TradeLeague/legacy/issues"
   },
-  "homepage": "https://github.com/laraismael1/Bare-Minimum#readme",
+  "homepage": "https://github.com/TradeLeague/legacy#readme",
   "dependencies": {
     "axios": "^0.16.2",
     "body-parser": "^1.18.2",
@@ -58,7 +58,6 @@
     "chai": "^4.1.2",
     "css-loader": "^0.28.7",
     "eslint": "^4.8.0",
-    "eslint-config-airbnb": "^16.0.0",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "eslint-plugin-import": "^2.7.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
