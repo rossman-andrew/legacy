@@ -12,7 +12,7 @@ class LodgingGallery extends React.Component {
 
   componentDidMount() {
     this.setState({
-      featuredImage: lodgingPics[0] 
+      featuredImage: this.props.lodgingPics[0] 
     });
   }
   updateFeatImg(e) {
