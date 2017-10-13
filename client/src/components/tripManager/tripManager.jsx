@@ -3,6 +3,7 @@ import Popup from 'react-popup';
 import TripPopup from './tripPopup.jsx';
 import TripEntry from './tripEntry.jsx';
 import reducer from '../../Reducers';
+import socket from '../../socket/socket.js';
 
 import { connect } from 'react-redux';
 import $ from 'jquery';
@@ -75,41 +76,42 @@ class Dashboard extends React.Component {
       <div>
         <div className="header-div">
           <img className="header-image" src="http://blog.routeperfect.com/wp-content/uploads/2016/06/shutterstock_419504191.jpg" alt="" />
-
           <h2 className="header-word">Dare to explore.  <br /> Find new friends.</h2>
         </div>
-        
-        <Button onClick={this.togglePopup} className='newTripButton'>Create New Trip</Button>
-        <br/>
-        {this.state.showPopup ?
-          <TripPopup
-            closePopup={this.togglePopup}
-            fetchLists={this.props.fetchLists}
-            selectTrip={this.selectTrip}
-            lodgePics={ this.props.lodgePics }
-          />
-          : null
-        }
+        <div className="main-content">
+          <br />
+          
 
-        <h3>Join Trip</h3>
-        <div>
-          <Input value={this.state.joinTrip} onChange={e => this.handleChange(e)} type="text" name="code" placeholder="add code here"/>
-          <Button onClick={() => this.joinTrip()}>Submit</Button>
+          {this.state.showPopup ?
+            <TripPopup
+              closePopup={this.togglePopup}
+              fetchLists={this.props.fetchLists}
+              selectTrip={this.selectTrip}
+              lodgePics={ this.props.lodgePics }
+            />
+            : null
+          }
+
+          <h3>Join Trip</h3>
+          <div>
+            <Input value={this.state.joinTrip} onChange={e => this.handleChange(e)} type="text" name="code" placeholder="add code here"/>
+            <Button onClick={() => this.joinTrip()}>Submit</Button> &nbsp; <Button onClick={this.togglePopup} className='newTripButton'>+</Button>
+          </div>
+
+          <h3>Trip Suggestions</h3>
+          <Grid centered>
+            {(this.props.otherTrips.map((ele) => {
+              return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
+            }))}
+          </Grid>
+
+          <h3>Trip History</h3>
+          <Grid centered>
+            {(this.props.trips.map((ele) => {
+              return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
+            }))}
+          </Grid> 
         </div>
-
-        <h3>Trip Suggestions</h3>
-        <Grid centered>
-          {(this.props.otherTrips.map((ele) => {
-            return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
-          }))}
-        </Grid>
-
-        <h3>Trip History</h3>
-        <Grid centered>
-          {(this.props.trips.map((ele) => {
-            return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
-          }))}
-        </Grid> 
       </div>
     );
   }

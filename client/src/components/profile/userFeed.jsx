@@ -20,7 +20,7 @@ class UserFeed extends React.Component {
 
   renderFeed(message) {
     return (
-      <Feed.Event>
+      <Feed.Event key={message.date}>
         <Feed.Label>
           <img src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
         </Feed.Label>
@@ -44,7 +44,7 @@ class UserFeed extends React.Component {
     return (
       <Feed>
         <Header as='h3' dividing>News Feed</Header>
-        {this.state.notifications.map(notification => {
+        {this.state.notifications.slice().reverse().map(notification => {
           return this.renderFeed(notification);
         })}
       </Feed>

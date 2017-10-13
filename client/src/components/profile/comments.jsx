@@ -1,18 +1,18 @@
-import React from 'react'
-import { Button, Comment, Form, Header } from 'semantic-ui-react'
+import React from 'react';
+import { Button, Comment, Form, Header } from 'semantic-ui-react';
 
 const Comments = () => (
   <Comment.Group>
     <Header as='h3' dividing>Comments</Header>
 
     <Comment>
-      <Comment.Avatar src='/assets/images/avatar/small/matt.jpg' />
+      <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
       <Comment.Content>
-        <Comment.Author as='a'>Matt</Comment.Author>
+        <Comment.Author as='a'>Andrew</Comment.Author>
         <Comment.Metadata>
           <div>Today at 5:42PM</div>
         </Comment.Metadata>
-        <Comment.Text>How artistic!</Comment.Text>
+        <Comment.Text>Mango smoothie time?</Comment.Text>
         <Comment.Actions>
           <Comment.Action>Reply</Comment.Action>
         </Comment.Actions>
@@ -20,14 +20,14 @@ const Comments = () => (
     </Comment>
 
     <Comment>
-      <Comment.Avatar src='/assets/images/avatar/small/elliot.jpg' />
+      <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
       <Comment.Content>
-        <Comment.Author as='a'>Elliot Fu</Comment.Author>
+        <Comment.Author as='a'>Claire</Comment.Author>
         <Comment.Metadata>
           <div>Yesterday at 12:30AM</div>
         </Comment.Metadata>
         <Comment.Text>
-          <p>This has been very useful for my research. Thanks as well!</p>
+          <p>Do you guys want boba?</p>
         </Comment.Text>
         <Comment.Actions>
           <Comment.Action>Reply</Comment.Action>
@@ -35,14 +35,14 @@ const Comments = () => (
       </Comment.Content>
       <Comment.Group>
         <Comment>
-          <Comment.Avatar src='/assets/images/avatar/small/jenny.jpg' />
+          <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
           <Comment.Content>
-            <Comment.Author as='a'>Jenny Hess</Comment.Author>
+            <Comment.Author as='a'>Masaki</Comment.Author>
             <Comment.Metadata>
               <div>Just now</div>
             </Comment.Metadata>
             <Comment.Text>
-              Elliot you are always so right :)
+              I want Tokyo Express.
             </Comment.Text>
             <Comment.Actions>
               <Comment.Action>Reply</Comment.Action>
@@ -53,14 +53,14 @@ const Comments = () => (
     </Comment>
 
     <Comment>
-      <Comment.Avatar src='/assets/images/avatar/small/joe.jpg' />
+      <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
       <Comment.Content>
-        <Comment.Author as='a'>Joe Henderson</Comment.Author>
+        <Comment.Author as='a'>Eugene</Comment.Author>
         <Comment.Metadata>
           <div>5 days ago</div>
         </Comment.Metadata>
         <Comment.Text>
-          Dude, this is awesome. Thanks so much
+          It's time to do recursion!
         </Comment.Text>
         <Comment.Actions>
           <Comment.Action>Reply</Comment.Action>
@@ -73,6 +73,6 @@ const Comments = () => (
       <Button content='Add Reply' labelPosition='left' icon='edit' primary />
     </Form>
   </Comment.Group>
-)
+);
 
 export default Comments;

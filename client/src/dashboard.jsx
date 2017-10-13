@@ -21,9 +21,7 @@ import Landmarks from './components/landmarks/landmarks.jsx';
 import navData from './components/tripDashboard/dummyData.js';
 import TripNavBar from './components/tripDashboard/tripNavBar.jsx';
 import Profile from './components/profile/profile.jsx';
-
-
-
+import socket from './socket/socket.js';
 import Chatbox from './components/Chatbox/index.jsx';
 
 const SERVER_URL = HOSTNAME;
@@ -42,14 +40,26 @@ class Dashboard extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.lodgePics = this.lodgePics.bind(this);
   }
+
   componentWillMount () {
     //Get login user
     $.get(SERVER_URL + '/loginuser').then((data) => {
       store.dispatch(reducer.changeUser(data[0]));
       this.fetchLists();
+      socket.emit('notification', {
+        name: data[0].name,
+        message: 'has logged on.',
+        date: new Date().toLocaleString()
+      });
     }).catch((err) => {
       console.error('Error getting login user', err);
     });
+  }
+
+  componentDidMount () {
+    //Get login user
+    console.log(store.getState().user.name);
+
   }
 
   fetchLists() {
@@ -106,17 +116,25 @@ class Dashboard extends React.Component {
   }
 
   showNavBar() {
+    return (
+      <div>
+        <TripNavBar logout={this.handleLogout} other={store.getState().view !== 'TripManager' && store.getState().view !== 'Profile'} features={navData.features} dispatch={store.dispatch} />;
+        
+      </div>
+    );
+  }
+
+  showSpace() {
     if (store.getState().view !== 'TripManager') {
-      return <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />;
+      return <div><br /> <br /></div>;
     }
   }
 
   render() {
     return (
       <div>
-        <h3>Hello {store.getState().user.name}, welcome back</h3>
         {this.showNavBar()}
-        <br />
+        {this.showSpace()}
         {this.getViewComponent()}
         <Chatbox/>
       </div>
@@ -131,14 +149,11 @@ ReactDOM.render(
   , document.getElementById('app'));
 
 /*
-				<div className="navbar">
-          <ul>
-            <li id="title">The Travel App</li>
-            <li className="link">Home</li>
-            <li className="link">News</li>
-            <li className="link">Contact</li>
-          </ul>
-        </div>
-        				<button id="hide" onClick={() => store.dispatch(reducer.changeView('TripManager'))}>Trip Manager</button>
-
+          showWelcome() {
+    if (store.getState().view === 'TripManager') {
+      return <div><br /><h3>Hello {store.getState().user.name}, welcome back</h3></div>;
+    } else {
+      return <div><br /> <br /> <br /></div>;
+    }
+  }
         */

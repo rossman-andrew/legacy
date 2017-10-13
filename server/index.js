@@ -76,7 +76,7 @@ io.on('connection', (socket) => {
     });
   });
   socket.on('notification', (msg) => {
-    console.log('inside notification!');
+    console.log('inside notification!', msg);
     io.emit('notification', msg);
   });
 });
@@ -258,7 +258,6 @@ app.patch('/userinfo/:userId/:tripId/:itinerary/:phone', (req, res) => {
 
 app.get('/location/lodging/:location', (req, res) => {
   var location = req.params.location.slice(1);
-  console.log('this is the location', location);
   let options = {
     url: `https://api.yelp.com/v3/businesses/search?term=Hotels&location=${location}`,
     auth: {
@@ -271,7 +270,6 @@ app.get('/location/lodging/:location', (req, res) => {
       res.end();
     } else {
       var data = body;
-      console.log(data);
       res.end(data);
     }
   });
@@ -279,7 +277,6 @@ app.get('/location/lodging/:location', (req, res) => {
 
 app.get('/lodge/pics/:id', (req, res) => {
   var id = req.params.id.slice(1);
-  console.log('this is the id', id);
   let options = {
     url: `https://api.yelp.com/v3/businesses/${id}`,
     auth: {
@@ -292,7 +289,6 @@ app.get('/lodge/pics/:id', (req, res) => {
       res.end();
     } else {
       var data = body;
-      console.log(data);
       res.end(data);
     }
   });
