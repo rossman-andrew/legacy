@@ -1,7 +1,5 @@
 import React from 'react';
 import reducer from '../../Reducers';
-import { Button } from 'react-bootstrap';
-import { ButtonGroup } from 'react-bootstrap';
 import { Menu } from 'semantic-ui-react';
 
 class TripNavBar extends React.Component {
