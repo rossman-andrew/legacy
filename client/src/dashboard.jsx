@@ -118,7 +118,7 @@ class Dashboard extends React.Component {
   showNavBar() {
     return (
       <div>
-        <TripNavBar logout={this.handleLogout} other={store.getState().view !== 'TripManager'} features={navData.features} dispatch={store.dispatch} />;
+        <TripNavBar logout={this.handleLogout} other={store.getState().view !== 'TripManager' && store.getState().view !== 'Profile'} features={navData.features} dispatch={store.dispatch} />;
         
       </div>
     );

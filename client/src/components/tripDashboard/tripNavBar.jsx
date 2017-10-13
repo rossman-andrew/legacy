@@ -20,7 +20,6 @@ class TripNavBar extends React.Component {
   }
 
   renderMenu() {
-    console.log('other', this.props.other);
     if (this.props.other) {
       return (
         this.props.features.map((feature, index) => {
@@ -30,9 +29,15 @@ class TripNavBar extends React.Component {
         })
       );
     } else {
-      return <Menu.Item key={'otherMenu'} className="btn" onClick={() => {
-        this.props.dispatch(reducer.changeView(this.props.features[0].link));
-      }}>{this.props.features[0].name}</Menu.Item>;
+      return (
+        this.props.features.map((feature, index) => {
+          if (index === 0 || index === 1) {
+            return <Menu.Item key={index} className="btn" onClick={() => {
+              this.props.dispatch(reducer.changeView(feature.link));
+            }}>{feature.name}</Menu.Item>;
+          }
+        })
+      );
     }
   }
 

@@ -34,6 +34,10 @@ data.features = [
     link: 'TripManager'
   },
   {
+    name: 'Profile',
+    link: 'Profile'
+  },
+  {
     name: 'Itinerary',
     link: 'TripDashboard'
   },
@@ -52,10 +56,6 @@ data.features = [
   {
     name: 'Photos',
     link: 'some_link_to_photos'
-  },
-  {
-    name: 'Profile',
-    link: 'Profile'
   },
 ];
 
