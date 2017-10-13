@@ -46,19 +46,21 @@ class TripPopup extends React.Component {
       userId: this.props.user.id,
       accessCode: e.target.name.value,
       isopen: true,
-
     };
 
-
     e.preventDefault();
-    let context = this;
     $.ajax({
       url: HOSTNAME + '/popup',
       method: 'POST',
       data: option,
       success: (body) => {
-        context.props.fetchLists();
+        this.props.fetchLists();
         this.createTripDashboard(body);
+        socket.emit('notification', {
+          name: this.props.user.name,
+          message: `has created the trip ${option.name}.`,
+          date: new Date().toLocaleString()
+        });
         console.log('POST was a success ');
       },
       error: (err) => {
