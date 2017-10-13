@@ -89,7 +89,6 @@ class TripPopup extends React.Component {
       method: 'GET',
       success: (body) => {
         console.log('Location GET Request was a success! ');
-        console.log(body);
         var data = JSON.parse(body).businesses.splice(0, 4);
         this.setState({lodging: data});
       },
@@ -110,9 +109,7 @@ class TripPopup extends React.Component {
   }
 
   pics() {
-    // console.log('hotel', this.state.hotel);
     if (this.state.hotel !== null) {
-      // console.log('piclist should be showing')
       return <LodgePicList data={ this.state.hotel }/>;
     } else {
       console.log('its going into null');

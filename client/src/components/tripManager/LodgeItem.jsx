@@ -1,9 +1,7 @@
-import _ from 'lodash';
 import React from 'react';
 import { Card, Icon, Grid, Image, Button } from 'semantic-ui-react';
 import LodgePicList from './LodgePicList.jsx';
 import $ from 'jquery';
-
 
 class LodgeItem extends React.Component {
   constructor(props) {
