@@ -136,7 +136,6 @@ class Dashboard extends React.Component {
     return (
       <div>
         {this.showNavBar()}
-        {this.showWelcome()}
         {this.getViewComponent()}
         <Chatbox/>
       </div>
@@ -149,3 +148,7 @@ ReactDOM.render(
     <Dashboard />
   </Provider>
   , document.getElementById('app'));
+
+/*
+        {this.showWelcome()}
+        */
