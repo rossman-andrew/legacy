@@ -8,6 +8,10 @@
   overflow: hidden;
 }
 
+.main-content {
+  margin-left: 40px;
+}
+
 .header-word {
    position: absolute;
    top: 200px;

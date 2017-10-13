@@ -20,19 +20,17 @@ class TripNavBar extends React.Component {
 
   render() {
     return (
-      <Menu>
-        <Menu.Item className="btn" onClick={this.props.logout}>Logout
-        </Menu.Item>
-
+      <Menu className='ui top fixed'>
         {this.props.features.map((feature, index) => {
           return <Menu.Item key={index} className="btn" onClick={() => {
             this.props.dispatch(reducer.changeView(feature.link));
           }}>{feature.name}</Menu.Item>;
         })}
-
+        <Menu.Item position='right' className="btn" onClick={this.props.logout}>Logout
+        </Menu.Item>
       </Menu>
     );
   }
-};
+}
 
 export default TripNavBar;

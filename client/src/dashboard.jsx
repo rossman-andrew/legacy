@@ -117,16 +117,26 @@ class Dashboard extends React.Component {
 
   showNavBar() {
     if (store.getState().view !== 'TripManager') {
-      return <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />;
+      return (
+        <div>
+          <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />;
+          <br /> <br /> <br />
+        </div>
+      );
     }
+  }
+
+  showWelcome() {
+    if (store.getState().view === 'TripManager') {
+      return <h3>Hello {store.getState().user.name}, welcome back</h3>;
+    }	
   }
 
   render() {
     return (
       <div>
-        <h3>Hello {store.getState().user.name}, welcome back</h3>
         {this.showNavBar()}
-        <br />
+        {this.showWelcome()}
         {this.getViewComponent()}
         <Chatbox/>
       </div>
@@ -139,16 +149,3 @@ ReactDOM.render(
     <Dashboard />
   </Provider>
   , document.getElementById('app'));
-
-/*
-				<div className="navbar">
-          <ul>
-            <li id="title">The Travel App</li>
-            <li className="link">Home</li>
-            <li className="link">News</li>
-            <li className="link">Contact</li>
-          </ul>
-        </div>
-        				<button id="hide" onClick={() => store.dispatch(reducer.changeView('TripManager'))}>Trip Manager</button>
-
-        */

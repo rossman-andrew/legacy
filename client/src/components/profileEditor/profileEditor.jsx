@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
 
-import { Button } from 'react-bootstrap';
+import { Button, Input } from 'semantic-ui-react';
 
 const SERVER_URL = HOSTNAME;
 
@@ -51,12 +51,12 @@ class ProfileEditor extends React.Component {
   render() {
     return (
       <div className="user-details">
-        <h3>User info:</h3>
+        <h4>User info:</h4>
         <form className="form-entry">
-          <label><h3>Phone:&nbsp;&nbsp;</h3></label>
-          <input type="text" className="phone" onChange={this.handleChange} value={this.state.phone} ref="phone"/>
-          <label><h3>&nbsp;&nbsp;Itinerary:&nbsp;&nbsp;</h3></label>
-          <input type="text" className="itinerary" value={this.state.itinerary} onChange={this.handleChange} ref="itinerary"/>
+          <h5>Phone:&nbsp;&nbsp;</h5>
+          <Input type="text" className="phone" onChange={this.handleChange} value={this.state.phone} ref="phone"/>
+          <h5>&nbsp;&nbsp;Itinerary:&nbsp;&nbsp;</h5>
+          <Input type="text" className="itinerary" value={this.state.itinerary} onChange={this.handleChange} ref="itinerary"/>
           <Button onClick={this.submitInfoUpdate}>Submit</Button>
         </form>
       </div>
