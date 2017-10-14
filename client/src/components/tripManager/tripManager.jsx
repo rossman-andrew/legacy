@@ -92,20 +92,20 @@ class Dashboard extends React.Component {
             : null
           }
 
-          <h3>Join Trip</h3>
-          <div>
+          <h1>Join Trip</h1>
+          <div className="Grid-Adjust">
             <Input value={this.state.joinTrip} onChange={e => this.handleChange(e)} type="text" name="code" placeholder="add code here"/>
             <Button onClick={() => this.joinTrip()}>Submit</Button> &nbsp; <Button onClick={this.togglePopup} className='newTripButton'>+</Button>
           </div>
 
-          <h3>Trip Suggestions</h3>
+          <h1>Trip Suggestions</h1>
           <Grid centered>
             {(this.props.otherTrips.map((ele) => {
               return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
             }))}
           </Grid>
 
-          <h3>Trip History</h3>
+          <h1>Trip History</h1>
           <Grid centered>
             {(this.props.trips.map((ele) => {
               return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
