@@ -90,9 +90,13 @@ class TripDashboard extends React.Component {
       }
     })
       .then((response) => {
+        let locationPics = [];
         for (let i = 0; i < 4; i++) {
-          this.state.tripPics.push(response.data.items[i].link);
+          locationPics.push(response.data.items[i].link);
         }
+        this.setState({
+          tripPics: locationPics
+        });
       })
       .then(() => {
         // Get pictures for lodging gallery
