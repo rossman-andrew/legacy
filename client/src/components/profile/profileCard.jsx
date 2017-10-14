@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react';
 import { Grid, Button, Input } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import socket from '../../socket/socket.js';
 
 class ProfileCard extends React.Component {
   constructor(props) {
@@ -17,7 +18,13 @@ class ProfileCard extends React.Component {
   }
 
   handleToggleClick() {
-    this.setState({ profilePicChangeClicked: !this.state.profilePicChangeClicked });
+    this.setState({ profilePicChangeClicked: !this.state.profilePicChangeClicked }, () => {
+      socket.emit('notification', {
+        name: this.props.user.name,
+        message: 'changed his profile picture.',
+        date: new Date().toLocaleString()
+      });
+    });
   }
 
   showChangeProfilePicForm() {
