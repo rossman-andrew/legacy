@@ -43,7 +43,7 @@ class Dashboard extends React.Component {
     this.handleLogout = this.handleLogout.bind(this);
     this.lodgePics = this.lodgePics.bind(this);
     this.getTripImages = this.getTripImages.bind(this);
-    this.googleApi = 'AIzaSyBEkRzfpS6T7dZcLaYA9lQdzMJNDSrgOgg';
+    this.googleApi = 'AIzaSyCbYElCaZFgB0cVjo51y6CobZnte_TZl9A';
   }
 
   componentWillMount () {
