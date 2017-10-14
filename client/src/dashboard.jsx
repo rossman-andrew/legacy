@@ -65,6 +65,28 @@ class Dashboard extends React.Component {
     console.log(store.getState().user.name);
   }
 
+  getTripImages() {
+    this.state.trips.forEach((trip) => {
+      $.ajax({
+        url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`,
+        success: (data) => {
+          // Collect first 4 pictures for this trip
+          let locationPics = []; 
+          for (let i = 0; i < 4; i++) {
+            locationPics.push(data.items[i].link);
+          }
+          // Create location object with location of trip as key and picture array as value
+          let locationObj = {};
+          locationObj[trip.location] = locationPics;
+          // Add this object to the historyPics array in state
+          this.setState((prevState) => {
+            // return {picLibary: prevState.picLibrary.concat(locationObj)};
+          });
+        }
+      });
+    });
+  }
+
   fetchLists() {
     let options = { userId: store.getState().user.id };
     $.ajax({
