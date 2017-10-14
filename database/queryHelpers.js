@@ -2,12 +2,12 @@ const db = require('./index.js');
 
 const getGuideReplies = function(option, callback) {
   db.GuideReplies.findAll({where: option})
-  .then((foundReply) => {
-    return callback(foundReply);
-  }).catch((err) => {
-    console.log('There was an error in Guide Reply lookup, err');
-  })
-}
+    .then((foundReply) => {
+      return callback(foundReply);
+    }).catch((err) => {
+      console.log('There was an error in Guide Reply lookup, err');
+    });
+};
 // ==== Messages ====
 const addMessage = (message, callback) => {
   db.Messages.create(message)

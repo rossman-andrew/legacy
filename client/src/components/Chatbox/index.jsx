@@ -16,8 +16,10 @@ class Chatbox extends Component {
       replyNumber: 1,
       answerNumber: 0,
       ChatboxInitialized: false,
-      LastMessageUser: 'Jack'
+      LastMessageUser: 'Jack',
+      FetchInProgress: false
     }
+    console.log('curr User', this.props.user.name);
     this.onInputChange = this.onInputChange.bind(this)
     this.onFormSubmit = this.onFormSubmit.bind(this)
     this.getReply = this.getReply.bind(this)
@@ -30,33 +32,40 @@ class Chatbox extends Component {
 
   onFormSubmit(event){
     event.preventDefault();
-    console.log('called', event);
     //handle searching web data
     var counter;
-    if(this.state.LastMessageUser !== 'props.user'){
+    if(this.state.LastMessageUser !== this.props.user.name){
       counter = 0;
     } else {
       counter = 1;
     }
     this.setState((prevState, props) => {
       return {
-        messages: prevState.messages.concat([[prevState.term, 'props.user', counter]]),
-        LastMessageUser: 'props.user'
+        messages: prevState.messages.concat([[prevState.term, props.user.name, counter]]),
+        LastMessageUser: props.user.name
       };
     })
     this.setState({term:''});
-    this.getReply();
+    if(!this.state.FetchInProgress) {
+      this.getReply();
+    }
 
   }
 
   getReply() {
+    this.setState((prevState, props) => {
+      return {
+        FetchInProgress: true
+      };
+    });
     setTimeout(
       () => {
         this.setState((prevState, props) => {
           return {
             LastMessageUser: 'Jack',
             messages: prevState.messages.concat([prevState.answers[prevState.answerNumber]]),
-            answerNumber: prevState.answerNumber + 1
+            answerNumber: prevState.answerNumber + 1,
+            FetchInProgress: false
           }
         })
         this.getQuestion();
@@ -78,9 +87,9 @@ class Chatbox extends Component {
       }
     })
     .then((reply) => {
-      console.log(reply);
+
       var counter;
-      if(this.state.LastMessageUser === 'props.user'){
+      if(this.state.LastMessageUser === this.props.user){
         counter = 0;
         this.setState((prevState, props) => {
           return {LastMessageUser: 'Jack'}
@@ -106,7 +115,7 @@ class Chatbox extends Component {
   }
 
   handleToggle(toggled) {
-    console.log('handle toggle', toggled);
+
     this.props.dispatch(reducer.toggleChatbox(toggled));
     if(!this.state.ChatboxInitialized){
       this.getQuestion();
@@ -115,7 +124,7 @@ class Chatbox extends Component {
 
 
   render() {
-    console.log('this.props', this.props);
+
     if(this.props.toggled){
       return (
         <div className="ui bottom fixed card">
@@ -158,8 +167,8 @@ class Chatbox extends Component {
   }
 }
 
-function mapStateToProps({toggled}) {
-  return {toggled};
+function mapStateToProps({toggled, user}) {
+  return {toggled, user};
 }
 
 export default connect(mapStateToProps)(Chatbox);
