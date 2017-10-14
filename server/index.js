@@ -92,17 +92,33 @@ io.on('connection', (socket) => {
     });
   });
 
+  socket.on('join room', (msg) => {
+    Object.keys(socket.rooms)
+      .filter(room => room.startsWith('msg'))
+      .forEach(room => socket.leave(room));
+
+    socket.join(`msg-${msg.TripId}`);
+  });
+
   socket.on('chat message', (msg) => {
-    io.emit('chat message', msg);
+    io.to(`msg-${msg.TripId}`).emit('chat message', msg);
     query.addMessage(msg, () => {
       console.log('successfully inserted');
     });
   });
 
   socket.on('notification', (msg) => {
-    io.emit('notification', msg);
+    io.to(`${msg.TripId}`).emit('notification', msg);
     client.hset('notification', msg.date, JSON.stringify([msg.name, msg.message]));
     client.expire(msg.date, 86400);
+
+    if (msg.message === 'has logged on.') {
+      query.findTripsForUser(msg.userId, (result) => {
+        result.forEach((ele) => {
+          socket.join(`${ele.dataValues.id}`);
+        });
+      });
+    }
   });
 });
 

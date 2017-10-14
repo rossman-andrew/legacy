@@ -52,7 +52,8 @@ class Dashboard extends React.Component {
       socket.emit('notification', {
         name: data[0].name,
         message: 'has logged on.',
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleString(),
+        userId: data[0].id
       });
     }).catch((err) => {
       console.error('Error getting login user', err);
