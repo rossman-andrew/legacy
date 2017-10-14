@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import axios from 'axios';
 
 import { Row, Col, Button, Menu } from 'semantic-ui-react';
 
@@ -41,7 +42,8 @@ class Dashboard extends React.Component {
     this.fetchLists = this.fetchLists.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.lodgePics = this.lodgePics.bind(this);
-    this.googleApi = 'AIzaSyABtZhkDX-w3qbs6nmZ1KUiHP22OcJXDKI';
+    this.getTripImages = this.getTripImages.bind(this);
+    this.googleApi = 'AIzaSyCbYElCaZFgB0cVjo51y6CobZnte_TZl9A';
   }
 
   componentWillMount () {
@@ -52,7 +54,8 @@ class Dashboard extends React.Component {
       socket.emit('notification', {
         name: data[0].name,
         message: 'has logged on.',
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleString(),
+        userId: data[0].id
       });
     }).catch((err) => {
       console.error('Error getting login user', err);
@@ -64,6 +67,38 @@ class Dashboard extends React.Component {
     console.log(store.getState().user.name);
   }
 
+  getTripImages(picLibrary) {
+    const tripCollection = picLibrary === 'historyTrips' ? this.state.trips : this.state.otherTrips;
+    tripCollection.forEach((trip) => {
+      axios.get('https://www.googleapis.com/customsearch/v1', {
+        params: {
+          key: this.googleApi,
+          cx: '012965794133406592343:as9mecf3btc',
+          q: 'beautiful ' + trip.location,
+          searchType: 'image'
+        }
+      })
+        .then((response) => {
+          let locationPics = [];
+          for (let i = 0; i < 4; i++) {
+            locationPics.push(response.data.items[i].link);
+          }
+          let locationObj = {};
+          locationObj[trip.location] = locationPics;
+          this.setState((prevState) => {
+            if (picLibrary === 'historyPics') {
+              return {historyPics: prevState.historyPics.concat(locationObj)};
+            } else {
+              return {suggestionPics: prevState.suggestionPics.concat(locationObj)};
+            }
+          });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    });
+  }
+
   fetchLists() {
     let options = { userId: store.getState().user.id };
     $.ajax({
@@ -71,32 +106,7 @@ class Dashboard extends React.Component {
       data: options,
       success: (res) => {
         this.setState({ trips: res }, () => {
-          this.state.trips.forEach((trip) => {
-            // Google API call for every trip in state
-            $.ajax({
-              url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`, 
-              success: (data) => { 
-                // Collect first 4 pictures for this trip
-                let locationPics = []; 
-                for (let i = 0; i < 4; i++) {
-                  locationPics.push(data.items[i].link);
-                }
-                // Create location object with location of trip as key and picture array as value
-                let locationObj = {};
-                locationObj[trip.location] = locationPics;
-                // Add this object to the historyPics array in state
-                this.setState((prevState) => {
-                  return {historyPics: prevState.historyPics.concat(locationObj)};
-                }, () => {
-                  //console.log('Current state of historyPics array:', this.state.historyPics);
-
-                });
-              },
-              error: (err) => { 
-                console.log(err); 
-              }  
-            });
-          });
+          this.getTripImages('historyPics');
           this.fetchOtherLists();
         });
       }
@@ -114,33 +124,7 @@ class Dashboard extends React.Component {
       data: options,
       success: (res) => {
         this.setState({ otherTrips: res }, () => {
-          let newOtherTrips = [];
-          this.state.otherTrips.forEach((trip) => {
-            // Google API call for every suggested trip in state
-            $.ajax({
-              url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`, 
-              success: (data) => {
-                // Collect first 4 pictures for this trip
-                let locationPics = []; 
-                for (let i = 0; i < 4; i++) {
-                  locationPics.push(data.items[i].link);
-                }
-                // Create location object with location of trip as key and picture array as value
-                let locationObj = {};
-                locationObj[trip.location] = locationPics;
-                // Add this object to the historyPics array in state
-                this.setState((prevState) => {
-                  return {suggestionPics: this.state.suggestionPics.concat(locationObj)};
-                }, () => {
-                  //console.log('Current state of suggestionPics array:', this.state.suggestionPics);
-                });
-              },
-              error: (err) => { 
-                console.log(err); 
-              }  
-            });
-          });
-          // ***** Get the <TripManager /> component that is currently created in getViewComponent(), so that it is only done after state is updated
+          this.getTripImages('suggestionPics');
         });
       },
       error: (err) => {

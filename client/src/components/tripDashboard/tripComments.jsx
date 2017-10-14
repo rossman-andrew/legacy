@@ -19,15 +19,18 @@ class TripComments extends React.Component {
     this.onSubmitClick = this.onSubmitClick.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
 
-    socket.on('chat message', (msg) => {
-      this.setState({
-        comments: this.state.comments.concat(msg)
-      });
-    });
   }
   
   componentDidMount() {
     this.getComments();
+    socket.on('chat message', (msg) => {
+      this.setState((prevState) => {
+        return {comments: prevState.comments.concat(msg)};
+      });
+    });
+    socket.emit('join room', {
+      TripId: this.props.trip.id
+    });
   }
 
   getComments() {
@@ -60,19 +63,15 @@ class TripComments extends React.Component {
     socket.emit('notification', {
       name: this.props.user.name,
       message: `posted "${this.state.message}" in ${this.props.trip.name}.`,
-      date: new Date().toLocaleString()
+      date: new Date().toLocaleString(),
+      TripId: this.props.trip.id
     });
     this.setState({ message: '' });
   }
   
   renderComment(message) {
-    if (message.TripId !== this.props.trip.id) {
-      return (
-        <div></div>
-      );
-    }
     return (
-      <Comment key={message.id}>
+      <Comment key={message.date}>
         <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
         <Comment.Content>
           <Comment.Author as='a'>{message.name}</Comment.Author>

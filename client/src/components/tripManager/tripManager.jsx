@@ -73,7 +73,6 @@ class Dashboard extends React.Component {
   findTripPic(element) {
     const { location } = element;
     for (let i = 0; i < this.props.suggestionPics.length; i++) {
-      console.log('suggestion, location', Object.keys(this.props.suggestionPics[i])[0], location);
       if (Object.keys(this.props.suggestionPics[i])[0] === location) {
         return this.props.suggestionPics[i][location][0];
       }
