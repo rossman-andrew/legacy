@@ -80,7 +80,6 @@ io.on('connection', (socket) => {
 
   socket.on('getall', (callback) => {
     client.hgetall('notification', (err, replies) => {
-      console.log('replies', replies);
       callback(replies);
     });
   });
