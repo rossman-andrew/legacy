@@ -11,7 +11,13 @@ const Strategy = require('passport-local').Strategy;
 const request = require('request');
 const redis = require('redis');
 
-const client = redis.createClient();
+if (process.env.REDISTOGO_URL) {
+  const rtg = require('url').parse(process.env.REDISTOGO_URL);
+  const client = redis.createClient(rtg.port, rtg.hostname);
+  redis.auth(rtg.auth.split(':')[1]);
+} else {
+  const client = redis.createClient();
+}
 
 //redis store
 client.on('error', (err) => {

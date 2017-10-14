@@ -122,7 +122,8 @@ class TripDashboard extends React.Component {
           <img className="header-image" src="https://i2.wp.com/unusualplaces.org/wp-content/uploads/2016/03/amalfi3.jpg" alt="" />
           <h2 className="header-word">Adventure awaits.  <br /> Do lots of stuff.</h2>
         </div>
-        <div>
+        <div className="main-content">
+          <br />
           <Tab panes={panes} style={{height: '100%'}} />
         </div>
       </div>
