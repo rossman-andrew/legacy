@@ -1,7 +1,13 @@
 const db = require('./index.js');
 
-<<<<<<< HEAD
-
+const getGuideReplies = function(option, callback) {
+  db.GuideReplies.findAll({where: option})
+  .then((foundReply) => {
+    return callback(foundReply);
+  }).catch((err) => {
+    console.log('There was an error in Guide Reply lookup, err');
+  })
+}
 // ==== Messages ====
 const addMessage = (message, callback) => {
   db.Messages.create(message)
@@ -22,16 +28,6 @@ const findMessages = (tripid, callback) => {
     });
 };
 
-=======
-const getGuideReplies = function(option, callback) {
-  db.GuideReplies.findAll({where: option})
-  .then((foundReply) => {
-    return callback(foundReply);
-  }).catch((err) => {
-    console.log('There was an error in Guide Reply lookup, err');
-  })
-}
->>>>>>> sends replies now
 // ==== USERS ====
 
 const addUser = function(user, callback) {

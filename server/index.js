@@ -101,7 +101,14 @@ io.on('connection', (socket) => {
 
 //Routes
 
-<<<<<<< HEAD
+app.post('/getGuideReplies', (req, res) => {
+  console.log('server route', req.body)
+  let option = {id: req.body.replyNumber};
+  query.getGuideReplies(option, (result) => {
+    return res.status(200).send(result);
+  });
+})
+
 app.get('/comments/:tripid', (req, res) => {
   const { tripid } = req.params;
   query.findMessages(tripid, (messages) => {
@@ -111,15 +118,6 @@ app.get('/comments/:tripid', (req, res) => {
 
 
 
-=======
-app.post('/getGuideReplies', (req, res) => {
-  console.log('server route', req.body)
-  let option = {id: req.body.replyNumber};
-  query.getGuideReplies(option, (result) => {
-    return res.status(200).send(result);
-  });
-})
->>>>>>> sends replies now
 app.post('/login', passport.authenticate('local-signin'), function(req, res) {
   req.session.user = req.body.email;
   query.addSession(req.session.id, req.body.email);

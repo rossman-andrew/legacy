@@ -143,10 +143,6 @@ module.exports = {
   Landmarks: Landmarks,
   Expenses: Expenses,
   Sessions: Sessions,
-<<<<<<< HEAD
-  Messages: Messages
-};
-=======
+  Messages: Messages,
   GuideReplies: GuideReplies
-}
->>>>>>> sends replies now
+};

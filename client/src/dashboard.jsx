@@ -54,7 +54,6 @@ class Dashboard extends React.Component {
     }).catch((err) => {
       console.error('Error getting login user', err);
     });
-<<<<<<< HEAD
   }
 
   componentDidMount () {
@@ -120,7 +119,7 @@ class Dashboard extends React.Component {
     return (
       <div>
         <TripNavBar logout={this.handleLogout} other={store.getState().view !== 'TripManager' && store.getState().view !== 'Profile'} features={navData.features} dispatch={store.dispatch} />;
-        
+
       </div>
     );
   }
@@ -141,77 +140,6 @@ class Dashboard extends React.Component {
       </div>
     );
   }
-=======
-	}
-
-	fetchLists() {
-		let options = { userId: store.getState().user.id };
-		$.ajax({
-			url: SERVER_URL + '/fetchtrips',
-			data: options,
-			success: (res) => {
-				this.setState({ trips: res }, () => {
-					this.fetchOtherLists();
-				});
-			}
-		});
-	}
-
-	fetchOtherLists() {
-		let options = { userId: store.getState().user.id };
-		$.ajax({
-			url: SERVER_URL + '/fetchother',
-			data: options,
-			success: (res) => {
-				console.log('these are the other ones: ', res);
-				this.setState({ otherTrips: res });
-			},
-			error: (err) => {
-				console.error('Error getting other list', err);
-			}
-		});
-	}
-
-	handleLogout () {
-		$.post(SERVER_URL + '/logout').then((reply) => {
-			location.reload();
-		}).catch((err) => {
-			console.error('Error!', err);
-		});
-	};
-
-	getViewComponent () {
-		if (store.getState().view === 'TripManager') {
-			return <TripManager trips={this.state.trips} otherTrips={this.state.otherTrips} fetchLists={this.fetchLists}/>;
-		} else if (store.getState().view === 'ExpenseTracker') {
-			return <ExpenseTracker />;
-		} else if (store.getState().view === 'Landmarks') {
-			return <Landmarks />;
-		} else if (store.getState().view === 'Profile') {
-			return <Profile />;
-		} else {
-			return <TripDashboard user={store.getState().user}/>;
-		}
-	}
-
-	showNavBar() {
-		if (store.getState().view !== 'TripManager') {
-			return <TripNavBar logout={this.handleLogout} features={navData.features} dispatch={store.dispatch} />
-		}
-	}
-
-	render() {
-		return(
-			<div>
-				<h3>Hello {store.getState().user.name}, welcome back</h3>
-				{this.showNavBar()}
-				<br />
-				{this.getViewComponent()}
-				<Chatbox user={store.getState().user}/>
-			</div>
-		)
-	}
->>>>>>> sends replies now
 }
 
 ReactDOM.render(
