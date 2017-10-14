@@ -16,7 +16,6 @@ class Profile extends React.Component {
     super(props);
     this.state = {
     };
-
   }
 
   render() {
@@ -27,7 +26,7 @@ class Profile extends React.Component {
             <ProfileCard user={this.props.user} />
           </Grid.Column>
           <Grid.Column width={6}>
-            <UserFeed />
+            <UserFeed user={this.props.user} />
             <Comments />
           </Grid.Column> 
         </Grid.Row>   
