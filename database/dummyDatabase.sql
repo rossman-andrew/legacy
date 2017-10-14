@@ -1,7 +1,10 @@
 USE travelapp;
 INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('Where do you want to go?', 'Let me find you a trip!', CURDATE(), CURDATE());
-
-INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('Who\'s your favorite person?', 'Oh no way! Jack is coming with you on this trip!', CURDATE(), CURDATE());
+INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('Oh, by the way, who\'s your favorite person?', 'Oh no way! Jack is coming with you on this trip!', CURDATE(), CURDATE());
+INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('When are you traveling?', 'Great timing!', CURDATE(), CURDATE());
+INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('Do you like to travel in big groups?', 'Totally.', CURDATE(), CURDATE());
+INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('What size bed do you want?', 'Kings are for kings.', CURDATE(), CURDATE());
+INSERT INTO GuideReplies (question, reply, createdAt, updatedAt) VALUES ('Any other special accomodations we can provide?', 'We just let our happiness team know!', CURDATE(), CURDATE());
 
 CREATE TABLE `comments`
 (
