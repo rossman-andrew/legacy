@@ -73,7 +73,7 @@ class Dashboard extends React.Component {
           this.state.trips.forEach((trip) => {
             // Google API call for every trip in state
             $.ajax({
-              url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyDQXGZJPOMdmcFMkRHWJuARgwhKX0it1XQ&cx=012965794133406592343:as9mecf3btc&q=${'image of ' + trip.location}&searchType=image`, 
+              url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyA30HRygERMIYpehL7TMX7qR6uSv8b7iCM&cx=012965794133406592343:as9mecf3btc&q=${'image of ' + trip.location}&searchType=image`, 
               success: (data) => { 
                 // Collect first 4 pictures for this trip
                 let locationPics = []; 
@@ -117,7 +117,7 @@ class Dashboard extends React.Component {
           this.state.otherTrips.forEach((trip) => {
             // Google API call for every suggested trip in state
             $.ajax({
-              url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyDQXGZJPOMdmcFMkRHWJuARgwhKX0it1XQ&cx=012965794133406592343:as9mecf3btc&q=${'image of ' + trip.location}&searchType=image`, 
+              url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyA30HRygERMIYpehL7TMX7qR6uSv8b7iCM&cx=012965794133406592343:as9mecf3btc&q=${'image of ' + trip.location}&searchType=image`, 
               success: (data) => {
                 // Collect first 4 pictures for this trip
                 let locationPics = []; 
