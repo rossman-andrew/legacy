@@ -16,10 +16,9 @@ const TripEntry = (props) => {
   let endMonth = endNewDate.getMonth() + 1;
   let endDay = endNewDate.getDate();
   let endDateFormat = endMonth + '/' + endDay + '/' + endYear;
-
   return (
     <Grid.Column mobile={12} tablet={6} computer={5}>
-      <Image src='https://www.worldtravelguide.net/wp-content/uploads/2017/04/Think-Greece-Country-Santorini-Oia-468940432-marchello74-copy.jpg' />
+      <Image src={props.tripPic} />
       <Card.Content>
         <br />
         <Card.Header>
@@ -41,9 +40,7 @@ const TripEntry = (props) => {
         <a>
           <Icon name='user' />
           {props.trip.Users[0].name}
-
         </a>
-
         <Icon onClick={() => props.joinTrip(props.trip.accessCode)}style={{float: 'right'}} name='plus' />
       </Card.Content>
     </Grid.Column>

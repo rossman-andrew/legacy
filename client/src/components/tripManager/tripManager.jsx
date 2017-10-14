@@ -21,7 +21,6 @@ class Dashboard extends React.Component {
     super(props);
     this.state = {
       showPopup: false,
-      trips: [],
       joinTrip: ''
     };
 
@@ -70,6 +69,17 @@ class Dashboard extends React.Component {
       }
     });
   }
+  
+  findTripPic(element) {
+    const { location } = element;
+    for (let i = 0; i < this.props.suggestionPics.length; i++) {
+      console.log('suggestion, location', Object.keys(this.props.suggestionPics[i])[0], location);
+      if (Object.keys(this.props.suggestionPics[i])[0] === location) {
+        return this.props.suggestionPics[i][location][0];
+      }
+    }
+    return '';
+  }
 
   render() {
     return (
@@ -101,14 +111,14 @@ class Dashboard extends React.Component {
           <h1>Trip Suggestions</h1>
           <Grid centered>
             {(this.props.otherTrips.map((ele) => {
-              return <TripEntry joinTrip={this.joinTrip} trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
+              return <TripEntry joinTrip={this.joinTrip} trip={ele} tripPic={this.findTripPic(ele)} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
             }))}
           </Grid>
 
           <h1>Trip History</h1>
           <Grid centered>
             {(this.props.trips.map((ele) => {
-              return <TripEntry trip={ele} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
+              return <TripEntry trip={ele} tripPic={this.findTripPic(ele)} key={ele.id} onClick={() => this.selectTrip(ele)}/>;
             }))}
           </Grid> 
         </div>
