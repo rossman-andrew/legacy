@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Tab } from 'semantic-ui-react';
 import $ from 'jquery';
+import axios from 'axios';
 
 import Mapbox from '../mapboxViewer.jsx';
 import Landmarks from '../landmarks/landmarks.jsx';
@@ -80,32 +81,34 @@ class TripDashboard extends React.Component {
   componentDidMount() {
     this.getUsers();
     // Get pictures for trip gallery
-    $.ajax({
-      url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + this.props.trip.location}&searchType=image`, 
-      success: (data) => { 
-        for (let i = 0; i < 4; i++) {
-          this.state.tripPics.push(data.items[i].link);
-        } 
-      },
-      error: (err) => { 
-        console.log(err); 
-      }  
-    });
-    
-    //Get pictures for lodging gallery
-    $.ajax({
-      url: `/lodge/pics/:${this.props.trip.lodging}`,
-      method: 'GET',
-      success: (body) => {
-        var data = JSON.parse(body);
-        this.setState({
-          lodgingPics: data.photos
-        });
-      },
-      error: (err) => {
-        console.log(err);
+    axios.get('https://www.googleapis.com/customsearch/v1', {
+      params: {
+        key: this.googleApi,
+        cx: '012965794133406592343:as9mecf3btc',
+        q: 'beautiful ' + this.props.trip.location,
+        searchType: 'image'
       }
-    });
+    })
+      .then((response) => {
+        for (let i = 0; i < 4; i++) {
+          this.state.tripPics.push(response.data.items[i].link);
+        }
+      })
+      .then(() => {
+        // Get pictures for lodging gallery
+        axios.get(`/lodge/pics/:${this.props.trip.lodging}`)
+          .then((response) => {
+            this.setState({
+              lodgingPics: response.data.photos
+            });
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   render() {
@@ -120,7 +123,7 @@ class TripDashboard extends React.Component {
       <div>
         <div className="header-div">
           <img className="header-image" src="https://i2.wp.com/unusualplaces.org/wp-content/uploads/2016/03/amalfi3.jpg" alt="" />
-          <h2 className="header-word">Adventure awaits.  <br /> Do lots of stuff.</h2>
+          <h2 className="header-word">7 continents. 195 countries. <br /> 1 incredible experience.</h2>
         </div>
         <div className="main-content">
           <br />
@@ -130,12 +133,5 @@ class TripDashboard extends React.Component {
     );
   }
 }
-
-//        <TripDetails trip={this.props.trip}/>
-//        {this.state.map ? <Mapbox location={this.props.trip.location} /> : <Landmarks />} 
-//        {/*<Button className="button" onClick={this.toggleMap}>Toggle center panel (not currently used)</Button>*/}
-//        <LodgingGallery />
-//        <TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/>
-//        <ProfileEditor user={this.props.user} trip={this.props.trip.id}/>
 
 export default connect(mapStateToProps)(TripDashboard);
