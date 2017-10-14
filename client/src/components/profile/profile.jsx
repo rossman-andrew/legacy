@@ -20,17 +20,19 @@ class Profile extends React.Component {
 
   render() {
     return (
-      <Grid>
-        <Grid.Row columns={2} stretched>
-          <Grid.Column width={4}>
-            <ProfileCard user={this.props.user} />
-          </Grid.Column>
-          <Grid.Column width={6}>
-            <UserFeed user={this.props.user} />
-            <Comments />
-          </Grid.Column> 
-        </Grid.Row>   
-      </Grid>
+      <div className="main-content">
+        <Grid centered>
+          <Grid.Row columns={2} stretched>
+            <Grid.Column width={5}>
+              <ProfileCard user={this.props.user} />
+            </Grid.Column>
+            <Grid.Column width={8}>
+              <UserFeed user={this.props.user} />
+              <Comments />
+            </Grid.Column> 
+          </Grid.Row>   
+        </Grid>
+      </div>
     );
   }
 }

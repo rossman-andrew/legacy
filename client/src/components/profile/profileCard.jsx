@@ -2,12 +2,13 @@ import React from 'react';
 import { Card, Icon, Image } from 'semantic-ui-react';
 import { Grid, Button, Input } from 'semantic-ui-react';
 import Dropzone from 'react-dropzone';
+import socket from '../../socket/socket.js';
 
 class ProfileCard extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      profilePic: 'https://i1.wp.com/www.thisblogrules.com/wp-content/uploads/2010/02/batman-for-facebook.jpg?resize=250%2C280',
+      profilePic: 'https://a0.muscache.com/im/pictures/2826ae2f-c4a4-404c-a24a-1f97bcde3902.jpg?aki_policy=xl_poster',
       profilePicChangeClicked: false,
       files: []
     };
@@ -17,7 +18,13 @@ class ProfileCard extends React.Component {
   }
 
   handleToggleClick() {
-    this.setState({ profilePicChangeClicked: !this.state.profilePicChangeClicked });
+    this.setState({ profilePicChangeClicked: !this.state.profilePicChangeClicked }, () => {
+      socket.emit('notification', {
+        name: this.props.user.name,
+        message: 'changed his profile picture.',
+        date: new Date().toLocaleString()
+      });
+    });
   }
 
   showChangeProfilePicForm() {
@@ -53,24 +60,26 @@ class ProfileCard extends React.Component {
 
   render() {
     return (
-      <Card>
+      <div>
         <Image src={ this.state.profilePic } />
-        <Card.Content>
+        <Card.Content style={{float: 'right'}}>
           <p className='changeProfilePic' onClick={ this.handleToggleClick }>Change profile picture</p>
           { this.showChangeProfilePicForm() }
         </Card.Content>
         <Card.Content>
-          <Card.Header>{this.props.user.name}</Card.Header>
+          <br />
+          <h3>{this.props.user.name}</h3>
           <Card.Meta>{this.props.user.email}</Card.Meta>
           <Card.Description>{this.props.user.name} is a crazy hacker studying at HackReactor.</Card.Description>
         </Card.Content>
         <Card.Content extra>
+          <br />
           <a>
             <Icon name='user' />
             10 Friends
           </a>
         </Card.Content>
-      </Card>
+      </div>
     );
   }
 }

@@ -94,7 +94,7 @@ io.on('connection', (socket) => {
   socket.on('notification', (msg) => {
     io.emit('notification', msg);
     client.hset('notification', msg.date, JSON.stringify([msg.name, msg.message]));
-    client.expire('notification', msg.date, 86400);
+    client.expire(msg.date, 86400);
   });
 });
 
