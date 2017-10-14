@@ -34,6 +34,7 @@ class TripDashboard extends React.Component {
 
     this.toggleMap = this.toggleMap.bind(this);
     this.showUserInfo = this.showUserInfo.bind(this);
+    this.googleApi = 'AIzaSyABtZhkDX-w3qbs6nmZ1KUiHP22OcJXDKI';
   }
 
   // retrieves array of users on trip
@@ -80,7 +81,7 @@ class TripDashboard extends React.Component {
     this.getUsers();
     // Get pictures for trip gallery
     $.ajax({
-      url: `https://www.googleapis.com/customsearch/v1?key=AIzaSyA30HRygERMIYpehL7TMX7qR6uSv8b7iCM&cx=012965794133406592343:as9mecf3btc&q=${'image of ' + this.props.trip.location}&searchType=image`, 
+      url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + this.props.trip.location}&searchType=image`, 
       success: (data) => { 
         for (let i = 0; i < 4; i++) {
           this.state.tripPics.push(data.items[i].link);

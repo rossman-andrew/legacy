@@ -69,19 +69,15 @@ class Dashboard extends React.Component {
       }
     });
   }
-  // tripPic={this.props.suggestionPics[ele.location]} 
+  
   findTripPic(element) {
     const { location } = element;
-    console.log('in suggestion pics');
-
     for (let i = 0; i < this.props.suggestionPics.length; i++) {
       console.log('suggestion, location', Object.keys(this.props.suggestionPics[i])[0], location);
       if (Object.keys(this.props.suggestionPics[i])[0] === location) {
-        console.log('tripManager -> trip url', this.props.suggestionPics[i][location][0]);
         return this.props.suggestionPics[i][location][0];
       }
     }
-
     return '';
   }
 
