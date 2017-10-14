@@ -17,7 +17,8 @@ class Chatbox extends Component {
       answerNumber: 0,
       ChatboxInitialized: false,
       LastMessageUser: 'Jack',
-      FetchInProgress: false
+      FetchInProgress: false,
+      messageKey: 2
     };
     console.log('curr User', this.props.user.name);
     this.onInputChange = this.onInputChange.bind(this);
@@ -41,8 +42,9 @@ class Chatbox extends Component {
     }
     this.setState((prevState, props) => {
       return {
-        messages: prevState.messages.concat([[prevState.term, props.user.name, counter]]),
-        LastMessageUser: props.user.name
+        messages: prevState.messages.concat([[prevState.term, props.user.name, counter, prevState.messageKey]]),
+        LastMessageUser: props.user.name,
+        messageKey: prevState.messageKey + 1
       };
     });
     this.setState({term:''});
@@ -61,12 +63,27 @@ class Chatbox extends Component {
     setTimeout(
       () => {
         this.setState((prevState, props) => {
-          return {
-            LastMessageUser: 'Jack',
-            messages: prevState.messages.concat([prevState.answers[prevState.answerNumber]]),
-            answerNumber: prevState.answerNumber + 1,
-            FetchInProgress: false
-          };
+          console.log('setState of getReply', prevState.LastMessageUser, props.user.name)
+          var counter;
+          if (prevState.LastMessageUser !== 'Jack') {
+            counter = 0;
+          } else {
+            counter = 1;
+          }
+          var answer = prevState.answers[prevState.answerNumber];
+          if(answer){
+            answer = answer.concat([counter], [prevState.messageKey]);
+            console.log('answer', JSON.stringify(answer));
+            return {
+              LastMessageUser: 'Jack',
+              messages: prevState.messages.concat([answer]),
+              answerNumber: prevState.answerNumber + 1,
+              FetchInProgress: false,
+              messageKey: prevState.messageKey + 1
+            };
+          } else {
+            return;
+          }
         });
         this.getQuestion();
       }, 2000
@@ -87,32 +104,36 @@ class Chatbox extends Component {
       }
     })
       .then((reply) => {
+        //console.log(JSON.stringify(reply.data[0]));
+        if(reply.data[0]){
 
-        var counter;
-        if (this.state.LastMessageUser === this.props.user) {
-          counter = 0;
-          this.setState((prevState, props) => {
-            return {LastMessageUser: 'Jack'};
-          });
-        } else {
-          counter = 1;
-        }
-        setTimeout(
-          () => {
-            this.setState(
-              (prevState, props) => {
-                return {
-                  messages: prevState.messages.concat([[reply.data[0].question, 'Jack', counter]]),
-                  answers: prevState.answers.concat([[reply.data[0].reply, 'Jack', 0]])
-                };
-              }
+          setTimeout(
+            () => {
+              this.setState(
+                (prevState, props) => {
+                  var counter;
+                  console.log('get method user state', prevState.LastMessageUser);
+                  if (prevState.LastMessageUser !== 'Jack') {
+                    counter = 0;
+                  } else {
+                    counter = 1;
+                  }
+                  console.log(counter);
+                  return {
+                    messages: prevState.messages.concat([[reply.data[0].question, 'Jack', counter, prevState.messageKey]]),
+                    answers: prevState.answers.concat([[reply.data[0].reply, 'Jack']]),
+                    LastMessageUser: 'Jack',
+                    messageKey: prevState.messageKey + 1
+                  };
+                }
+              );
+              }, 3000
             );
-          }, 3000
-        );
-        this.setState((prevState, props) => {
-          return {replyNumber: prevState.replyNumber + 1};
-        });
-      })
+            this.setState((prevState, props) => {
+              return {replyNumber: prevState.replyNumber + 1};
+            });
+          }
+        })
       .catch(function (error) {
         console.log(error);
       });
@@ -136,11 +157,12 @@ class Chatbox extends Component {
             {
               this.state.messages.map((message) => {
                 return (
-                  <div className="event">
+                  <div className="event" key={message[3] || 1}>
                     <div className="content">
                       <div className="summary">
                         {
                           (() => {
+
                             if (message[2] < 1) {
                               return (
                                 <a className="user">{message[1]}</a>
