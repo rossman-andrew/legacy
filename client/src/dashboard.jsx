@@ -41,7 +41,8 @@ class Dashboard extends React.Component {
     this.fetchLists = this.fetchLists.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.lodgePics = this.lodgePics.bind(this);
-    this.googleApi = 'AIzaSyABtZhkDX-w3qbs6nmZ1KUiHP22OcJXDKI';
+    this.getTripImages = this.getTripImages.bind(this);
+    this.googleApi = 'AIzaSyBEkRzfpS6T7dZcLaYA9lQdzMJNDSrgOgg';
   }
 
   componentWillMount () {
@@ -65,22 +66,24 @@ class Dashboard extends React.Component {
     console.log(store.getState().user.name);
   }
 
-  getTripImages() {
-    this.state.trips.forEach((trip) => {
+  getTripImages(picLibrary) {
+    const tripCollection = picLibrary === 'historyTrips' ? this.state.trips : this.state.otherTrips;
+    tripCollection.forEach((trip) => {
       $.ajax({
         url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`,
         success: (data) => {
-          // Collect first 4 pictures for this trip
           let locationPics = []; 
           for (let i = 0; i < 4; i++) {
             locationPics.push(data.items[i].link);
           }
-          // Create location object with location of trip as key and picture array as value
           let locationObj = {};
           locationObj[trip.location] = locationPics;
-          // Add this object to the historyPics array in state
           this.setState((prevState) => {
-            // return {picLibary: prevState.picLibrary.concat(locationObj)};
+            if (picLibrary === 'historyPics') {
+              return {historyPics: prevState.historyPics.concat(locationObj)};
+            } else {
+              return {suggestionPics: prevState.suggestionPics.concat(locationObj)};
+            }
           });
         }
       });
@@ -94,32 +97,7 @@ class Dashboard extends React.Component {
       data: options,
       success: (res) => {
         this.setState({ trips: res }, () => {
-          this.state.trips.forEach((trip) => {
-            // Google API call for every trip in state
-            $.ajax({
-              url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`, 
-              success: (data) => { 
-                // Collect first 4 pictures for this trip
-                let locationPics = []; 
-                for (let i = 0; i < 4; i++) {
-                  locationPics.push(data.items[i].link);
-                }
-                // Create location object with location of trip as key and picture array as value
-                let locationObj = {};
-                locationObj[trip.location] = locationPics;
-                // Add this object to the historyPics array in state
-                this.setState((prevState) => {
-                  return {historyPics: prevState.historyPics.concat(locationObj)};
-                }, () => {
-                  //console.log('Current state of historyPics array:', this.state.historyPics);
-
-                });
-              },
-              error: (err) => { 
-                console.log(err); 
-              }  
-            });
-          });
+          this.getTripImages('historyPics');
           this.fetchOtherLists();
         });
       }
@@ -137,33 +115,7 @@ class Dashboard extends React.Component {
       data: options,
       success: (res) => {
         this.setState({ otherTrips: res }, () => {
-          let newOtherTrips = [];
-          this.state.otherTrips.forEach((trip) => {
-            // Google API call for every suggested trip in state
-            $.ajax({
-              url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`, 
-              success: (data) => {
-                // Collect first 4 pictures for this trip
-                let locationPics = []; 
-                for (let i = 0; i < 4; i++) {
-                  locationPics.push(data.items[i].link);
-                }
-                // Create location object with location of trip as key and picture array as value
-                let locationObj = {};
-                locationObj[trip.location] = locationPics;
-                // Add this object to the historyPics array in state
-                this.setState((prevState) => {
-                  return {suggestionPics: this.state.suggestionPics.concat(locationObj)};
-                }, () => {
-                  //console.log('Current state of suggestionPics array:', this.state.suggestionPics);
-                });
-              },
-              error: (err) => { 
-                console.log(err); 
-              }  
-            });
-          });
-          // ***** Get the <TripManager /> component that is currently created in getViewComponent(), so that it is only done after state is updated
+          this.getTripImages('suggestionPics');
         });
       },
       error: (err) => {

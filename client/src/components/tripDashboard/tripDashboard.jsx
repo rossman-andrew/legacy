@@ -34,7 +34,7 @@ class TripDashboard extends React.Component {
 
     this.toggleMap = this.toggleMap.bind(this);
     this.showUserInfo = this.showUserInfo.bind(this);
-    this.googleApi = 'AIzaSyABtZhkDX-w3qbs6nmZ1KUiHP22OcJXDKI';
+    this.googleApi = 'AIzaSyBEkRzfpS6T7dZcLaYA9lQdzMJNDSrgOgg';
   }
 
   // retrieves array of users on trip
