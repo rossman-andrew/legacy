@@ -47,7 +47,7 @@ class Chatbox extends Component {
         messageKey: prevState.messageKey + 1
       };
     });
-    this.setState({term:''});
+    this.setState( { term:'' } );
     if (!this.state.FetchInProgress) {
       this.getReply();
     }
@@ -63,7 +63,7 @@ class Chatbox extends Component {
     setTimeout(
       () => {
         this.setState((prevState, props) => {
-          console.log('setState of getReply', prevState.LastMessageUser, props.user.name)
+          //console.log('setState of getReply', prevState.LastMessageUser, props.user.name);
           var counter;
           if (prevState.LastMessageUser !== 'Jack') {
             counter = 0;
@@ -71,7 +71,7 @@ class Chatbox extends Component {
             counter = 1;
           }
           var answer = prevState.answers[prevState.answerNumber];
-          if(answer){
+          if (answer) {
             answer = answer.concat([counter], [prevState.messageKey]);
             console.log('answer', JSON.stringify(answer));
             return {
@@ -105,7 +105,7 @@ class Chatbox extends Component {
     })
       .then((reply) => {
         //console.log(JSON.stringify(reply.data[0]));
-        if(reply.data[0]){
+        if (reply.data[0]) {
 
           setTimeout(
             () => {
@@ -127,13 +127,13 @@ class Chatbox extends Component {
                   };
                 }
               );
-              }, 3000
-            );
-            this.setState((prevState, props) => {
-              return {replyNumber: prevState.replyNumber + 1};
-            });
-          }
-        })
+            }, 3000
+          );
+          this.setState((prevState, props) => {
+            return {replyNumber: prevState.replyNumber + 1};
+          });
+        }
+      })
       .catch(function (error) {
         console.log(error);
       });
@@ -188,8 +188,8 @@ class Chatbox extends Component {
         </div>
       );
     } else {
-      return(
-        <button className="ui bottom fixed secondary button" onClick={ () => {this.handleToggle(true); } }> Untoggled Box! </button>
+      return (
+        <button className="ui bottom fixed secondary button" onClick={ () => { this.handleToggle(true); } }> Untoggled Box! </button>
       );
     }
   }
