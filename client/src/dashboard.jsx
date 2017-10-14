@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import $ from 'jquery';
+import axios from 'axios';
 
 import { Row, Col, Button, Menu } from 'semantic-ui-react';
 
@@ -69,12 +70,18 @@ class Dashboard extends React.Component {
   getTripImages(picLibrary) {
     const tripCollection = picLibrary === 'historyTrips' ? this.state.trips : this.state.otherTrips;
     tripCollection.forEach((trip) => {
-      $.ajax({
-        url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`,
-        success: (data) => {
-          let locationPics = []; 
+      axios.get('https://www.googleapis.com/customsearch/v1', {
+        params: {
+          key: this.googleApi,
+          cx: '012965794133406592343:as9mecf3btc',
+          q: 'beautiful ' + trip.location,
+          searchType: 'image'
+        }
+      })
+        .then((response) => {
+          let locationPics = [];
           for (let i = 0; i < 4; i++) {
-            locationPics.push(data.items[i].link);
+            locationPics.push(response.data.items[i].link);
           }
           let locationObj = {};
           locationObj[trip.location] = locationPics;
@@ -85,8 +92,10 @@ class Dashboard extends React.Component {
               return {suggestionPics: prevState.suggestionPics.concat(locationObj)};
             }
           });
-        }
-      });
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     });
   }
 
