@@ -11,7 +11,15 @@ const Strategy = require('passport-local').Strategy;
 const request = require('request');
 const redis = require('redis');
 
-const client = redis.createClient();
+let client;
+
+if (process.env.REDISTOGO_URL) {
+  const rtg = require('url').parse(process.env.REDISTOGO_URL);
+  client = redis.createClient(rtg.port, rtg.hostname);
+  redis.auth(rtg.auth.split(':')[1]);
+} else {
+  client = redis.createClient();
+}
 
 //redis store
 client.on('error', (err) => {
@@ -102,12 +110,12 @@ io.on('connection', (socket) => {
 //Routes
 
 app.post('/getGuideReplies', (req, res) => {
-  console.log('server route', req.body)
+  console.log('server route', req.body);
   let option = {id: req.body.replyNumber};
   query.getGuideReplies(option, (result) => {
     return res.status(200).send(result);
   });
-})
+});
 
 app.get('/comments/:tripid', (req, res) => {
   const { tripid } = req.params;
