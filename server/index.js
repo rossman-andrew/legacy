@@ -101,6 +101,14 @@ io.on('connection', (socket) => {
 
 //Routes
 
+app.post('/getGuideReplies', (req, res) => {
+  console.log('server route', req.body)
+  let option = {id: req.body.replyNumber};
+  query.getGuideReplies(option, (result) => {
+    return res.status(200).send(result);
+  });
+})
+
 app.get('/comments/:tripid', (req, res) => {
   const { tripid } = req.params;
   query.findMessages(tripid, (messages) => {
@@ -147,6 +155,7 @@ app.get('/loginuser', (req, res) => {
 });
 
 app.post('/jointrip', (req, res) => {
+  console.log('req.body for jointrip', req.data);
   query.joinTrip(req.body, (err) => {
     if (err) {
       res.status(400).end(err);

@@ -54,7 +54,7 @@ const travelReducer = (state = initialState, action) => {
   case CHANGE_VIEW:
     return Object.assign({}, state, {view: action.view});
   case TOGGLE_CHATBOX:
-    console.log('got to case', action.toggled)
+    //console.log('got to case', action.toggled)
     return Object.assign({}, state, {toggled: action.toggled});
   default:
     return state;
