@@ -9,7 +9,6 @@
 }
 
 .main-content {
-<<<<<<< HEAD
   margin-left: 10%;
   margin-right: 10%;
 }
@@ -26,10 +25,6 @@ h1 {
 .Grid-Adjust {
   margin-left: 3.4%;
   margin-right: 3.4%;
-=======
-  margin-left: 12.5%;
-  margin-right: 12.5%;
->>>>>>> chatbox uses name of logged in user, prevent multiple reply prompt error
 }
 
 .header-word {
