@@ -77,25 +77,27 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user disconnected');
   });
+
+  socket.on('getall', (callback) => {
+    client.hgetall('notification', (err, replies) => {
+      console.log('replies', replies);
+      callback(replies);
+    });
+  });
+
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
     query.addMessage(msg, () => {
       console.log('successfully inserted');
     });
   });
+
   socket.on('notification', (msg) => {
-    console.log('inside notification!', msg);
-    client.set('notification', msg);
     io.emit('notification', msg);
+    client.hset('notification', msg.date, JSON.stringify([msg.name, msg.message]));
+    client.expire('notification', msg.date, 86400);
   });
 });
-
-app.get('/notifications', (req, res) => {
-  client.get('notification', (err, replies) => {
-    res.status(200).send(replies);
-  });
-});
-
 
 
 //Routes
