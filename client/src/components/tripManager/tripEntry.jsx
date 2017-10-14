@@ -16,36 +16,33 @@ const TripEntry = (props) => {
   let endMonth = endNewDate.getMonth() + 1;
   let endDay = endNewDate.getDate();
   let endDateFormat = endMonth + '/' + endDay + '/' + endYear;
-
   return (
-    <Grid.Column mobile={12} tablet={6} computer={4}>
-      <Card>
-        <Image src='https://www.interrail.eu/sites/interrail.eu/files/styles/asset_image_responsive_common_list_block_380/public/assets/images/2013/11/santorini_greece.jpg' />
-        <Card.Content>
-          <Card.Header>
-            <h4 onClick={props.onClick}><a href='#'>{props.trip.name}</a></h4>
-          </Card.Header>
-          <Card.Meta>
-            <span>
-              {props.trip.location}
-            </span>
-          </Card.Meta>
-          <Card.Description>
-            Start Date: {startDateFormat}<br></br>
-            End Date: {endDateFormat}<br></br>
-            Access Code: {props.trip.accessCode}<br></br>
-          </Card.Description>
-        </Card.Content>
-        <Card.Content extra>
-          <a>
-            <Icon name='user' />
-            {props.trip.Users[0].name}
-
-          </a>
-
-          <Icon onClick={() => props.joinTrip(props.trip.accessCode)}style={{float: 'right'}} name='plus' />
-        </Card.Content>
-      </Card>
+    <Grid.Column mobile={12} tablet={6} computer={5}>
+      <Image src={props.tripPic} />
+      <Card.Content>
+        <br />
+        <Card.Header>
+          <h3 onClick={props.onClick}><a href='#'>{props.trip.name}</a></h3>
+        </Card.Header>
+        <Card.Meta>
+          <span>
+            <h3>{props.trip.location}</h3>
+          </span>
+        </Card.Meta>
+        <Card.Description>
+          <br />
+          Dates: {startDateFormat} - {endDateFormat}<br></br>
+          Access Code: {props.trip.accessCode}<br></br>
+        </Card.Description>
+      </Card.Content>
+      <Card.Content extra>
+        <br />
+        <a>
+          <Icon name='user' />
+          {props.trip.Users[0].name}
+        </a>
+        <Icon onClick={() => props.joinTrip(props.trip.accessCode)}style={{float: 'right'}} name='plus' />
+      </Card.Content>
     </Grid.Column>
   );
 };

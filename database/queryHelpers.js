@@ -1,6 +1,13 @@
 const db = require('./index.js');
 
-
+const getGuideReplies = function(option, callback) {
+  db.GuideReplies.findAll({where: option})
+  .then((foundReply) => {
+    return callback(foundReply);
+  }).catch((err) => {
+    console.log('There was an error in Guide Reply lookup, err');
+  })
+}
 // ==== Messages ====
 const addMessage = (message, callback) => {
   db.Messages.create(message)
@@ -243,7 +250,7 @@ const findLandmarks = function(tripId, callback) {
     });
 };
 
-// ==== EXPENSES ==== 
+// ==== EXPENSES ====
 
 const createExpense = function(options) {
   return new Promise ((resolve, reject) => {
@@ -286,5 +293,6 @@ module.exports = {
   getExpensesForTrip: getExpensesForTrip,
   joinTrip: joinTrip,
   getUserTripDetails: getUserTripDetails,
-  updateUserTripDetails: updateUserTripDetails
+  updateUserTripDetails: updateUserTripDetails,
+  getGuideReplies: getGuideReplies
 };

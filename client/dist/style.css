@@ -9,8 +9,22 @@
 }
 
 .main-content {
-  margin-left: 3%;
-  margin-right: 3%;
+  margin-left: 3.4%;
+  margin-right: 3.4%;
+}
+
+h1 {
+  margin-left: 3.4%;
+  margin-right: 3.4%;
+}
+
+.float-right{
+  float: right;
+}
+
+.Grid-Adjust {
+  margin-left: 3.4%;
+  margin-right: 3.4%;
 }
 
 .header-word {
@@ -46,5 +60,9 @@
 
 .user-entry {
   margin-right: 10px;
+}
+
+.changeProfilePic {
+  text-decoration: underline;
 }
 

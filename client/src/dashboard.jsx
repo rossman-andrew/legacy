@@ -34,11 +34,14 @@ class Dashboard extends React.Component {
     this.state = {
       trips: [],
       otherTrips: [],
-      lodgePics: []
+      lodgePics: [],
+      historyPics: [],
+      suggestionPics: []
     };
     this.fetchLists = this.fetchLists.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
     this.lodgePics = this.lodgePics.bind(this);
+    this.googleApi = 'AIzaSyABtZhkDX-w3qbs6nmZ1KUiHP22OcJXDKI';
   }
 
   componentWillMount () {
@@ -59,7 +62,6 @@ class Dashboard extends React.Component {
   componentDidMount () {
     //Get login user
     console.log(store.getState().user.name);
-
   }
 
   fetchLists() {
@@ -69,6 +71,32 @@ class Dashboard extends React.Component {
       data: options,
       success: (res) => {
         this.setState({ trips: res }, () => {
+          this.state.trips.forEach((trip) => {
+            // Google API call for every trip in state
+            $.ajax({
+              url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`, 
+              success: (data) => { 
+                // Collect first 4 pictures for this trip
+                let locationPics = []; 
+                for (let i = 0; i < 4; i++) {
+                  locationPics.push(data.items[i].link);
+                }
+                // Create location object with location of trip as key and picture array as value
+                let locationObj = {};
+                locationObj[trip.location] = locationPics;
+                // Add this object to the historyPics array in state
+                this.setState((prevState) => {
+                  return {historyPics: prevState.historyPics.concat(locationObj)};
+                }, () => {
+                  //console.log('Current state of historyPics array:', this.state.historyPics);
+
+                });
+              },
+              error: (err) => { 
+                console.log(err); 
+              }  
+            });
+          });
           this.fetchOtherLists();
         });
       }
@@ -85,7 +113,35 @@ class Dashboard extends React.Component {
       url: SERVER_URL + '/fetchother',
       data: options,
       success: (res) => {
-        this.setState({ otherTrips: res });
+        this.setState({ otherTrips: res }, () => {
+          let newOtherTrips = [];
+          this.state.otherTrips.forEach((trip) => {
+            // Google API call for every suggested trip in state
+            $.ajax({
+              url: `https://www.googleapis.com/customsearch/v1?key=${this.googleApi}&cx=012965794133406592343:as9mecf3btc&q=${'beautiful ' + trip.location}&searchType=image`, 
+              success: (data) => {
+                // Collect first 4 pictures for this trip
+                let locationPics = []; 
+                for (let i = 0; i < 4; i++) {
+                  locationPics.push(data.items[i].link);
+                }
+                // Create location object with location of trip as key and picture array as value
+                let locationObj = {};
+                locationObj[trip.location] = locationPics;
+                // Add this object to the historyPics array in state
+                this.setState((prevState) => {
+                  return {suggestionPics: this.state.suggestionPics.concat(locationObj)};
+                }, () => {
+                  //console.log('Current state of suggestionPics array:', this.state.suggestionPics);
+                });
+              },
+              error: (err) => { 
+                console.log(err); 
+              }  
+            });
+          });
+          // ***** Get the <TripManager /> component that is currently created in getViewComponent(), so that it is only done after state is updated
+        });
       },
       error: (err) => {
         console.error('Error getting other list', err);
@@ -100,10 +156,10 @@ class Dashboard extends React.Component {
       console.error('Error!', err);
     });
   }
-
+  
   getViewComponent () {
     if (store.getState().view === 'TripManager') {
-      return <TripManager trips={this.state.trips} otherTrips={this.state.otherTrips} fetchLists={this.fetchLists} lodgePics={ this.lodgePics }/>;
+      return <TripManager trips={this.state.trips} otherTrips={this.state.otherTrips} fetchLists={this.fetchLists} lodgePics={ this.lodgePics } historyPics={this.state.historyPics} suggestionPics={this.state.suggestionPics} />;
     } else if (store.getState().view === 'ExpenseTracker') {
       return <ExpenseTracker />;
     } else if (store.getState().view === 'Landmarks') {
@@ -119,7 +175,6 @@ class Dashboard extends React.Component {
     return (
       <div>
         <TripNavBar logout={this.handleLogout} other={store.getState().view !== 'TripManager' && store.getState().view !== 'Profile'} features={navData.features} dispatch={store.dispatch} />;
-        
       </div>
     );
   }
