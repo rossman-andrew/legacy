@@ -18,7 +18,7 @@ const TripEntry = (props) => {
   let endDateFormat = endMonth + '/' + endDay + '/' + endYear;
   return (
     <Grid.Column mobile={12} tablet={6} computer={5}>
-      <Image src={props.tripPic} />
+      <Image src={props.tripPic} height={250} bordered={true} />
       <Card.Content>
         <br />
         <Card.Header>
