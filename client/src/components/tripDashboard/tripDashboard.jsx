@@ -117,7 +117,7 @@ class TripDashboard extends React.Component {
 
   render() {
     const panes = [
-      { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip}/><TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/><br /><br /><ProfileEditor user={this.props.user} trip={this.props.trip.id}/></Tab.Pane> },
+      { menuItem: 'Summary', render: () => <Tab.Pane><TripDetails trip={this.props.trip} tripPic={this.state.tripPics[1]}/><TripUserList users={this.state.users} selectedUser={this.state.selectedUserInfo} showUserInfo={this.showUserInfo}/><br /><br /><ProfileEditor user={this.props.user} trip={this.props.trip.id}/></Tab.Pane> },
       { menuItem: 'Map', render: () => <Tab.Pane><Mapbox className=".map" location={this.props.trip.location} /></Tab.Pane> },
       { menuItem: 'Lodging', render: () => <Tab.Pane><LodgingGallery lodgingPics={this.state.lodgingPics} /></Tab.Pane> },
       { menuItem: 'Gallery', render: () => <Tab.Pane><TripGallery trip={this.props.trip} tripPics={this.state.tripPics} /></Tab.Pane> },
@@ -126,8 +126,8 @@ class TripDashboard extends React.Component {
     return (
       <div>
         <div className="header-div">
-          <img className="header-image" src="https://i2.wp.com/unusualplaces.org/wp-content/uploads/2016/03/amalfi3.jpg" alt="" />
-          <h2 className="header-word">7 continents. 195 countries. <br /> 1 incredible experience.</h2>
+          <img className="header-image" src="https://i.pinimg.com/originals/b7/1b/5d/b71b5dc75b527bd0e0ed8dffcab884a6.jpg" alt="" />
+          <h2 className="header-word">7 continents. 195 countries. <br /> One incredible experience.</h2>
         </div>
         <div className="main-content">
           <br />

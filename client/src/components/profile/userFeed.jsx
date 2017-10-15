@@ -25,6 +25,20 @@ class UserFeed extends React.Component {
     });
   }
 
+  generateImage(name) { 
+    if (['a', 'b', 'c', 'd'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/matthew.png';
+    } else if (['e', 'f', 'g', 'h', 'i'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/kristy.png';
+    } else if (['j', 'k', 'l', 'm', 'n'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/elyse.png';
+    } else if (['o', 'p', 'q', 'r', 's'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/molly.png';
+    } else {
+      return 'https://semantic-ui.com/images/avatar/large/steve.jpg';
+    }
+  }
+
   renderFeed(message) {
     if (message.name === this.props.user.name) {
       return <div key={message.date}></div>;
@@ -33,7 +47,7 @@ class UserFeed extends React.Component {
     return (
       <Feed.Event key={message.date}>
         <Feed.Label>
-          <img src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
+          <img src={this.generateImage(message.name)} />
         </Feed.Label>
         <Feed.Content>
           <Feed.Summary>

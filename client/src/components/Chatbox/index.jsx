@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import reducer from '../../Reducers';
 import axios from 'axios';
 
@@ -17,9 +17,9 @@ class Chatbox extends Component {
       answerNumber: 0,
       ChatboxInitialized: false,
       LastMessageUser: 'Jack',
-      FetchInProgress: false
+      FetchInProgress: false,
+      messageKey: 2
     };
-    console.log('curr User', this.props.user.name);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.getReply = this.getReply.bind(this);
@@ -27,13 +27,12 @@ class Chatbox extends Component {
 
   onInputChange(event) {
     this.setState({term: event.target.value});
-    //console.log(event.target.value);
   }
 
   onFormSubmit(event) {
     event.preventDefault();
     //handle searching web data
-    var counter;
+    let counter;
     if (this.state.LastMessageUser !== this.props.user.name) {
       counter = 0;
     } else {
@@ -41,11 +40,12 @@ class Chatbox extends Component {
     }
     this.setState((prevState, props) => {
       return {
-        messages: prevState.messages.concat([[prevState.term, props.user.name, counter]]),
-        LastMessageUser: props.user.name
+        messages: prevState.messages.concat([[prevState.term, props.user.name, counter, prevState.messageKey]]),
+        LastMessageUser: props.user.name,
+        messageKey: prevState.messageKey + 1
       };
     });
-    this.setState({term:''});
+    this.setState( { term: '' } );
     if (!this.state.FetchInProgress) {
       this.getReply();
     }
@@ -61,12 +61,26 @@ class Chatbox extends Component {
     setTimeout(
       () => {
         this.setState((prevState, props) => {
-          return {
-            LastMessageUser: 'Jack',
-            messages: prevState.messages.concat([prevState.answers[prevState.answerNumber]]),
-            answerNumber: prevState.answerNumber + 1,
-            FetchInProgress: false
-          };
+          //console.log('setState of getReply', prevState.LastMessageUser, props.user.name);
+          let counter;
+          if (prevState.LastMessageUser !== 'Jack') {
+            counter = 0;
+          } else {
+            counter = 1;
+          }
+          let answer = prevState.answers[prevState.answerNumber];
+          if (answer) {
+            answer = answer.concat([counter], [prevState.messageKey]);
+            return {
+              LastMessageUser: 'Jack',
+              messages: prevState.messages.concat([answer]),
+              answerNumber: prevState.answerNumber + 1,
+              FetchInProgress: false,
+              messageKey: prevState.messageKey + 1
+            };
+          } else {
+            return;
+          }
         });
         this.getQuestion();
       }, 2000
@@ -87,31 +101,32 @@ class Chatbox extends Component {
       }
     })
       .then((reply) => {
+        if (reply.data[0]) {
 
-        var counter;
-        if (this.state.LastMessageUser === this.props.user) {
-          counter = 0;
+          setTimeout(
+            () => {
+              this.setState(
+                (prevState, props) => {
+                  let counter;
+                  if (prevState.LastMessageUser !== 'Jack') {
+                    counter = 0;
+                  } else {
+                    counter = 1;
+                  }
+                  return {
+                    messages: prevState.messages.concat([[reply.data[0].question, 'Jack', counter, prevState.messageKey]]),
+                    answers: prevState.answers.concat([[reply.data[0].reply, 'Jack']]),
+                    LastMessageUser: 'Jack',
+                    messageKey: prevState.messageKey + 1
+                  };
+                }
+              );
+            }, 3000
+          );
           this.setState((prevState, props) => {
-            return {LastMessageUser: 'Jack'};
+            return {replyNumber: prevState.replyNumber + 1};
           });
-        } else {
-          counter = 1;
         }
-        setTimeout(
-          () => {
-            this.setState(
-              (prevState, props) => {
-                return {
-                  messages: prevState.messages.concat([[reply.data[0].question, 'Jack', counter]]),
-                  answers: prevState.answers.concat([[reply.data[0].reply, 'Jack', 0]])
-                };
-              }
-            );
-          }, 3000
-        );
-        this.setState((prevState, props) => {
-          return {replyNumber: prevState.replyNumber + 1};
-        });
       })
       .catch(function (error) {
         console.log(error);
@@ -119,8 +134,8 @@ class Chatbox extends Component {
   }
 
   handleToggle(toggled) {
-
     this.props.dispatch(reducer.toggleChatbox(toggled));
+
     if (!this.state.ChatboxInitialized) {
       this.getQuestion();
     }
@@ -128,7 +143,6 @@ class Chatbox extends Component {
 
 
   render() {
-
     if (this.props.toggled) {
       return (
         <div className="ui bottom fixed card">
@@ -136,11 +150,12 @@ class Chatbox extends Component {
             {
               this.state.messages.map((message) => {
                 return (
-                  <div className="event">
+                  <div className="event" key={message[3] || 1}>
                     <div className="content">
                       <div className="summary">
                         {
                           (() => {
+
                             if (message[2] < 1) {
                               return (
                                 <a className="user">{message[1]}</a>
@@ -158,7 +173,7 @@ class Chatbox extends Component {
           </div>
           <form onSubmit={this.onFormSubmit}>
             <div className="ui action input focus" >
-              <input type="text" placeholder="Chat.." value={this.state.term} onChange = {this.onInputChange}></input>
+              <input type="text" placeholder="Chat.." value={this.state.term} onChange= {this.onInputChange}></input>
               <button className="ui button" type="submit">Send</button>
             </div>
           </form>
@@ -166,15 +181,15 @@ class Chatbox extends Component {
         </div>
       );
     } else {
-      return(
-        <button className="ui bottom fixed secondary button" onClick={ () => {this.handleToggle(true); } }> Untoggled Box! </button>
+      return (
+        <button className="ui bottom fixed secondary button" onClick={ () => { this.handleToggle(true); } }> Untoggled Box! </button>
       );
     }
   }
 }
 
-function mapStateToProps({toggled, user}) {
+const mapStateToProps = ({toggled, user}) => {
   return {toggled, user};
-}
+};
 
 export default connect(mapStateToProps)(Chatbox);
