@@ -68,11 +68,25 @@ class TripComments extends React.Component {
     });
     this.setState({ message: '' });
   }
+
+  generateImage(name) { 
+    if (['a', 'b', 'c', 'd'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/matthew.png';
+    } else if (['e', 'f', 'g', 'h', 'i'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/kristy.png';
+    } else if (['j', 'k', 'l', 'm', 'n'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/elyse.png';
+    } else if (['o', 'p', 'q', 'r', 's'].indexOf(name[0].toLowerCase()) >= 0) {
+      return 'https://semantic-ui.com/images/avatar2/large/molly.png';
+    } else {
+      return 'https://semantic-ui.com/images/avatar/large/steve.jpg';
+    }
+  }
   
   renderComment(message) {
     return (
       <Comment key={message.date}>
-        <Comment.Avatar src='https://d1qb2nb5cznatu.cloudfront.net/users/5771195-large?1487914668' />
+        <Comment.Avatar src={this.generateImage(message.name)} />
         <Comment.Content>
           <Comment.Author as='a'>{message.name}</Comment.Author>
           <Comment.Metadata>

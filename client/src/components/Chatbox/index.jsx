@@ -1,6 +1,6 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import reducer from '../../Reducers';
 import axios from 'axios';
 
@@ -20,7 +20,6 @@ class Chatbox extends Component {
       FetchInProgress: false,
       messageKey: 2
     };
-    console.log('curr User', this.props.user.name);
     this.onInputChange = this.onInputChange.bind(this);
     this.onFormSubmit = this.onFormSubmit.bind(this);
     this.getReply = this.getReply.bind(this);
@@ -28,13 +27,12 @@ class Chatbox extends Component {
 
   onInputChange(event) {
     this.setState({term: event.target.value});
-    //console.log(event.target.value);
   }
 
   onFormSubmit(event) {
     event.preventDefault();
     //handle searching web data
-    var counter;
+    let counter;
     if (this.state.LastMessageUser !== this.props.user.name) {
       counter = 0;
     } else {
@@ -47,7 +45,7 @@ class Chatbox extends Component {
         messageKey: prevState.messageKey + 1
       };
     });
-    this.setState( { term:'' } );
+    this.setState( { term: '' } );
     if (!this.state.FetchInProgress) {
       this.getReply();
     }
@@ -64,16 +62,15 @@ class Chatbox extends Component {
       () => {
         this.setState((prevState, props) => {
           //console.log('setState of getReply', prevState.LastMessageUser, props.user.name);
-          var counter;
+          let counter;
           if (prevState.LastMessageUser !== 'Jack') {
             counter = 0;
           } else {
             counter = 1;
           }
-          var answer = prevState.answers[prevState.answerNumber];
+          let answer = prevState.answers[prevState.answerNumber];
           if (answer) {
             answer = answer.concat([counter], [prevState.messageKey]);
-            console.log('answer', JSON.stringify(answer));
             return {
               LastMessageUser: 'Jack',
               messages: prevState.messages.concat([answer]),
@@ -104,21 +101,18 @@ class Chatbox extends Component {
       }
     })
       .then((reply) => {
-        //console.log(JSON.stringify(reply.data[0]));
         if (reply.data[0]) {
 
           setTimeout(
             () => {
               this.setState(
                 (prevState, props) => {
-                  var counter;
-                  console.log('get method user state', prevState.LastMessageUser);
+                  let counter;
                   if (prevState.LastMessageUser !== 'Jack') {
                     counter = 0;
                   } else {
                     counter = 1;
                   }
-                  console.log(counter);
                   return {
                     messages: prevState.messages.concat([[reply.data[0].question, 'Jack', counter, prevState.messageKey]]),
                     answers: prevState.answers.concat([[reply.data[0].reply, 'Jack']]),
@@ -140,8 +134,8 @@ class Chatbox extends Component {
   }
 
   handleToggle(toggled) {
-
     this.props.dispatch(reducer.toggleChatbox(toggled));
+
     if (!this.state.ChatboxInitialized) {
       this.getQuestion();
     }
@@ -149,7 +143,6 @@ class Chatbox extends Component {
 
 
   render() {
-
     if (this.props.toggled) {
       return (
         <div className="ui bottom fixed card">
@@ -180,7 +173,7 @@ class Chatbox extends Component {
           </div>
           <form onSubmit={this.onFormSubmit}>
             <div className="ui action input focus" >
-              <input type="text" placeholder="Chat.." value={this.state.term} onChange = {this.onInputChange}></input>
+              <input type="text" placeholder="Chat.." value={this.state.term} onChange= {this.onInputChange}></input>
               <button className="ui button" type="submit">Send</button>
             </div>
           </form>
@@ -195,8 +188,8 @@ class Chatbox extends Component {
   }
 }
 
-function mapStateToProps({toggled, user}) {
+const mapStateToProps = ({toggled, user}) => {
   return {toggled, user};
-}
+};
 
 export default connect(mapStateToProps)(Chatbox);
