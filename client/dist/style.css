@@ -35,7 +35,7 @@ h1 {
    color: white;
    font-size: 4em;
    text-align: center;
-
+   text-shadow: 2px 2px 5px #000000;
 }
 
 .featImgContainer {
